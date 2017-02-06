@@ -3,6 +3,8 @@ import java.util.HashMap;
 import java.util.Map.Entry;
 import java.util.Scanner;
 import java.util.Vector;
+import java.io.File;
+import java.io.FileWriter;
 
 public class Remia {
 
@@ -142,6 +144,23 @@ public class Remia {
 		waste = (forestOfTarget.brachNodesCount() - forestOfTarget.setOfTreeRemia.size()) + forest.singleChildCount() ;
 
 	}
+
+	public void writeStat() throws IOException{
+		File f = new File("../../Stat.txt");
+		FileWriter fw;
+		try{
+			f.createNewFile();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		finally{
+			fw = new FileWriter(f);
+		}
+		
+		fw.append(reactant + " " + buffer + " " + waste + " " + operations);
+		fw.close();
+	}
 	
 	public void runRemia( String s_n, String s_c_t, String s_del){
 		
@@ -188,7 +207,7 @@ public class Remia {
 		
 		TreeRemiaToDot ttd = new TreeRemiaToDot();
 		try {
-			ttd.createDotFile();
+			ttd.createDotFile("DotFile.dot");
 			ttd.remiaGraphStart();
 			int j=1;
 			// for(int i=0;i<forest.setOfTreeRemia.size();i++){
@@ -198,12 +217,24 @@ public class Remia {
 			// }
 			
 			for(int i =0 ; i < N ; i ++){
-				ttd.writeToDot(forestOfTarget.setOfTreeRemia.elementAt(i), j);
+				ttd.writeToDot(forestOfTarget.setOfTreeRemia.elementAt(i), j , den);
 				j = j+100;
 			}
-			
 			ttd.remiaGraphEnd();
-			ttd.dotToPng();
+			ttd.dotToPng("DotFile.dot" ,"Image.png");
+
+			ttd.createDotFile("RemiaHeapDotFile.dot");
+			ttd.remiaGraphStart();
+			for(int i=0;i<forest.setOfTreeRemia.size();i++){
+				System.out.println("I = " + i );
+				ttd.writeToDot(forest.setOfTreeRemia.get(i),j , den);
+				j = j+100;
+			}
+
+			ttd.remiaGraphEnd();
+			ttd.dotToPng("RemiaHeapDotFile.dot" , "RemiaHeapImage.png");
+
+
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -211,10 +242,21 @@ public class Remia {
 
 		calculateStat();
 		System.out.println("reactant = " + reactant + " buffer = " + buffer + " waste = " + waste + " operations = " + operations);
+
+		try{
+			writeStat();
+		}
+		catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		System.out.println(den);
+
 	}
 
 	public static void main(String args[]){
 		Remia obj = new Remia();
-		obj.runRemia("1", "607", "10");
+		obj.runRemia("2", "607 503", "11");
 	}
 }

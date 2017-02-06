@@ -295,8 +295,8 @@ class MinHeap
 
 class TreeRemiaToDot{
 	FileWriter fw = null;
-	void createDotFile() throws IOException{
-		File dotFile = new File("../../Remia/remiaDot.dot");
+	void createDotFile(String fileName) throws IOException{
+		File dotFile = new File("../../" + fileName);
 		try {
 			dotFile.createNewFile();
 		} catch (IOException e) {
@@ -308,42 +308,41 @@ class TreeRemiaToDot{
 		}
 	}
 	
-	void fillTreeRemiaDetail(nodeRemia n, int i) throws IOException{
+	String fractionToRatio(double frac , double den){
+		double num = frac * den ;
+		
+		Double n1 = (Double)num ;
+		Double d1 = (Double)den ;
+
+		Integer n = n1.intValue();
+		Integer d = d1.intValue();
+
+		return (" \" " + Integer.toString(n) + "/" + Integer.toString(d) + " \" ") ;
+	}
+
+	void fillTreeRemiaDetail(nodeRemia n, int i , double den) throws IOException{
 		if(n == null){
 			return;
 		}
 		if(n.left!=null){
-			Double d = (Double)n.left.data;
-            String s = d.toString();
+			double d = n.left.data;
+            String s = fractionToRatio(d , den);
             int l = 2*i;
 			fw.append(l + "[label=" + s + "];" + "\n");
 			fw.append(l + "->" + i + "\n");
 		}
 		if(n.right!=null){
-			Double d = (Double)n.right.data;
-            String s = d.toString();
+			double d = n.right.data;
+           	String s = fractionToRatio(d , den);
             int r = 2*i+1;
 			fw.append(r + "[label=" + s + "];" + "\n");
 			fw.append(r + "->" + i + "\n");
 		}
 		if(n.left == null && n.right == null){
 			fw.append(i + "[style=filled, fillcolor=yellow];" + "\n");
-			Double leafData = (Double)n.data ;
-			String s;
-			int from = 1000*i ;
-			int to = i ;
-			while(leafData != 1.0){
-				leafData = 2*leafData;
-				s = leafData.toString();
-				fw.append(from + "[label=" + s + "];" + "\n");
-				fw.append(from + "->" + to + "\n");
-				to = from ;
-				from++ ;
-			}
-
 		}
-		fillTreeRemiaDetail(n.left,2*i);
-		fillTreeRemiaDetail(n.right,2*i+1);
+		fillTreeRemiaDetail(n.left,2*i, den);
+		fillTreeRemiaDetail(n.right,2*i+1, den);
 	}
 	
 	void remiaGraphStart() throws IOException{
@@ -356,18 +355,18 @@ class TreeRemiaToDot{
 		fw.close();
 	}
 	
-	void writeToDot(TreeRemia t,int i) throws IOException{
-		Double d = (Double)t.root.data;
-		String s = d.toString();
+	void writeToDot(TreeRemia t,int i , double den) throws IOException{
+		double d = t.root.data;
+		String s = fractionToRatio(d , den);
 		fw.append(i + "[label=" +s + "];" + "\n");
-		fillTreeRemiaDetail(t.root,i);
+		fillTreeRemiaDetail(t.root,i,den);
 	}
 	
-	public void dotToPng() throws IOException{
+	public void dotToPng(String fileName ,String imageName) throws IOException{
     	final String graphvizDotUtilityPath = "/usr/bin/dot";
     	final String imageType = "png";
-    	final String sourceDotFilePath = "../../Remia/remiaDot.dot";
-    	final String outputImageFilePath = "../../Remia/remiaDot.png";
+    	final String sourceDotFilePath = "../../" + fileName;
+    	final String outputImageFilePath = "../../" + imageName;
 
     	final List commandList = new ArrayList();
     	commandList.add(graphvizDotUtilityPath);
