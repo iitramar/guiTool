@@ -1,0 +1,69 @@
+import java.util.Vector;
+
+class node{
+	String data;
+	node left;
+	node right;
+	
+	public node(String data){
+		this.data = data;
+		this.left = null;
+		this.right = null;
+	}
+}
+
+class Tree{
+	node root;
+	
+	public Tree(){
+		root = null;
+	}
+	
+	public Tree(String data){
+		root = new node(data);
+	}
+	
+	public void printTree(node n){
+		if(n==null){
+			return;
+		}
+		System.out.print(n.data + "  ");
+		printTree(n.left);
+		printTree(n.right);
+	}
+}
+
+class dotUtility{
+	public Tree matrixToTree(int[][] recipeMatrix, int row, Vector<String> compound){
+		Tree tree = new Tree();
+		int col = recipeMatrix[0].length;
+		Vector< Vector < node > > matrixOfNodes = new Vector < Vector < node > >(col);
+		for(int j = col-1; j>=0; j--){
+			//matrixOfNodes.add(j, new Vector<node>());
+			for(int i=0; i<row; i++){
+				if(recipeMatrix[i][j] == 1){
+					node n = new node(compound.get(i));
+					matrixOfNodes.get(j).add(n);
+				}
+			}
+			int size = matrixOfNodes.get(j).size();
+			if(size > 0){
+				for(int k = 0;k<size;k=k+2){
+					node l = matrixOfNodes.get(j).get(k);
+					node r = matrixOfNodes.get(j).get(k+1);
+					String s = l.data + r.data;
+					node p = new node(s);
+					p.left = l;
+					p.right = r;
+					if(j==0){
+						tree.root = p;
+					}
+					else{
+						matrixOfNodes.get(j-1).add(p);
+					}
+				}
+			}
+		}
+		return tree;
+	}
+}

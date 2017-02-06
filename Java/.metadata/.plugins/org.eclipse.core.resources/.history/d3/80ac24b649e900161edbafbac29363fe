@@ -1,0 +1,335 @@
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Vector;
+
+class node
+{
+	double data ;
+	node left ;
+	node right ;
+	
+	public node(double data)
+	{
+		this.data = data ;
+		this.left =null ;
+		this.right = null ;
+	}
+}
+
+class Tree
+{
+	node root;
+	public Tree()
+	{
+		root = null ;
+	}
+	
+	public Tree(double data)
+	{
+		root = new node(data);
+	}
+	
+	public void printTree(node root){
+		if(root == null){
+			return;
+		}
+		
+		System.out.print(root.data + " ");
+		printTree(root.left);
+		printTree(root.right);
+	}
+	
+}
+
+class Forest{
+	
+	Vector<Tree> setOfTree = new Vector<Tree>();
+	
+	public void makeTree(node n, HashMap<Double, Integer> hm){
+		
+		if(n == null){
+			return ;
+		}
+		
+		double childData = n.data/2 ;
+		
+		if(hm.containsKey(childData)){
+			int available = hm.get(childData);
+			
+			if(available > 0){
+				n.left = new node(childData);
+				available-- ;
+				hm.put(childData, hm.get(childData)-1);
+				
+				if(available > 0 ){
+					n.right = new node(childData);
+					available-- ;
+					hm.put(childData, hm.get(childData)-1);
+				}
+			}
+			
+			makeTree(n.left , hm);
+			makeTree(n.right , hm);
+		}
+		
+		
+	}
+	
+	public void buildForest( HashMap<Double, Integer> hm ){
+		
+		Tree tree;
+		
+		while(hm.get(1.0) > 0){
+			tree = new Tree(1.0);
+			setOfTree.addElement(tree);
+			hm.put(1.0, hm.get(1.0)-1);
+		}
+		
+		for(int i=0 ; i < setOfTree.size() ; i++){
+			System.out.println(setOfTree.get(i).root.data);
+			makeTree(setOfTree.get(i).root , hm);
+		}
+		
+	}
+	
+	public void printForest(){
+		for(int i=0 ; i < setOfTree.size() ; i++){
+			setOfTree.get(i).printTree(setOfTree.get(i).root);
+			System.out.println("-----------------------");
+			System.out.println();
+		}
+	}
+	
+}
+
+class MinHeap
+{
+    private double[] Heap;
+    private int size;
+    private int maxsize;
+    
+    private static final int FRONT = 1;
+    
+    public MinHeap(int maxsize)
+    {
+        this.maxsize = maxsize;
+        this.size = 0;
+        Heap = new double[this.maxsize + 1];
+        Heap[0] = Double.MIN_VALUE;
+    }
+ 
+    private int parent(int pos)
+    {
+        return pos / 2;
+    }
+ 
+    private int leftChild(int pos)
+    {
+        return (2 * pos);
+    }
+ 
+    private int rightChild(int pos)
+    {
+        return (2 * pos) + 1;
+    }
+ 
+    private boolean isLeaf(int pos)
+    {
+        if (pos >  (size / 2)  &&  pos <= size)
+        { 
+            return true;
+        }
+        return false;
+    }
+ 
+    private void swap(int fpos, int spos)
+    {
+        double tmp;
+        tmp = Heap[fpos];
+        Heap[fpos] = Heap[spos];
+        Heap[spos] = tmp;
+    }
+ 
+    private void minHeapify(int pos)
+    {
+        if (!isLeaf(pos))
+        { 
+            if ( Heap[pos] > Heap[leftChild(pos)]  || Heap[pos] > Heap[rightChild(pos)])
+            {
+                if (Heap[leftChild(pos)] < Heap[rightChild(pos)])
+                {
+                    swap(pos, leftChild(pos));
+                    minHeapify(leftChild(pos));
+                }else
+                {
+                    swap(pos, rightChild(pos));
+                    minHeapify(rightChild(pos));
+                }
+            }
+        }
+    }
+ 
+    public void insert(double element)
+    {
+        Heap[++size] = element;
+        int current = size;
+ 
+        while (Heap[current] < Heap[parent(current)])
+        {
+            swap(current,parent(current));
+            current = parent(current);
+        }	
+    }
+ 
+    public void print()
+    {
+	if(size == 0){
+    		System.out.println("Empty");
+    	}
+    	if(size == 1){
+    		System.out.println(Heap[FRONT]);
+    	}
+        for (int i = 1; i <= size / 2; i++ )
+        {
+            System.out.print(Heap[i] + " : " + Heap[2*i]);
+            if(2*i + 1 <= size){
+            	System.out.print(" : " + Heap[2*i + 1]);
+            }
+            System.out.println();
+        } 
+    }
+ 
+    public void minHeap()
+    {
+        for (int pos = (size / 2); pos >= 1 ; pos--)
+        {
+            minHeapify(pos);
+        }
+    }
+ 
+    public double remove()
+    {
+        double popped = Heap[FRONT];
+        if(size == 1){
+        	size = 0 ;
+        }
+        else{
+        	Heap[FRONT] = Heap[size--];
+            minHeapify(FRONT);
+        }
+        return popped;
+    }
+
+	public int getSize() {
+		return size;
+	}
+
+	public int setSize(int size) {
+		this.size = size;
+		return size;
+	}
+ 
+}
+
+class TreeToDot{
+	FileWriter fw = null;
+	void createDotFile() throws IOException{
+		File dotFile = new File("remiaDot.dot");
+		try {
+			dotFile.createNewFile();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		finally{
+			fw = new FileWriter(dotFile);
+		}
+	}
+	
+	void fillTreeDetail(node n, int i) throws IOException{
+//		if(n.left == null && n.right == null){
+//            Double d = (Double)n.data;
+//            String s = d.toString();
+//			bw.write(i + "[style=filled, label=" + s + ", fillcolor=yellow];" + "\n");
+//            ++i;
+//			return ;
+//		}
+//		bw.write(n.data + "->" + i + "\n");
+//        if(n.right.left == null && n.right.right == null){
+//            int j = i+1;
+//            bw.write(n.data + "->" + j + "\n");
+//        }
+//        else{
+//            bw.write(n.data + "->" + n.right.data + "\n");
+//        }
+		if(n == null){
+			return;
+		}
+		if(n.left!=null){
+			Double d = (Double)n.left.data;
+            String s = d.toString();
+            int l = 2*i;
+			fw.append(l + "[label=" + s + "];" + "\n");
+			fw.append(i + "->" + l + "\n");
+		}
+		if(n.right!=null){
+			Double d = (Double)n.right.data;
+            String s = d.toString();
+            int r = 2*i+1;
+			fw.append(r + "[label=" + s + "];" + "\n");
+			fw.append(i + "->" + r + "\n");
+		}
+		if(n.left == null && n.right == null){
+			fw.append(i + "[style=filled, fillcolor=yellow];" + "\n");
+		}
+		fillTreeDetail(n.left,2*i);
+		fillTreeDetail(n.right,2*i+1);
+	}
+	
+	void remiaGraphStart() throws IOException{
+		fw.append("digraph G { \n rankdir = BT ; \n compound=true; \n");
+	}
+	
+	void remiaGraphEnd() throws IOException{
+		fw.append("}");
+		fw.close();
+	}
+	
+	void writeToDot(Tree t,int i) throws IOException{
+		Double d = (Double)t.root.data;
+		String s = d.toString();
+		fw.append(i + "[label=1.0];" + "\n");
+		fillTreeDetail(t.root,i);
+	}
+	
+	public void dotToPng() throws IOException{
+    	final String graphvizDotUtilityPath = "/usr/bin/dot";
+    	final String imageType = "png";
+    	final String sourceDotFilePath = "remiaDot.dot";
+    	final String outputImageFilePath = "remiaDot.png";
+
+    	final List commandList = new ArrayList();
+    	commandList.add(graphvizDotUtilityPath);
+    	commandList.add("-T" + imageType);
+    	commandList.add(sourceDotFilePath);
+    	commandList.add("-o" + outputImageFilePath);
+
+    	// java.lang.Process
+    	// java.lang.ProcessBuilder
+    	try {
+			Process process = new ProcessBuilder(commandList).start();
+			
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    }
+
+	
+}

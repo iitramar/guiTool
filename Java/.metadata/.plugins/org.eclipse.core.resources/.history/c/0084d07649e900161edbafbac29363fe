@@ -1,0 +1,153 @@
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map.Entry;
+import java.util.Scanner;
+import java.util.Vector;
+
+public class Remia {
+	
+	public double lcv(double conc){
+		double x = 0.5 ;
+		while(conc < x){
+			x = x/2 ;
+		}
+		
+		return 2*x ;
+	}
+	
+	public Tree buildMixTree(double target,double den ){
+		
+		Tree tree = new Tree(target);
+		node temp = tree.root ;
+		
+		int n = (int) (temp.data * den) ;
+		while((n & (n-1)) != 0){
+			temp.left = new node(lcv(temp.data));
+			temp.right = new node(2*temp.data - temp.left.data);
+			temp = temp.right ;
+			n = (int) (temp.data * den) ;
+			
+		}
+		
+		return tree;
+	}
+	
+	public void addLeafToHeap(MinHeap mh, node n){
+		if(n == null){
+			return ;
+		}
+		if(n.left == null && n.right == null){
+			mh.insert(n.data);
+		}
+		addLeafToHeap(mh, n.left);
+		addLeafToHeap(mh, n.right);
+		
+	}
+	
+	public void buildEDTForest(Tree tree, HashMap<Double, Integer> hm){
+		MinHeap mh = new MinHeap(100);
+		addLeafToHeap(mh, tree.root);
+		System.out.println("before---------");
+		mh.print();
+		
+		while(mh.getSize() > 0){
+			
+			double x = mh.remove();
+			System.out.println("remove---------" + x);
+			mh.print();
+			
+			if(hm.containsKey(x)){
+				hm.put(x, hm.get(x)+1);
+			}
+			else{
+				hm.put(x, 1);
+			}
+			
+			
+			if(x != 1.0){
+				
+				if(mh.getSize() > 0){
+					double y = mh.remove();
+					System.out.println("remove---------" + y);
+					mh.print();
+					
+					if(hm.containsKey(y)){
+						hm.put(y, hm.get(y)+1);
+					}
+					else{
+						hm.put(y, 1);
+					}
+					if(x != y){
+						mh.insert(y);
+						System.out.println("insert---------" + y);
+						mh.print();
+						hm.put(y, hm.get(y)-1);
+					}
+				}
+				
+				double z = 2*x ;
+				mh.insert(z);
+				System.out.println("insert---------" + z);
+				mh.print();
+				
+			}
+		
+			for(Entry<Double, Integer> m:hm.entrySet()){  
+			  System.out.println(m.getKey()+" "+m.getValue());  
+			}
+			System.out.println();
+			
+			
+		}
+		 
+		
+	}
+	
+	public static void main(String args[]){
+		double num, d ;
+		Scanner sc = new Scanner(System.in);
+		num = sc.nextDouble();
+		d = sc.nextDouble();
+		
+		double den = Math.pow(2, d);
+		
+		double target = num/den ;
+		
+		Remia rmobj = new Remia();
+		Tree tobj = new Tree();
+		
+		Tree tree = rmobj.buildMixTree(target, den);
+		
+		
+		tobj.printTree(tree.root);
+		System.out.println();
+		
+		HashMap<Double, Integer> hm = new HashMap<Double, Integer>();
+		
+		rmobj.buildEDTForest(tree, hm);
+		
+		Forest forest = new Forest();
+		forest.buildForest(hm);
+		
+		forest.printForest();
+		
+		TreeToDot ttd = new TreeToDot();
+		try {
+			ttd.createDotFile();
+			ttd.remiaGraphStart();
+			int j=1;
+			for(int i=0;i<forest.setOfTree.size();i++){
+				System.out.println("I = " + i );
+				ttd.writeToDot(forest.setOfTree.get(i),j);
+				j = j+100;
+			}
+			ttd.fillTreeDetail(tree.root, j);
+			ttd.remiaGraphEnd();
+			ttd.dotToPng();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+}

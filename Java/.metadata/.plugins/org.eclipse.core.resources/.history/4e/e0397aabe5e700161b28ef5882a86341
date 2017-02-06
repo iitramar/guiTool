@@ -1,0 +1,130 @@
+import java.util.Scanner;
+import java.util.Vector;
+
+public class codos {
+	int ptr;
+	public void updateRecipeMatrix(int[][] recipeMatrix, int[] rect){
+		int x = rect[1];
+		int y = rect[2];
+		int p = rect[3];
+		int q = rect[4];
+		recipeMatrix[ptr][p-1] = 1;
+		recipeMatrix[ptr][q-1] = 1;
+		recipeMatrix[x][p] = 0;
+		recipeMatrix[y][p] = 0;
+		recipeMatrix[x][q] = 0;
+		recipeMatrix[y][q] = 0;
+		ptr = ptr+1;
+	}
+	
+	public int binary(double num, double den){
+		return (den>num?0:1);
+	}
+	
+	public void constructRecipeMatrix(int T[], int[][] recipeMatrix){
+		int N = T.length;
+		int d = recipeMatrix[0].length;
+		double k;
+		for(int i=0;i<N;i++){
+			k = T[i];
+			for(int j=0;j<d;j++){
+				recipeMatrix[i][j] = binary(k,Math.pow(2, d-j-1));
+				if(recipeMatrix[i][j] == 1){
+					k = k - Math.pow(2, d-j-1);
+				}
+			}
+		}
+	}
+	
+	public void printRecipeMatrix(int[][] recipeMatrix){
+		int d = recipeMatrix[0].length;
+		for(int i=0;i<ptr;i++){
+			for(int j=0;j<d;j++){
+				System.out.print(recipeMatrix[i][j]);
+			}
+			System.out.println();
+		}
+	}
+	
+	public boolean getRecatngle(int[][] recipeMatrix, int[] rect, int N){
+		int d = recipeMatrix[0].length;
+		int prev = -1;
+		boolean b = false;
+		for(int i=0;i<N;i++){
+			for(int j=i+1;j<ptr;j++){
+				for(int k=d-1;k>=0;k--){
+					if(recipeMatrix[i][k]==1 && recipeMatrix[j][k]==1){
+						if(prev == -1){
+							prev = k;
+						}
+						else{
+							if(rect[1] != -1 && rect[1]<N && rect[2] != -1 && rect[2]<N && j>=N){
+								continue;
+							}
+							else if(rect[1] != -1 && rect[1]<N && rect[2] != -1 && rect[2]<N && j<N){
+								if(rect[3]+rect[4]<prev+k){
+									rect[1] = i;
+									rect[2] = j;
+									rect[3] = prev;
+									rect[4] = k;
+									b = true;
+								}
+							}
+							else if(rect[1] == -1 && rect[2] == -1){
+								rect[1] = i;
+								rect[2] = j;
+								rect[3] = prev;
+								rect[4] = k;
+								b = true;
+							}
+						}
+					}
+				}
+				prev = -1;
+			}
+		}
+		return b;
+	}
+	
+	public void setRectangle(int[] rect){
+		rect[1] = -1;
+		rect[2] = -1;
+		rect[3] = -1;
+		rect[4] = -1;
+	}
+	
+	public void codos(int[] T, int[][] recipeMatrix){
+		int N = T.length;
+		ptr = N;
+		constructRecipeMatrix(T,recipeMatrix);
+		int rect[] = new int[5];
+		setRectangle(rect);
+		while(getRecatngle(recipeMatrix, rect, N)){
+			updateRecipeMatrix(recipeMatrix, rect);
+			setRectangle(rect);
+		}
+		System.out.println("Final Recipe Matrix:");
+		printRecipeMatrix(recipeMatrix);
+	}
+	
+	public static void main(String args []){
+		int N,d;
+		Vector<String> compound = new Vector<String>() ; 
+		Scanner sc = new Scanner(System.in);
+		System.out.println("Enter number of Reactant types");
+		N = sc.nextInt();
+		System.out.println("Enter Precision level");
+		d = sc.nextInt();
+		int T[] = new int[N];
+		System.out.println("Enter Target Concentration(space separated vector)");
+		for(int i=0;i<N;i++){
+			T[i] = sc.nextInt();
+		}
+		for(int i=0 ;i<N ; i++){
+			compound.add("0"+i+1);
+		}
+		int[][] recipeMatrix = new int[100][d];
+		codos cod = new codos();
+		cod.codos(T,recipeMatrix);
+	}
+}

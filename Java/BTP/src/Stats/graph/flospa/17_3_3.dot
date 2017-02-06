@@ -1,0 +1,18 @@
+digraph flospaD{
+rankdir = BT;
+label = "FloSPA-D(17,3,3)";
+X1 [label="17:10"];
+X2 [label="5:4"];
+X3 [label="2:1"];
+x2 [label="S";
+]x2 -> X2 [label="1"];
+x3 [label="S";
+]x3 -> X3 [label="2"];
+y2 [label="B";
+]y2 -> X2 [label="1"];
+y3 [label="B";
+]y3 -> X3 [label="1"];
+X2 -> X1 [label="1"];
+X3 -> X1 [label="2"];
+X3 -> X2 [label="1"];
+}
