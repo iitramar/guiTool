@@ -191,10 +191,11 @@ public class codos {
 			ttd.createDotFile();
 			ttd.remiaGraphStart();
 			int j=1;
-			for(int i=0;i<forest.setOfTree.size();i++){
-				ttd.writeToDot(forest.setOfTree.get(i),j);
-				j = j+100;
-			}
+//			for(int i=0;i<forest.setOfTree.size();i++){
+//				ttd.writeToDot(forest.setOfTree.get(i),j);
+//				j = j+100;
+//			}
+			forest.expandTree(tree, compound1, N);
 			ttd.writeToDot(tree, j);
 			ttd.remiaGraphEnd();
 			ttd.dotToPng();
@@ -202,6 +203,8 @@ public class codos {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		Stats stats = new Stats();
+		stats.generateStats(tree, compound, compound1, N);
 		System.out.println("Hey Buddy!");
 	}
 }

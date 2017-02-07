@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 import java.util.Vector;
 
 class node{
@@ -99,13 +101,13 @@ class TreeToDot{
             String s = n.left.data;
             int l = 2*i;
 			fw.append(l + "[label=" + s + "];" + "\n");
-			fw.append(i + "->" + l + "\n");
+			fw.append(l + "->" + i + "\n");
 		}
 		if(n.right!=null){
             String s = n.right.data;
             int r = 2*i+1;
 			fw.append(r + "[label=" + s + "];" + "\n");
-			fw.append(i + "->" + r + "\n");
+			fw.append(r + "->" + i + "\n");
 		}
 		if(n.left == null && n.right == null){
 			fw.append(i + "[style=filled, fillcolor=yellow];" + "\n");
@@ -116,6 +118,7 @@ class TreeToDot{
 	
 	void remiaGraphStart() throws IOException{
 		fw.append("digraph G {\n");
+		fw.append("rankdir = BT;" + '\n');
 	}
 	
 	void remiaGraphEnd() throws IOException{
@@ -125,7 +128,7 @@ class TreeToDot{
 	
 	void writeToDot(Tree t,int i) throws IOException{
 		String s = t.root.data;
-		fw.append(i + "[label=" +s + "];" + "\n");
+		fw.append(i + "[style=filled, fillcolor= \"#FBCEB1\", label=" +s + "];" + "\n");
 		fillTreeDetail(t.root,i);
 	}
 	
@@ -190,4 +193,163 @@ class Forest{
 		}
 	}
 	
+	public boolean isLeaf(node n){
+		return (n.left==null && n.right==null );
+	}
+	
+	public int search(String s, Vector<String> compound1, int N){
+		int j=0 ;
+		for(int i =N ; i<compound1.size();i++){
+			if(compound1.get(i) == s){
+				j = i ;
+			}
+		}
+		return j;
+	}
+	
+	public void expandTreeFrom(node n , Vector<String> compound1 , int N ){
+		
+		if(isLeaf(n)){
+			return ;
+		}
+		
+		if(n.left != null){
+			if(isLeaf(n.left)){
+				String leftChildData = n.left.data ;
+				int li = search(leftChildData, compound1, N);
+				
+				if(li >= N){
+					for(int i=0 ; i < setOfTree.size() ; i++){
+						if(setOfTree.get(i).root.data == leftChildData){
+							Tree temp = setOfTree.get(i);
+							n.left = temp.root ;
+						}
+					}
+				}
+			}
+		}
+		
+		if(n.right != null){
+			if(isLeaf(n.right)){
+				String rightChildData = n.right.data ;
+				int ri = search(rightChildData, compound1, N);
+				
+				if(ri >= N){
+					for(int i=0 ; i < setOfTree.size() ; i++){
+						if(setOfTree.get(i).root.data == rightChildData){
+							Tree temp = setOfTree.get(i);
+							n.right = temp.root ;
+						}
+					}
+				}
+			}
+		}
+		
+		expandTreeFrom(n.left, compound1, N);
+		expandTreeFrom(n.right, compound1, N);
+		
+	}
+	
+	public void expandTree(Tree tree , Vector<String> compound1 , int N){
+		
+		for(int i=0 ; i < setOfTree.size() ; i++){
+			expandTreeFrom(setOfTree.get(i).root, compound1, N);
+		}
+		
+		expandTreeFrom(tree.root, compound1, N);
+	}
+	
 }
+
+class Stats{
+	int waste;
+	int operation;
+	int reactant;
+	
+	TreeMap<String,Integer> count;
+	
+	FileWriter fw = null;
+	public Stats(){
+		this.waste = 0;
+		this.reactant = 0;
+		this.operation = 0;
+		count = new TreeMap<String,Integer>();
+	}
+	
+	public String search(String s, Vector<String> compound1, int N){
+		for(int i=0;i<N;i++){
+			if(compound1.get(i) == s){
+				return "Reactant";
+			}
+		}
+		for(int i =N ; i<compound1.size();i++){
+			if(compound1.get(i) == s){
+				return "Compound";
+			}
+		}
+		return "Intermediate";
+	}
+	
+	public void fillCount(node n, Vector<String> compound1, int N){
+		if(n==null){
+			return;
+		}
+		String data = n.data;
+		if(search(data, compound1, N) != "Reactant"){
+			if(count.containsKey(data)){
+				if(count.get(data)>0){
+					count.put(data, count.get(data)-1);
+					return;
+				}
+				else{
+					count.put(data, 1);
+					operation++;
+					if(search(n.left.data, compound1, N) == "Reactant"){
+						reactant++;
+					}
+					if(search(n.right.data, compound1, N) == "Reactant"){
+						reactant++;
+					}
+				}
+			}
+			else{
+				count.put(data, 1);
+				operation++;
+				if(search(n.left.data, compound1, N) == "Reactant"){
+					reactant++;
+				}
+				if(search(n.right.data, compound1, N) == "Reactant"){
+					reactant++;
+				}
+			}
+		}
+		fillCount(n.left, compound1, N);
+		fillCount(n.right, compound1, N);
+	}
+	
+	public void getWaste(){
+		for(Map.Entry<String, Integer> entry : count.entrySet())
+        {
+            waste += entry.getValue();
+            System.out.println("Key = " + entry.getKey() + "--------- Value = " + entry.getValue());
+        }
+	}
+	
+	public void generateStats(Tree t, Vector<String> compound, Vector<String> compound1, int N) throws IOException{
+		File statFile = new File("../Codos/codosStat.txt");
+		try {
+			statFile.createNewFile();
+			fw = new FileWriter(statFile);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		fillCount(t.root, compound1, N);
+		getWaste();
+		fw.write(reactant + " " + waste + " " + operation);
+		System.out.println(reactant + " " + waste + " " + operation);
+		fw.close();
+	}
+}
+
+
