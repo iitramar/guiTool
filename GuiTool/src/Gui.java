@@ -1,3 +1,18 @@
+
+import java.awt.BorderLayout;
+import java.awt.image.BufferedImage;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -15,6 +30,23 @@ public class Gui extends javax.swing.JFrame {
      */
     public Gui() {
         initComponents();
+        architecture.setVisible(false);
+        mixingSpecs.setVisible(false);
+        algoClass.setVisible(false);
+        algorithms.setVisible(false);
+        lblEx1.setVisible(false);
+        lblEx2.setVisible(false);
+        lblTarget.setVisible(false);
+        lblPrecision.setVisible(false);
+        txtEx1.setVisible(false);
+        txtEx2.setVisible(false);
+        txtTarget.setVisible(false);
+        txtPrecision.setVisible(false);
+        lblReactantVal.setVisible(false);
+        lblBufferVal.setVisible(false);
+        lblWasteVal.setVisible(false);
+        lblOperationVal.setVisible(false);
+        setExtendedState(javax.swing.JFrame.MAXIMIZED_BOTH);
     }
 
     /**
@@ -26,99 +58,279 @@ public class Gui extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jPanel2 = new javax.swing.JPanel();
+        jPanelInput = new javax.swing.JPanel();
+        btnSubmit = new javax.swing.JButton();
+        btnReset = new javax.swing.JButton();
+        objective = new javax.swing.JComboBox<>();
+        architecture = new javax.swing.JComboBox<>();
+        mixingSpecs = new javax.swing.JComboBox<>();
+        algoClass = new javax.swing.JComboBox<>();
+        algorithms = new javax.swing.JComboBox<>();
+        lblEx1 = new javax.swing.JLabel();
+        lblEx2 = new javax.swing.JLabel();
+        lblTarget = new javax.swing.JLabel();
+        lblPrecision = new javax.swing.JLabel();
+        txtEx1 = new javax.swing.JTextField();
+        txtEx2 = new javax.swing.JTextField();
+        txtTarget = new javax.swing.JTextField();
+        txtPrecision = new javax.swing.JTextField();
+        jPanelStats = new javax.swing.JPanel();
+        lblReactant = new javax.swing.JLabel();
+        lblBuffer = new javax.swing.JLabel();
+        lblWaste = new javax.swing.JLabel();
+        lblOperation = new javax.swing.JLabel();
+        lblReactantVal = new javax.swing.JLabel();
+        lblBufferVal = new javax.swing.JLabel();
+        lblWasteVal = new javax.swing.JLabel();
+        lblOperationVal = new javax.swing.JLabel();
+        jPanelGraph = new javax.swing.JPanel();
+        jPanelInfo = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        jPanel3 = new javax.swing.JPanel();
+        jLabel5 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Frame");
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)), "Input"));
+        jPanelInput.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)), "Input"));
+        jPanelInput.setToolTipText("Input Pane");
+        jPanelInput.setAutoscrolls(true);
 
-        jButton1.setText("Submit");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnSubmit.setText("Submit");
+        btnSubmit.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btnSubmitActionPerformed(evt);
             }
         });
 
-        jButton2.setText("Reset");
+        btnReset.setText("Reset");
+        btnReset.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnResetActionPerformed(evt);
+            }
+        });
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(81, 81, 81)
-                .addComponent(jButton1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton2)
-                .addContainerGap(24, Short.MAX_VALUE))
+        objective.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Objective", "Demo", "Stats", "Comparison" }));
+        objective.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                objectiveActionPerformed(evt);
+            }
+        });
+
+        architecture.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Architecture" }));
+        architecture.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                architectureActionPerformed(evt);
+            }
+        });
+
+        mixingSpecs.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Mixing Specification" }));
+        mixingSpecs.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mixingSpecsActionPerformed(evt);
+            }
+        });
+
+        algoClass.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Algorithm Class" }));
+        algoClass.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                algoClassActionPerformed(evt);
+            }
+        });
+
+        algorithms.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Algorithms" }));
+        algorithms.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                algorithmsActionPerformed(evt);
+            }
+        });
+
+        lblEx1.setText("jLabel2");
+
+        lblEx2.setText("jLabel3");
+
+        lblTarget.setText("jLabel6");
+
+        lblPrecision.setText("jLabel7");
+
+        txtTarget.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtTargetActionPerformed(evt);
+            }
+        });
+
+        txtPrecision.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtPrecisionActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanelInputLayout = new javax.swing.GroupLayout(jPanelInput);
+        jPanelInput.setLayout(jPanelInputLayout);
+        jPanelInputLayout.setHorizontalGroup(
+            jPanelInputLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelInputLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanelInputLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanelInputLayout.createSequentialGroup()
+                        .addComponent(lblEx1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtEx1))
+                    .addGroup(jPanelInputLayout.createSequentialGroup()
+                        .addComponent(lblEx2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtEx2))
+                    .addComponent(objective, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(architecture, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(mixingSpecs, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(algoClass, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanelInputLayout.createSequentialGroup()
+                        .addGroup(jPanelInputLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(lblTarget)
+                            .addComponent(lblPrecision))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanelInputLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtTarget)
+                            .addComponent(txtPrecision)))
+                    .addGroup(jPanelInputLayout.createSequentialGroup()
+                        .addComponent(algorithms, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnSubmit)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnReset)))
+                .addContainerGap())
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(138, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2))
+        jPanelInputLayout.setVerticalGroup(
+            jPanelInputLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelInputLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(objective, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(architecture, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(mixingSpecs, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(algoClass, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(algorithms, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanelInputLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtEx1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblEx1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanelInputLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtEx2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblEx2))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanelInputLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtTarget, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblTarget))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanelInputLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtPrecision, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblPrecision))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanelInputLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnSubmit)
+                    .addComponent(btnReset))
                 .addContainerGap())
         );
 
-        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)), "Statistics"));
+        jPanelStats.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)), "Statistics"));
 
-        jLabel1.setText("Reactant");
+        lblReactant.setText("Reactant");
 
-        jLabel2.setText("Buffer");
+        lblBuffer.setText("Buffer");
 
-        jLabel3.setText("Waste");
+        lblWaste.setText("Waste");
 
-        jLabel4.setText("Operations");
+        lblOperation.setText("Operation");
 
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        lblReactantVal.setText("jLabel2");
+
+        lblBufferVal.setText("jLabel3");
+
+        lblWasteVal.setText("jLabel6");
+
+        lblOperationVal.setText("jLabel7");
+
+        javax.swing.GroupLayout jPanelStatsLayout = new javax.swing.GroupLayout(jPanelStats);
+        jPanelStats.setLayout(jPanelStatsLayout);
+        jPanelStatsLayout.setHorizontalGroup(
+            jPanelStatsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelStatsLayout.createSequentialGroup()
+                .addGroup(jPanelStatsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(lblBufferVal)
+                    .addGroup(jPanelStatsLayout.createSequentialGroup()
+                        .addGroup(jPanelStatsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(lblOperation, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(lblWaste, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(lblBuffer, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(lblReactant, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGroup(jPanelStatsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanelStatsLayout.createSequentialGroup()
+                                .addGap(31, 31, 31)
+                                .addComponent(lblReactantVal))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelStatsLayout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(jPanelStatsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(lblWasteVal, javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(lblOperationVal, javax.swing.GroupLayout.Alignment.TRAILING))))))
                 .addGap(0, 0, Short.MAX_VALUE))
         );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(35, 35, 35)
+        jPanelStatsLayout.setVerticalGroup(
+            jPanelStatsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelStatsLayout.createSequentialGroup()
+                .addContainerGap(25, Short.MAX_VALUE)
+                .addGroup(jPanelStatsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblReactant)
+                    .addComponent(lblReactantVal))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanelStatsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblBuffer)
+                    .addComponent(lblBufferVal))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanelStatsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblWaste)
+                    .addComponent(lblWasteVal))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanelStatsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblOperation)
+                    .addComponent(lblOperationVal)))
+        );
+
+        jPanelGraph.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)), "Image"));
+        jPanelGraph.setLayout(new java.awt.BorderLayout());
+
+        jLabel1.setText("Demo - To get Demo of an algorithm");
+
+        jLabel4.setText("Stats - To generate Statistics file for an algorithm");
+
+        jLabel5.setText("Comparison - To Compare any two algorithms");
+
+        javax.swing.GroupLayout jPanelInfoLayout = new javax.swing.GroupLayout(jPanelInfo);
+        jPanelInfo.setLayout(jPanelInfoLayout);
+        jPanelInfoLayout.setHorizontalGroup(
+            jPanelInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelInfoLayout.createSequentialGroup()
+                .addGroup(jPanelInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel1)
+                    .addComponent(jLabel4)
+                    .addComponent(jLabel5))
+                .addGap(0, 0, Short.MAX_VALUE))
+        );
+        jPanelInfoLayout.setVerticalGroup(
+            jPanelInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelInfoLayout.createSequentialGroup()
                 .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel3)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel4)
-                .addContainerGap(41, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel5)
+                .addContainerGap(669, Short.MAX_VALUE))
         );
 
-        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)), "Image"));
-
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 600, Short.MAX_VALUE)
-        );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
+        jPanelGraph.add(jPanelInfo, java.awt.BorderLayout.CENTER);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -126,26 +338,224 @@ public class Gui extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jPanelInput, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanelStats, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(jPanelGraph, javax.swing.GroupLayout.DEFAULT_SIZE, 678, Short.MAX_VALUE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanelInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(52, 52, 52)
+                .addComponent(jPanelStats, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanelGraph, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    public void loadImage(String s){
+        jPanelInfo.setVisible(false);
+        File f = null;
+        BufferedImage image = null;
+        try {
+            int width = 300, height = 200 ;
+            System.out.println("Reading Image");
+            f = new File(s);
+            image = new BufferedImage(width,height,BufferedImage.TYPE_INT_ARGB);
+            image = ImageIO.read(f);
+            System.out.println("Done!");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        JLabel lblImage = new JLabel(new ImageIcon(image));
+        jPanelGraph.add(lblImage, BorderLayout.CENTER);
+        jPanelGraph.revalidate();
+    }
+    
+    public void loadStat() throws IOException{
+        BufferedReader br = null;
+        try {
+            br = new BufferedReader(new FileReader("codosStat.txt"));
+            String line = br.readLine();
+            String a[] = line.split(" ");
+            lblReactantVal.setText(a[0]);
+            lblBufferVal.setText(a[1]);
+            lblWasteVal.setText(a[2]);
+            lblOperationVal.setText(a[3]);
+            lblReactantVal.setVisible(true);
+            lblBufferVal.setVisible(true);
+            lblWasteVal.setVisible(true);
+            lblOperationVal.setVisible(true);
+        }
+        finally{
+            br.close();
+        }
+        
+    }
+    
+    private void btnSubmitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSubmitActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
+        String obj = algorithms.getSelectedItem().toString();
+        if(obj == "Codos"){
+            codos codosObj = new codos();
+            try {
+                    codosObj.runCodos(txtEx1.getText(), txtPrecision.getText(), txtTarget.getText());
+    		    TimeUnit.MILLISECONDS.sleep(1000);
+                    String s = "codosDot.png";
+                    loadStat();
+                    loadImage(s);
+    		} catch (IOException e1) {
+                    // TODO Auto-generated catch block
+                    e1.printStackTrace();
+                } catch (InterruptedException e1) {
+                    // TODO Auto-generated catch block
+                    e1.printStackTrace();
+    		}
+        }
+    }//GEN-LAST:event_btnSubmitActionPerformed
+
+    private void objectiveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_objectiveActionPerformed
+        // TODO add your handling code here
+        String s = "Demo - To get Demo of an algorithm\nStats - To generate Statistics file for an algorithm\nComparison - To Compare any two algorithms";
+        String obj = objective.getSelectedItem().toString();
+        if(obj == "Demo" || obj == "Stats" || obj == "Comparison"){
+            architecture.addItem("CMFB");
+            architecture.addItem("DMFB");
+            architecture.addItem("PMD");
+            architecture.addItem("MEDA");
+            architecture.setVisible(true);
+        }
+    }//GEN-LAST:event_objectiveActionPerformed
+
+    private void architectureActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_architectureActionPerformed
+        // TODO add your handling code here:
+        String obj = architecture.getSelectedItem().toString();
+        if(obj == "CMFB"){
+            mixingSpecs.addItem("Dilution");
+        }
+        else if(obj == "DMFB"){
+            mixingSpecs.addItem("Dilution");
+            mixingSpecs.addItem("Mixing");
+        }
+        else if(obj == "PMD"){
+        }
+        else if(obj == "MEDA"){
+        }
+        mixingSpecs.setVisible(true);
+    }//GEN-LAST:event_architectureActionPerformed
+
+    private void mixingSpecsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mixingSpecsActionPerformed
+        // TODO add your handling code here:
+        String comboBox1 = architecture.getSelectedItem().toString();
+        String obj = mixingSpecs.getSelectedItem().toString();
+        if(comboBox1 == "CMFB"){
+            if(obj == "Dilution"){
+                algoClass.addItem("SDST");
+            }
+        }
+        else if(comboBox1 == "DMFB"){
+            if(obj == "Dilution"){
+                algoClass.addItem("SDST");
+                algoClass.addItem("SDMT");
+            }
+            else if(obj == "Mixing"){
+                algoClass.addItem("SDST");
+                algoClass.addItem("SDMT");
+            }
+        }
+        else if(comboBox1 == "PMD"){
+            
+        }
+        else if(comboBox1 == "MEDA"){
+            
+        }
+        algoClass.setVisible(true);
+    }//GEN-LAST:event_mixingSpecsActionPerformed
+
+    private void algoClassActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_algoClassActionPerformed
+        // TODO add your handling code here:
+        String comboBox1 = architecture.getSelectedItem().toString();
+        String comboBox2 = mixingSpecs.getSelectedItem().toString();
+        String obj = algoClass.getSelectedItem().toString();
+        if(comboBox1 == "CMFB"){
+            if(comboBox2 == "Dilution"){
+                if(obj == "SDST"){
+                    algorithms.addItem("Vospa");
+                }
+            }
+        }
+        else if(comboBox1 == "DMFB"){
+            if(comboBox2 == "Dilution"){
+                if(obj == "SDST"){
+                    algorithms.addItem("Remia");
+                    algorithms.addItem("DMRW");
+                    algorithms.addItem("IDMA");
+                    algorithms.addItem("Minmix");
+                }
+                else if(obj == "SDMT"){
+                    algorithms.addItem("ExRemia");
+                }
+                else if(obj == "MDST"){
+                    
+                }
+                else if(obj == "MDMT"){
+                    
+                }
+            }
+            else if(comboBox2 == "Mixing"){
+                if(obj == "SDST"){
+                    algorithms.addItem("Codos");
+                }
+                else if(obj == "SDMT"){
+                    
+                }
+                else if(obj == "MDST"){
+                    
+                }
+                else if(obj == "MDMT"){
+                    
+                }
+            }
+        }
+        algorithms.setVisible(true);
+    }//GEN-LAST:event_algoClassActionPerformed
+
+    private void algorithmsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_algorithmsActionPerformed
+        // TODO add your handling code here:
+        String obj = algorithms.getSelectedItem().toString();
+        if(obj == "Codos"){
+            lblEx1.setText("Number of Reactants");
+            lblEx1.setVisible(true);
+            txtEx1.setVisible(true);
+            lblTarget.setText("Target Concentration");
+            lblTarget.setVisible(true);
+            txtTarget.setVisible(true);
+            lblPrecision.setText("Precision Level");
+            lblPrecision.setVisible(true);
+            txtPrecision.setVisible(true);
+        }
+    }//GEN-LAST:event_algorithmsActionPerformed
+
+    private void txtTargetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTargetActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtTargetActionPerformed
+
+    private void txtPrecisionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPrecisionActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtPrecisionActionPerformed
+
+    private void btnResetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnResetActionPerformed
+        // TODO add your handling code here:
+        this.dispose();
+        Gui gui = new Gui();
+        gui.setVisible(true);
+    }//GEN-LAST:event_btnResetActionPerformed
 
     /**
      * @param args the command line arguments
@@ -183,14 +593,35 @@ public class Gui extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
+    private javax.swing.JComboBox<String> algoClass;
+    private javax.swing.JComboBox<String> algorithms;
+    private javax.swing.JComboBox<String> architecture;
+    private javax.swing.JButton btnReset;
+    private javax.swing.JButton btnSubmit;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JPanel jPanelGraph;
+    private javax.swing.JPanel jPanelInfo;
+    private javax.swing.JPanel jPanelInput;
+    private javax.swing.JPanel jPanelStats;
+    private javax.swing.JLabel lblBuffer;
+    private javax.swing.JLabel lblBufferVal;
+    private javax.swing.JLabel lblEx1;
+    private javax.swing.JLabel lblEx2;
+    private javax.swing.JLabel lblOperation;
+    private javax.swing.JLabel lblOperationVal;
+    private javax.swing.JLabel lblPrecision;
+    private javax.swing.JLabel lblReactant;
+    private javax.swing.JLabel lblReactantVal;
+    private javax.swing.JLabel lblTarget;
+    private javax.swing.JLabel lblWaste;
+    private javax.swing.JLabel lblWasteVal;
+    private javax.swing.JComboBox<String> mixingSpecs;
+    private javax.swing.JComboBox<String> objective;
+    private javax.swing.JTextField txtEx1;
+    private javax.swing.JTextField txtEx2;
+    private javax.swing.JTextField txtPrecision;
+    private javax.swing.JTextField txtTarget;
     // End of variables declaration//GEN-END:variables
 }
