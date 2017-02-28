@@ -335,18 +335,20 @@ class Stats{
         }
 	}
 	
-	public void generateStats(Tree t, Vector<String> compound, Vector<String> compound1, int N) throws IOException{
+	public void generateStats(Tree t, Vector<String> compound, Vector<String> compound1, int N, String s_n) throws IOException{
 		File statFile = new File("codosStat.txt");
 		try {
-			statFile.createNewFile();
-			fw = new FileWriter(statFile);
+                        if(!statFile.exists()){
+                            statFile.createNewFile();
+                        }
+			fw = new FileWriter(statFile,true);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		fillCount(t.root, compound1, N);
 		getWaste();
-		fw.write(reactant + " " + "NA" + " "  + waste + " " + operation);
+		fw.append(s_n + "\t" + reactant + " " + "NA" + " "  + waste + " " + operation + "\n");
 		System.out.println(reactant + " " + waste + " " + operation);
 		fw.close();
 	}

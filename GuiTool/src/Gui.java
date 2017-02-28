@@ -1,17 +1,23 @@
 
 import java.awt.BorderLayout;
+import java.awt.Desktop;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
+import java.io.DataInputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.Document;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -47,6 +53,7 @@ public class Gui extends javax.swing.JFrame {
         lblWasteVal.setVisible(false);
         lblOperationVal.setVisible(false);
         setExtendedState(javax.swing.JFrame.MAXIMIZED_BOTH);
+        txtPane.setVisible(false);
     }
 
     /**
@@ -85,9 +92,10 @@ public class Gui extends javax.swing.JFrame {
         lblOperationVal = new javax.swing.JLabel();
         jPanelGraph = new javax.swing.JPanel();
         jPanelInfo = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        txtPane = new javax.swing.JTextPane();
+        btnBrowse = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Frame");
@@ -302,46 +310,45 @@ public class Gui extends javax.swing.JFrame {
         jPanelGraph.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)), "Image"));
         jPanelGraph.setLayout(new java.awt.BorderLayout());
 
-        jLabel1.setText("Demo - To get Demo of an algorithm");
-
-        jLabel4.setText("Stats - To generate Statistics file for an algorithm");
-
-        jLabel5.setText("Comparison - To Compare any two algorithms");
+        jScrollPane1.setViewportView(txtPane);
 
         javax.swing.GroupLayout jPanelInfoLayout = new javax.swing.GroupLayout(jPanelInfo);
         jPanelInfo.setLayout(jPanelInfoLayout);
         jPanelInfoLayout.setHorizontalGroup(
             jPanelInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanelInfoLayout.createSequentialGroup()
-                .addGroup(jPanelInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1)
-                    .addComponent(jLabel4)
-                    .addComponent(jLabel5))
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 668, Short.MAX_VALUE)
         );
         jPanelInfoLayout.setVerticalGroup(
             jPanelInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanelInfoLayout.createSequentialGroup()
-                .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel4)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel5)
-                .addContainerGap(669, Short.MAX_VALUE))
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 732, Short.MAX_VALUE)
         );
 
         jPanelGraph.add(jPanelInfo, java.awt.BorderLayout.CENTER);
+
+        btnBrowse.setText("Browse");
+        btnBrowse.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBrowseActionPerformed(evt);
+            }
+        });
+
+        jLabel2.setText("Open Stats file");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jPanelInput, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanelStats, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(jPanelInput, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jPanelStats, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnBrowse)))
                 .addGap(18, 18, 18)
-                .addComponent(jPanelGraph, javax.swing.GroupLayout.DEFAULT_SIZE, 678, Short.MAX_VALUE)
+                .addComponent(jPanelGraph, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -350,6 +357,10 @@ public class Gui extends javax.swing.JFrame {
                 .addComponent(jPanelInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(52, 52, 52)
                 .addComponent(jPanelStats, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnBrowse)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(0, 0, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
@@ -383,11 +394,12 @@ public class Gui extends javax.swing.JFrame {
         try {
             br = new BufferedReader(new FileReader("codosStat.txt"));
             String line = br.readLine();
-            String a[] = line.split(" ");
-            lblReactantVal.setText(a[0]);
-            lblBufferVal.setText(a[1]);
-            lblWasteVal.setText(a[2]);
-            lblOperationVal.setText(a[3]);
+            String a[] = line.split("\t");
+            String b[] = a[1].split(" ");
+            lblReactantVal.setText(b[0]);
+            lblBufferVal.setText(b[1]);
+            lblWasteVal.setText(b[2]);
+            lblOperationVal.setText(b[3]);
             lblReactantVal.setVisible(true);
             lblBufferVal.setVisible(true);
             lblWasteVal.setVisible(true);
@@ -401,15 +413,42 @@ public class Gui extends javax.swing.JFrame {
     
     private void btnSubmitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSubmitActionPerformed
         // TODO add your handling code here:
+        File f = new File("codosStat.txt");
+        if(f.exists()){
+            f.delete();
+        }
         String obj = algorithms.getSelectedItem().toString();
+        String obj1 = objective.getSelectedItem().toString();
         if(obj == "Codos"){
             codos codosObj = new codos();
-            try {
-                    codosObj.runCodos(txtEx1.getText(), txtPrecision.getText(), txtTarget.getText());
-    		    TimeUnit.MILLISECONDS.sleep(1000);
-                    String s = "codosDot.png";
-                    loadStat();
-                    loadImage(s);
+            try {   
+                    if(obj1 == "Demo" || obj1 == "Comparison"){
+                        codosObj.runCodos(txtEx1.getText(), txtPrecision.getText(), txtTarget.getText());
+                        TimeUnit.MILLISECONDS.sleep(1000);
+                        String s = "codosDot.png";
+                        loadStat();
+                        loadImage(s);
+                    }
+                    else{
+                        codosObj.runCodos(txtEx1.getText(), txtPrecision.getText());
+                        Document doc = txtPane.getDocument();
+                        FileInputStream inMessage = new FileInputStream("codosStat.txt");
+                        DataInputStream in = new DataInputStream(inMessage);
+                        BufferedReader br = new BufferedReader(new InputStreamReader(in));
+                        String strLine;
+                        //StringBuilder sb = new StringBuilder();
+                        while ((strLine = br.readLine()) != null){
+                            try {
+                                //sb.append(strLine + "\n");
+                                doc.insertString(doc.getLength(), strLine+"\n", null);
+                            } catch (BadLocationException ex) {
+                                Logger.getLogger(Gui.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                        }
+                        in.close();
+                        inMessage.close();
+                        
+                    }
     		} catch (IOException e1) {
                     // TODO Auto-generated catch block
                     e1.printStackTrace();
@@ -424,6 +463,10 @@ public class Gui extends javax.swing.JFrame {
         // TODO add your handling code here
         String s = "Demo - To get Demo of an algorithm\nStats - To generate Statistics file for an algorithm\nComparison - To Compare any two algorithms";
         String obj = objective.getSelectedItem().toString();
+        if(obj == "Stats"){
+                jPanelStats.setVisible(false);
+        }
+        
         if(obj == "Demo" || obj == "Stats" || obj == "Comparison"){
             architecture.addItem("CMFB");
             architecture.addItem("DMFB");
@@ -529,13 +572,16 @@ public class Gui extends javax.swing.JFrame {
     private void algorithmsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_algorithmsActionPerformed
         // TODO add your handling code here:
         String obj = algorithms.getSelectedItem().toString();
+        String obj1 = objective.getSelectedItem().toString();
         if(obj == "Codos"){
             lblEx1.setText("Number of Reactants");
             lblEx1.setVisible(true);
             txtEx1.setVisible(true);
-            lblTarget.setText("Target Concentration");
-            lblTarget.setVisible(true);
-            txtTarget.setVisible(true);
+            if(obj1 == "Demo" || obj1 == "Comparison"){
+                lblTarget.setText("Target Concentration");
+                lblTarget.setVisible(true);
+                txtTarget.setVisible(true);
+            }
             lblPrecision.setText("Precision Level");
             lblPrecision.setVisible(true);
             txtPrecision.setVisible(true);
@@ -556,6 +602,16 @@ public class Gui extends javax.swing.JFrame {
         Gui gui = new Gui();
         gui.setVisible(true);
     }//GEN-LAST:event_btnResetActionPerformed
+
+    private void btnBrowseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBrowseActionPerformed
+        // TODO add your handling code here:
+        try {
+                Desktop.getDesktop().open(new File("codosStat.txt"));
+            } catch (IOException e1) {
+
+                e1.printStackTrace();
+            }
+    }//GEN-LAST:event_btnBrowseActionPerformed
 
     /**
      * @param args the command line arguments
@@ -596,15 +652,15 @@ public class Gui extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> algoClass;
     private javax.swing.JComboBox<String> algorithms;
     private javax.swing.JComboBox<String> architecture;
+    private javax.swing.JButton btnBrowse;
     private javax.swing.JButton btnReset;
     private javax.swing.JButton btnSubmit;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanelGraph;
     private javax.swing.JPanel jPanelInfo;
     private javax.swing.JPanel jPanelInput;
     private javax.swing.JPanel jPanelStats;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblBuffer;
     private javax.swing.JLabel lblBufferVal;
     private javax.swing.JLabel lblEx1;
@@ -621,6 +677,7 @@ public class Gui extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> objective;
     private javax.swing.JTextField txtEx1;
     private javax.swing.JTextField txtEx2;
+    private javax.swing.JTextPane txtPane;
     private javax.swing.JTextField txtPrecision;
     private javax.swing.JTextField txtTarget;
     // End of variables declaration//GEN-END:variables

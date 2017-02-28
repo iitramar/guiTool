@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.Vector;
 import java.io.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class codos {
 	
@@ -204,6 +206,46 @@ public class codos {
 			e.printStackTrace();
 		}
 		Stats stats = new Stats();
-		stats.generateStats(tree, compound, compound1, N);
+                
+		stats.generateStats(tree, compound, compound1, N, s_n);
+	}
+
+        public void findComb(int arr[] , int current , int end  ,int sum, String s_c_t, String s_del){
+		if(end - current + 1 > sum){
+			return ;
+		}
+
+		if(current == end){
+                        String s = "";
+			//count ++ ;
+			arr[current] = sum;
+                        int i;
+			for(i =0 ; i < arr.length-1;i ++){
+				System.out.print(arr[i] + " ");
+                                s = s+arr[i]+" ";
+			}
+                        s = s+arr[i];
+                    try {
+                        runCodos(s_c_t,s_del,s);
+                    } catch (IOException ex) {
+                        Logger.getLogger(codos.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+			System.out.println();
+			return ;
+		}
+
+		for(int i=1 ; i <= (sum - end + current) ;i ++){
+			arr[current] = i ;
+			findComb(arr , current + 1 , end , sum - i, s_c_t, s_del);
+		}
+	}
+        
+	public void runCodos(String s_c_t, String s_del){
+            int N,d;
+            N = inputConversion(s_c_t);
+            d = inputConversion(s_del);
+            int s = (int)Math.pow(2, d);
+            int[] arr = new int[N];
+            findComb(arr , 0 , N-1, s, s_c_t, s_del);
 	}
 }
