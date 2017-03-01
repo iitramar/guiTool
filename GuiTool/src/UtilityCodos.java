@@ -1,4 +1,6 @@
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -268,7 +270,7 @@ class Stats{
 	
 	TreeMap<String,Integer> count;
 	
-	FileWriter fw = null;
+	
 	public Stats(){
 		this.waste = 0;
 		this.reactant = 0;
@@ -335,20 +337,38 @@ class Stats{
         }
 	}
 	
-	public void generateStats(Tree t, Vector<String> compound, Vector<String> compound1, int N, String s_n) throws IOException{
-		File statFile = new File("codosStat.txt");
+	public void generateStats(Tree t, Vector<String> compound, Vector<String> compound1, int N, String s_n, String fileName) throws IOException{
+		File statFile = new File(fileName);
+                FileWriter fw = null;
+                //FileReader fr = null;
+                BufferedReader br = null;
+                int serialNo = 0;
 		try {
                         if(!statFile.exists()){
                             statFile.createNewFile();
+                            serialNo = 1 ;
                         }
-			fw = new FileWriter(statFile,true);
+                        else{
+                            br = new BufferedReader(new FileReader(statFile));
+                            
+                            String lastLine = "";
+                            String sCurrentLine;
+                            while ((sCurrentLine = br.readLine()) != null) 
+                            {
+                                //System.out.println(sCurrentLine);
+                                lastLine = sCurrentLine;
+                            }
+                            serialNo = Integer.parseInt(lastLine.split("\t")[0]) + 1;
+                            
+                        }
+			fw = new FileWriter( statFile , true);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		fillCount(t.root, compound1, N);
 		getWaste();
-		fw.append(s_n + "\t" + reactant + " " + "NA" + " "  + waste + " " + operation + "\n");
+		fw.append(serialNo + "\t" + s_n + "\t" + reactant + "\t" + "NA" + "\t"  + waste + "\t" + operation + "\n");
 		System.out.println(reactant + " " + waste + " " + operation);
 		fw.close();
 	}

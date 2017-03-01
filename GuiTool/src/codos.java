@@ -150,7 +150,7 @@ public class codos {
 		
 	}
 	
-	public void runCodos(String s_c_t, String s_del, String s_n) throws IOException{
+	public void runCodos(String s_c_t, String s_del, String s_n, String fileName) throws IOException{
 		int N,d;
 		Vector<String> compound = new Vector<String>();
 		Vector<String> compound1 = new Vector<String>();
@@ -207,7 +207,7 @@ public class codos {
 		}
 		Stats stats = new Stats();
                 
-		stats.generateStats(tree, compound, compound1, N, s_n);
+		stats.generateStats(tree, compound, compound1, N, s_n, fileName);
 	}
 
         public void findComb(int arr[] , int current , int end  ,int sum, String s_c_t, String s_del){
@@ -226,7 +226,7 @@ public class codos {
 			}
                         s = s+arr[i];
                     try {
-                        runCodos(s_c_t,s_del,s);
+                        runCodos(s_c_t,s_del,s,"codos_Stat.txt");
                     } catch (IOException ex) {
                         Logger.getLogger(codos.class.getName()).log(Level.SEVERE, null, ex);
                     }

@@ -3,21 +3,15 @@ import java.awt.BorderLayout;
 import java.awt.Desktop;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
-import java.io.DataInputStream;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.concurrent.TimeUnit;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
-import javax.swing.text.BadLocationException;
-import javax.swing.text.Document;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -29,17 +23,17 @@ import javax.swing.text.Document;
  *
  * @author iitramar
  */
-public class Gui extends javax.swing.JFrame {
+public class Gui extends javax.swing.JFrame{
 
     /**
      * Creates new form Gui
      */
     public Gui() {
         initComponents();
-        architecture.setVisible(false);
-        mixingSpecs.setVisible(false);
-        algoClass.setVisible(false);
-        algorithms.setVisible(false);
+        //architecture.setVisible(false);
+        //mixingSpecs.setVisible(false);
+        //algoClass.setVisible(false);
+        //algorithms.setVisible(false);
         lblEx1.setVisible(false);
         lblEx2.setVisible(false);
         lblTarget.setVisible(false);
@@ -52,8 +46,15 @@ public class Gui extends javax.swing.JFrame {
         lblBufferVal.setVisible(false);
         lblWasteVal.setVisible(false);
         lblOperationVal.setVisible(false);
+        jScrollPane1.getColumnHeader().setVisible(false);
+        jPanelStats.setVisible(false);
+        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+        centerRenderer.setHorizontalAlignment( JLabel.CENTER );
+        for(int i=0;i<statTable.getColumnCount();i++){
+            statTable.getColumnModel().getColumn(i).setCellRenderer( centerRenderer );
+            statTable.getColumnModel().getColumn(i).setHeaderRenderer(centerRenderer);
+        }
         setExtendedState(javax.swing.JFrame.MAXIMIZED_BOTH);
-        txtPane.setVisible(false);
     }
 
     /**
@@ -81,6 +82,11 @@ public class Gui extends javax.swing.JFrame {
         txtEx2 = new javax.swing.JTextField();
         txtTarget = new javax.swing.JTextField();
         txtPrecision = new javax.swing.JTextField();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
         jPanelStats = new javax.swing.JPanel();
         lblReactant = new javax.swing.JLabel();
         lblBuffer = new javax.swing.JLabel();
@@ -93,12 +99,15 @@ public class Gui extends javax.swing.JFrame {
         jPanelGraph = new javax.swing.JPanel();
         jPanelInfo = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        txtPane = new javax.swing.JTextPane();
+        statTable = new javax.swing.JTable();
         btnBrowse = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
+        jPanel1 = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Frame");
+        setBackground(java.awt.Color.gray);
+        setForeground(java.awt.Color.darkGray);
 
         jPanelInput.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)), "Input"));
         jPanelInput.setToolTipText("Input Pane");
@@ -118,35 +127,35 @@ public class Gui extends javax.swing.JFrame {
             }
         });
 
-        objective.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Objective", "Demo", "Stats", "Comparison" }));
+        objective.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select", "Demo", "Stats", "Comparison" }));
         objective.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 objectiveActionPerformed(evt);
             }
         });
 
-        architecture.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Architecture" }));
+        architecture.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select" }));
         architecture.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 architectureActionPerformed(evt);
             }
         });
 
-        mixingSpecs.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Mixing Specification" }));
+        mixingSpecs.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select" }));
         mixingSpecs.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 mixingSpecsActionPerformed(evt);
             }
         });
 
-        algoClass.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Algorithm Class" }));
+        algoClass.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select" }));
         algoClass.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 algoClassActionPerformed(evt);
             }
         });
 
-        algorithms.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Algorithms" }));
+        algorithms.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select" }));
         algorithms.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 algorithmsActionPerformed(evt);
@@ -173,6 +182,16 @@ public class Gui extends javax.swing.JFrame {
             }
         });
 
+        jLabel1.setText("Objective");
+
+        jLabel3.setText("Architecture");
+
+        jLabel4.setText("Mixing Specifications");
+
+        jLabel5.setText("Algorithm Class");
+
+        jLabel6.setText("Algorithms");
+
         javax.swing.GroupLayout jPanelInputLayout = new javax.swing.GroupLayout(jPanelInput);
         jPanelInput.setLayout(jPanelInputLayout);
         jPanelInputLayout.setHorizontalGroup(
@@ -181,47 +200,70 @@ public class Gui extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanelInputLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanelInputLayout.createSequentialGroup()
-                        .addComponent(lblEx1)
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(btnSubmit)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtEx1))
-                    .addGroup(jPanelInputLayout.createSequentialGroup()
-                        .addComponent(lblEx2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtEx2))
-                    .addComponent(objective, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(architecture, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(mixingSpecs, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(algoClass, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnReset)
+                        .addGap(24, 24, 24))
                     .addGroup(jPanelInputLayout.createSequentialGroup()
                         .addGroup(jPanelInputLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(lblTarget)
                             .addComponent(lblPrecision))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGap(12, 12, 12)
                         .addGroup(jPanelInputLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(txtTarget)
                             .addComponent(txtPrecision)))
                     .addGroup(jPanelInputLayout.createSequentialGroup()
-                        .addComponent(algorithms, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(jPanelInputLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(28, 28, 28)
+                        .addGroup(jPanelInputLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(objective, 0, 125, Short.MAX_VALUE)
+                            .addComponent(mixingSpecs, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(algoClass, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(algorithms, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(architecture, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelInputLayout.createSequentialGroup()
+                        .addGroup(jPanelInputLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblEx1)
+                            .addComponent(lblEx2))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnSubmit)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnReset)))
+                        .addGroup(jPanelInputLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtEx1)
+                            .addComponent(txtEx2))))
                 .addContainerGap())
         );
         jPanelInputLayout.setVerticalGroup(
             jPanelInputLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelInputLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(objective, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanelInputLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(objective)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(architecture, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanelInputLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(architecture, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(mixingSpecs, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanelInputLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(mixingSpecs, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanelInputLayout.createSequentialGroup()
+                        .addGap(1, 1, 1)
+                        .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(algoClass, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanelInputLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(algoClass)
+                    .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(algorithms, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanelInputLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(algorithms, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(11, 11, 11)
                 .addGroup(jPanelInputLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtEx1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lblEx1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -237,29 +279,37 @@ public class Gui extends javax.swing.JFrame {
                 .addGroup(jPanelInputLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtPrecision, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lblPrecision))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanelInputLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnSubmit)
                     .addComponent(btnReset))
-                .addContainerGap())
+                .addContainerGap(21, Short.MAX_VALUE))
         );
 
         jPanelStats.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)), "Statistics"));
 
+        lblReactant.setFont(new java.awt.Font("Ubuntu", 3, 18)); // NOI18N
         lblReactant.setText("Reactant");
 
+        lblBuffer.setFont(new java.awt.Font("Ubuntu", 3, 18)); // NOI18N
         lblBuffer.setText("Buffer");
 
+        lblWaste.setFont(new java.awt.Font("Ubuntu", 3, 18)); // NOI18N
         lblWaste.setText("Waste");
 
+        lblOperation.setFont(new java.awt.Font("Ubuntu", 3, 18)); // NOI18N
         lblOperation.setText("Operation");
 
+        lblReactantVal.setFont(new java.awt.Font("Ubuntu", 0, 18)); // NOI18N
         lblReactantVal.setText("jLabel2");
 
+        lblBufferVal.setFont(new java.awt.Font("Ubuntu", 0, 18)); // NOI18N
         lblBufferVal.setText("jLabel3");
 
+        lblWasteVal.setFont(new java.awt.Font("Ubuntu", 0, 18)); // NOI18N
         lblWasteVal.setText("jLabel6");
 
+        lblOperationVal.setFont(new java.awt.Font("Ubuntu", 0, 18)); // NOI18N
         lblOperationVal.setText("jLabel7");
 
         javax.swing.GroupLayout jPanelStatsLayout = new javax.swing.GroupLayout(jPanelStats);
@@ -307,20 +357,44 @@ public class Gui extends javax.swing.JFrame {
                     .addComponent(lblOperationVal)))
         );
 
-        jPanelGraph.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)), "Image"));
+        jPanelGraph.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)), "Output"));
         jPanelGraph.setLayout(new java.awt.BorderLayout());
 
-        jScrollPane1.setViewportView(txtPane);
+        statTable.setAutoCreateRowSorter(true);
+        statTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "S.No", "Target", "Reactant", "Buffer", "Waste", "Operations", "MLB"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane1.setViewportView(statTable);
 
         javax.swing.GroupLayout jPanelInfoLayout = new javax.swing.GroupLayout(jPanelInfo);
         jPanelInfo.setLayout(jPanelInfoLayout);
         jPanelInfoLayout.setHorizontalGroup(
             jPanelInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 668, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1115, Short.MAX_VALUE)
         );
         jPanelInfoLayout.setVerticalGroup(
             jPanelInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 732, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 711, Short.MAX_VALUE)
         );
 
         jPanelGraph.add(jPanelInfo, java.awt.BorderLayout.CENTER);
@@ -334,37 +408,49 @@ public class Gui extends javax.swing.JFrame {
 
         jLabel2.setText("Open Stats file");
 
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 81, Short.MAX_VALUE)
+        );
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(jPanelInput, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jPanelStats, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnBrowse)))
-                .addGap(18, 18, 18)
-                .addComponent(jPanelGraph, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+                        .addComponent(btnBrowse))
+                    .addComponent(jPanelInput, javax.swing.GroupLayout.PREFERRED_SIZE, 326, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPanelStats, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(3, 3, 3)
+                .addComponent(jPanelGraph, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanelInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(52, 52, 52)
-                .addComponent(jPanelStats, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnBrowse)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(0, 0, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanelGraph, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jPanelInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(31, 31, 31)
+                        .addComponent(jPanelStats, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(btnBrowse)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jPanelGraph, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         pack();
@@ -392,14 +478,19 @@ public class Gui extends javax.swing.JFrame {
     public void loadStat() throws IOException{
         BufferedReader br = null;
         try {
-            br = new BufferedReader(new FileReader("codosStat.txt"));
-            String line = br.readLine();
-            String a[] = line.split("\t");
-            String b[] = a[1].split(" ");
-            lblReactantVal.setText(b[0]);
-            lblBufferVal.setText(b[1]);
-            lblWasteVal.setText(b[2]);
-            lblOperationVal.setText(b[3]);
+            br = new BufferedReader(new FileReader("codos_Demo.txt"));
+            String lastLine = "";
+            String sCurrentLine;
+            while ((sCurrentLine = br.readLine()) != null) 
+            {
+                lastLine = sCurrentLine;
+            }
+            
+            String a[] = lastLine.split("\t");
+            lblReactantVal.setText(a[2]);
+            lblBufferVal.setText(a[3]);
+            lblWasteVal.setText(a[4]);
+            lblOperationVal.setText(a[5]);
             lblReactantVal.setVisible(true);
             lblBufferVal.setVisible(true);
             lblWasteVal.setVisible(true);
@@ -413,7 +504,7 @@ public class Gui extends javax.swing.JFrame {
     
     private void btnSubmitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSubmitActionPerformed
         // TODO add your handling code here:
-        File f = new File("codosStat.txt");
+        File f = new File("codos_Stat.txt");
         if(f.exists()){
             f.delete();
         }
@@ -423,7 +514,7 @@ public class Gui extends javax.swing.JFrame {
             codos codosObj = new codos();
             try {   
                     if(obj1 == "Demo" || obj1 == "Comparison"){
-                        codosObj.runCodos(txtEx1.getText(), txtPrecision.getText(), txtTarget.getText());
+                        codosObj.runCodos(txtEx1.getText(), txtPrecision.getText(), txtTarget.getText(), "codos_Demo.txt");
                         TimeUnit.MILLISECONDS.sleep(1000);
                         String s = "codosDot.png";
                         loadStat();
@@ -431,23 +522,25 @@ public class Gui extends javax.swing.JFrame {
                     }
                     else{
                         codosObj.runCodos(txtEx1.getText(), txtPrecision.getText());
-                        Document doc = txtPane.getDocument();
-                        FileInputStream inMessage = new FileInputStream("codosStat.txt");
-                        DataInputStream in = new DataInputStream(inMessage);
-                        BufferedReader br = new BufferedReader(new InputStreamReader(in));
+                        BufferedReader br = new BufferedReader(new FileReader("codos_Stat.txt"));
                         String strLine;
                         //StringBuilder sb = new StringBuilder();
                         while ((strLine = br.readLine()) != null){
-                            try {
-                                //sb.append(strLine + "\n");
-                                doc.insertString(doc.getLength(), strLine+"\n", null);
-                            } catch (BadLocationException ex) {
-                                Logger.getLogger(Gui.class.getName()).log(Level.SEVERE, null, ex);
+                            String[] s = strLine.split("\t");
+                            Object[] ob = new Object[s.length];
+                            for(int i=0; i< s.length; i++){
+                                if(i == 1 || i == 3){
+                                    ob[i] = s[i] ;
+                                }
+                                else{
+                                    ob[i] = Integer.parseInt(s[i]) ;
+                                }
                             }
-                        }
-                        in.close();
-                        inMessage.close();
-                        
+                            DefaultTableModel tableModel = (DefaultTableModel)statTable.getModel();
+                            tableModel.addRow(ob);
+                       }
+                        jScrollPane1.getColumnHeader().setVisible(true);
+                        br.close();
                     }
     		} catch (IOException e1) {
                     // TODO Auto-generated catch block
@@ -458,13 +551,13 @@ public class Gui extends javax.swing.JFrame {
     		}
         }
     }//GEN-LAST:event_btnSubmitActionPerformed
-
+    
     private void objectiveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_objectiveActionPerformed
         // TODO add your handling code here
         String s = "Demo - To get Demo of an algorithm\nStats - To generate Statistics file for an algorithm\nComparison - To Compare any two algorithms";
         String obj = objective.getSelectedItem().toString();
-        if(obj == "Stats"){
-                jPanelStats.setVisible(false);
+        if(obj == "Demo"){
+                jPanelStats.setVisible(true);
         }
         
         if(obj == "Demo" || obj == "Stats" || obj == "Comparison"){
@@ -582,7 +675,7 @@ public class Gui extends javax.swing.JFrame {
                 lblTarget.setVisible(true);
                 txtTarget.setVisible(true);
             }
-            lblPrecision.setText("Precision Level");
+            lblPrecision.setText("Accuracy");
             lblPrecision.setVisible(true);
             txtPrecision.setVisible(true);
         }
@@ -606,7 +699,7 @@ public class Gui extends javax.swing.JFrame {
     private void btnBrowseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBrowseActionPerformed
         // TODO add your handling code here:
         try {
-                Desktop.getDesktop().open(new File("codosStat.txt"));
+                Desktop.getDesktop().open(new File("codos_Stat.txt"));
             } catch (IOException e1) {
 
                 e1.printStackTrace();
@@ -655,7 +748,13 @@ public class Gui extends javax.swing.JFrame {
     private javax.swing.JButton btnBrowse;
     private javax.swing.JButton btnReset;
     private javax.swing.JButton btnSubmit;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanelGraph;
     private javax.swing.JPanel jPanelInfo;
     private javax.swing.JPanel jPanelInput;
@@ -675,9 +774,9 @@ public class Gui extends javax.swing.JFrame {
     private javax.swing.JLabel lblWasteVal;
     private javax.swing.JComboBox<String> mixingSpecs;
     private javax.swing.JComboBox<String> objective;
+    private javax.swing.JTable statTable;
     private javax.swing.JTextField txtEx1;
     private javax.swing.JTextField txtEx2;
-    private javax.swing.JTextPane txtPane;
     private javax.swing.JTextField txtPrecision;
     private javax.swing.JTextField txtTarget;
     // End of variables declaration//GEN-END:variables
