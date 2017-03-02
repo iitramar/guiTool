@@ -226,7 +226,7 @@ public class codos {
 			}
                         s = s+arr[i];
                     try {
-                        runCodos(s_c_t,s_del,s,"codos_Stat.txt");
+                        runCodos(s_c_t,s_del,s,"./stat/Codos/Codos_Stat.txt");
                     } catch (IOException ex) {
                         Logger.getLogger(codos.class.getName()).log(Level.SEVERE, null, ex);
                     }

@@ -475,10 +475,10 @@ public class Gui extends javax.swing.JFrame{
         jPanelGraph.revalidate();
     }
     
-    public void loadStat() throws IOException{
+    public void loadStat(String fileName) throws IOException{
         BufferedReader br = null;
         try {
-            br = new BufferedReader(new FileReader("codos_Demo.txt"));
+            br = new BufferedReader(new FileReader("./stat/" + fileName + "/" + fileName + "_Demo.txt"));
             String lastLine = "";
             String sCurrentLine;
             while ((sCurrentLine = br.readLine()) != null) 
@@ -504,25 +504,29 @@ public class Gui extends javax.swing.JFrame{
     
     private void btnSubmitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSubmitActionPerformed
         // TODO add your handling code here:
-        File f = new File("codos_Stat.txt");
-        if(f.exists()){
-            f.delete();
+        if(objective.getSelectedItem().toString() == "Stats"){
+            String algo = algorithms.getSelectedItem().toString();
+            File f = new File("./stat/" + algo + "/" + algo + "_Stat.txt");
+            if(f.exists()){
+                f.delete();
+            }
         }
+       
         String obj = algorithms.getSelectedItem().toString();
         String obj1 = objective.getSelectedItem().toString();
         if(obj == "Codos"){
             codos codosObj = new codos();
             try {   
                     if(obj1 == "Demo" || obj1 == "Comparison"){
-                        codosObj.runCodos(txtEx1.getText(), txtPrecision.getText(), txtTarget.getText(), "codos_Demo.txt");
+                        codosObj.runCodos(txtEx1.getText(), txtPrecision.getText(), txtTarget.getText(), "./stat/Codos/Codos_Demo.txt");
                         TimeUnit.MILLISECONDS.sleep(1000);
-                        String s = "codosDot.png";
-                        loadStat();
+                        String s = "./image/Codos/CodosDot.png";
+                        loadStat("Codos");
                         loadImage(s);
                     }
                     else{
                         codosObj.runCodos(txtEx1.getText(), txtPrecision.getText());
-                        BufferedReader br = new BufferedReader(new FileReader("codos_Stat.txt"));
+                        BufferedReader br = new BufferedReader(new FileReader("./stat/Codos/Codos_Stat.txt"));
                         String strLine;
                         //StringBuilder sb = new StringBuilder();
                         while ((strLine = br.readLine()) != null){
@@ -535,6 +539,41 @@ public class Gui extends javax.swing.JFrame{
                                 else{
                                     ob[i] = Integer.parseInt(s[i]) ;
                                 }
+                            }
+                            DefaultTableModel tableModel = (DefaultTableModel)statTable.getModel();
+                            tableModel.addRow(ob);
+                       }
+                        jScrollPane1.getColumnHeader().setVisible(true);
+                        br.close();
+                    }
+    		} catch (IOException e1) {
+                    // TODO Auto-generated catch block
+                    e1.printStackTrace();
+                } catch (InterruptedException e1) {
+                    // TODO Auto-generated catch block
+                    e1.printStackTrace();
+    		}
+        }
+        else if(obj == "Remia"){
+            Remia remiaObj = new Remia();
+            try {   
+                    if(obj1 == "Demo" || obj1 == "Comparison"){
+                        remiaObj.runRemia("1", txtTarget.getText(),txtPrecision.getText(), "Remia_Demo.txt");
+                        TimeUnit.MILLISECONDS.sleep(1000);
+                        String s = "./image/Remia/RemiaDot.png";
+                        loadStat("Remia");
+                        loadImage(s);
+                    }
+                    else{
+                        remiaObj.runRemia(txtPrecision.getText());
+                        BufferedReader br = new BufferedReader(new FileReader("./stat/Remia/Remia_Stat.txt"));
+                        String strLine;
+                        //StringBuilder sb = new StringBuilder();
+                        while ((strLine = br.readLine()) != null){
+                            String[] s = strLine.split("\t");
+                            Object[] ob = new Object[s.length];
+                            for(int i=0; i< s.length; i++){
+                                ob[i] = Integer.parseInt(s[i]) ;
                             }
                             DefaultTableModel tableModel = (DefaultTableModel)statTable.getModel();
                             tableModel.addRow(ob);
@@ -679,6 +718,17 @@ public class Gui extends javax.swing.JFrame{
             lblPrecision.setVisible(true);
             txtPrecision.setVisible(true);
         }
+        else if(obj == "Remia"){
+            
+            if(obj1 == "Demo" || obj1 == "Comparison"){
+                lblTarget.setText("Target Concentration");
+                lblTarget.setVisible(true);
+                txtTarget.setVisible(true);
+            }
+            lblPrecision.setText("Accuracy");
+            lblPrecision.setVisible(true);
+            txtPrecision.setVisible(true);
+        }
     }//GEN-LAST:event_algorithmsActionPerformed
 
     private void txtTargetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTargetActionPerformed
@@ -698,8 +748,9 @@ public class Gui extends javax.swing.JFrame{
 
     private void btnBrowseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBrowseActionPerformed
         // TODO add your handling code here:
+        String algo = algorithms.getSelectedItem().toString();
         try {
-                Desktop.getDesktop().open(new File("codos_Stat.txt"));
+                Desktop.getDesktop().open(new File("./stat/" + algo + "/" + algo + "_Stat.txt"));
             } catch (IOException e1) {
 
                 e1.printStackTrace();

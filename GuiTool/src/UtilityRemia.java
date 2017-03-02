@@ -296,7 +296,7 @@ class MinHeap
 class TreeRemiaToDot{
 	FileWriter fw = null;
 	void createDotFile(String fileName) throws IOException{
-		File dotFile = new File("../../" + fileName);
+		File dotFile = new File("./image/Remia/" + fileName);
 		try {
 			dotFile.createNewFile();
 		} catch (IOException e) {
@@ -365,8 +365,8 @@ class TreeRemiaToDot{
 	public void dotToPng(String fileName ,String imageName) throws IOException{
     	final String graphvizDotUtilityPath = "/usr/bin/dot";
     	final String imageType = "png";
-    	final String sourceDotFilePath = "../../" + fileName;
-    	final String outputImageFilePath = "../../" + imageName;
+    	final String sourceDotFilePath = "./image/Remia/" + fileName;
+    	final String outputImageFilePath = "./image/Remia/" + imageName;
 
     	final List commandList = new ArrayList();
     	commandList.add(graphvizDotUtilityPath);

@@ -83,7 +83,7 @@ class dotUtility{
 class TreeToDot{
 	FileWriter fw = null;
 	void createDotFile() throws IOException{
-		File dotFile = new File("codosDot.dot");
+		File dotFile = new File("./image/Codos/CodosDot.dot");
 		try {
 			dotFile.createNewFile();
 		} catch (IOException e) {
@@ -137,8 +137,8 @@ class TreeToDot{
 	public void dotToPng() throws IOException{
     	final String graphvizDotUtilityPath = "/usr/bin/dot";
     	final String imageType = "png";
-    	final String sourceDotFilePath = "codosDot.dot";
-    	final String outputImageFilePath = "codosDot.png";
+    	final String sourceDotFilePath = "./image/Codos/CodosDot.dot";
+    	final String outputImageFilePath = "./image/Codos/CodosDot.png";
 
     	final List commandList = new ArrayList();
     	commandList.add(graphvizDotUtilityPath);

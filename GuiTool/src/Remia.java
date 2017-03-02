@@ -1,9 +1,11 @@
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map.Entry;
 import java.util.Scanner;
 import java.util.Vector;
 import java.io.File;
+import java.io.FileReader;
 import java.io.FileWriter;
 
 public class Remia {
@@ -145,24 +147,41 @@ public class Remia {
 
 	}
 
-	public void writeStat() throws IOException{
-		File f = new File("../../Stat.txt");
-		FileWriter fw;
-		try{
-			f.createNewFile();
+	public void writeStat(String s_c_t, String fileName) throws IOException{
+		File statFile = new File("./stat/Remia/" + fileName);
+                FileWriter fw = null;
+                //FileReader fr = null;
+                BufferedReader br = null;
+                int serialNo = 0;
+		try {
+                        if(!statFile.exists()){
+                            statFile.createNewFile();
+                            serialNo = 1 ;
+                        }
+                        else{
+                            br = new BufferedReader(new FileReader(statFile));
+                            
+                            String lastLine = "";
+                            String sCurrentLine;
+                            while ((sCurrentLine = br.readLine()) != null) 
+                            {
+                                //System.out.println(sCurrentLine);
+                                lastLine = sCurrentLine;
+                            }
+                            serialNo = Integer.parseInt(lastLine.split("\t")[0]) + 1;
+                            
+                        }
+			fw = new FileWriter( statFile , true);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		finally{
-			fw = new FileWriter(f);
-		}
-		
-		fw.append(reactant + " " + buffer + " " + waste + " " + operations);
+		fw.append(serialNo + "\t" + s_c_t + "\t" + reactant + "\t" + buffer + "\t"  + waste + "\t" + operations + "\n");
+		//System.out.println(reactant + " " + waste + " " + operation);
 		fw.close();
 	}
 	
-	public void runRemia( String s_n, String s_c_t, String s_del){
+	public void runRemia( String s_n, String s_c_t, String s_del , String fileName){
 		
 		double d , N;
 		N = inputConversion(s_n);
@@ -207,7 +226,7 @@ public class Remia {
 		
 		TreeRemiaToDot ttd = new TreeRemiaToDot();
 		try {
-			ttd.createDotFile("DotFile.dot");
+			ttd.createDotFile("RemiaDot.dot");
 			ttd.remiaGraphStart();
 			int j=1;
 			// for(int i=0;i<forest.setOfTreeRemia.size();i++){
@@ -221,9 +240,9 @@ public class Remia {
 				j = j+100;
 			}
 			ttd.remiaGraphEnd();
-			ttd.dotToPng("DotFile.dot" ,"Image.png");
+			ttd.dotToPng("RemiaDot.dot" ,"RemiaDot.png");
 
-			ttd.createDotFile("RemiaHeapDotFile.dot");
+			ttd.createDotFile("RemiaHeapDot.dot");
 			ttd.remiaGraphStart();
 			for(int i=0;i<forest.setOfTreeRemia.size();i++){
 				System.out.println("I = " + i );
@@ -232,7 +251,7 @@ public class Remia {
 			}
 
 			ttd.remiaGraphEnd();
-			ttd.dotToPng("RemiaHeapDotFile.dot" , "RemiaHeapImage.png");
+			ttd.dotToPng("RemiaHeapDot.dot" , "RemiaHeapDot.png");
 
 
 		} catch (IOException e) {
@@ -244,7 +263,7 @@ public class Remia {
 		System.out.println("reactant = " + reactant + " buffer = " + buffer + " waste = " + waste + " operations = " + operations);
 
 		try{
-			writeStat();
+			writeStat(s_c_t, fileName);
 		}
 		catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -254,9 +273,15 @@ public class Remia {
 		System.out.println(den);
 
 	}
+        
+        public void runRemia(String s_del){
+            double d = inputConversion(s_del);
+            double den = Math.pow(2, d);
+		
+            for(int i =1 ; i < den ;i ++){
+                runRemia("1", ((Integer)i).toString(), s_del, "Remia_Stat.txt");
+            }
+            
+        }
 
-	public static void main(String args[]){
-		Remia obj = new Remia();
-		obj.runRemia("2", "607 503", "11");
-	}
 }

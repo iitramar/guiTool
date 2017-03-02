@@ -1,0 +1,19 @@
+digraph G { 
+rankdir = BT;
+101[label= " 128/128 " ];
+202[label= " 64/128 " ];
+202->101
+202[style=filled, fillcolor=yellow];
+201[label= " 128/128 " ];
+201[style=filled, fillcolor=yellow];
+301[label= " 128/128 " ];
+301[style=filled, fillcolor=yellow];
+401[label= " 128/128 " ];
+401[style=filled, fillcolor=yellow];
+501[label= " 128/128 " ];
+501[style=filled, fillcolor=yellow];
+601[label= " 128/128 " ];
+601[style=filled, fillcolor=yellow];
+701[label= " 128/128 " ];
+701[style=filled, fillcolor=yellow];
+}
