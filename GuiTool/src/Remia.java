@@ -7,6 +7,9 @@ import java.util.Vector;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.table.DefaultTableModel;
 
 public class Remia {
 
@@ -274,12 +277,70 @@ public class Remia {
 
 	}
         
-        public void runRemia(String s_del){
+        public void runRemiaForStat( String s_n, String s_c_t, String s_del , FileWriter fw, DefaultTableModel tableModel){
+		
+		double d , N;
+		N = inputConversion(s_n);
+		double[] num = new double[(int)N];
+		//num = inputConversion(s_c_t);
+		convertArray(s_c_t, num);
+		d = inputConversion(s_del);
+		
+		double den = Math.pow(2, d);
+		
+		double target[] = new double[(int)N];
+		
+		for(int i=0 ; i <N ; i ++){
+			target[i] = num[i] / den ;
+		}
+		
+		Remia rmobj = new Remia();
+		TreeRemia tobj = new TreeRemia();
+		HashMap<Double, Integer> hm = new HashMap<Double, Integer>();
+		
+		TreeRemia tree;
+		forestOfTarget = new ForestRemia();
+		for(int i=0 ; i <N ; i ++){
+			tree = rmobj.buildMixTreeRemia(target[i], den);
+			rmobj.buildEDTForest(tree, hm);
+			forestOfTarget.setOfTreeRemia.addElement(tree);
+		}
+		
+		
+		
+		
+		
+		forest = new ForestRemia();
+		forest.buildForest(hm);
+		
+		TreeRemiaToDot ttd = new TreeRemiaToDot();
+
+		calculateStat();
+                
+                String lastLine  = s_c_t + "\t" + s_c_t + "\t" + reactant + "\t" + buffer + "\t" + waste + "\t" + operations ;
+		
+            try {
+                fw.append(lastLine + "\n");
+                
+            } catch (IOException ex) {
+                Logger.getLogger(Remia.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+            String[] sArray = lastLine.split("\t");
+            Object[] ob = new Object[sArray.length];
+            for(int i=0; i< sArray.length; i++){
+                ob[i] = Integer.parseInt(sArray[i]) ;
+            }
+            
+            tableModel.addRow(ob);
+	}
+       
+        public void runRemia(String s_del, FileWriter fw, DefaultTableModel tableModel){
             double d = inputConversion(s_del);
             double den = Math.pow(2, d);
 		
             for(int i =1 ; i < den ;i ++){
-                runRemia("1", ((Integer)i).toString(), s_del, "Remia_Stat.txt");
+                runRemiaForStat("1", ((Integer)i).toString(), s_del, fw, tableModel);
             }
             
         }

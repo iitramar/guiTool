@@ -5,6 +5,7 @@ import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 import javax.imageio.ImageIO;
@@ -565,21 +566,17 @@ public class Gui extends javax.swing.JFrame{
                         loadImage(s);
                     }
                     else{
-                        remiaObj.runRemia(txtPrecision.getText());
-                        BufferedReader br = new BufferedReader(new FileReader("./stat/Remia/Remia_Stat.txt"));
-                        String strLine;
-                        //StringBuilder sb = new StringBuilder();
-                        while ((strLine = br.readLine()) != null){
-                            String[] s = strLine.split("\t");
-                            Object[] ob = new Object[s.length];
-                            for(int i=0; i< s.length; i++){
-                                ob[i] = Integer.parseInt(s[i]) ;
-                            }
-                            DefaultTableModel tableModel = (DefaultTableModel)statTable.getModel();
-                            tableModel.addRow(ob);
-                       }
+                        File f = new File("./stat/Remia/Remia_Stat.txt");
+                        
+                        if(!f.exists()){
+                            f.createNewFile();
+                        }
+                        
+                        FileWriter fw = new FileWriter(f, true);
+                        DefaultTableModel tableModel = (DefaultTableModel)statTable.getModel();
+                        remiaObj.runRemia(txtPrecision.getText(), fw, tableModel);
+ 
                         jScrollPane1.getColumnHeader().setVisible(true);
-                        br.close();
                     }
     		} catch (IOException e1) {
                     // TODO Auto-generated catch block
