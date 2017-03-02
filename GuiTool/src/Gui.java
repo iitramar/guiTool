@@ -362,6 +362,7 @@ public class Gui extends javax.swing.JFrame{
         jPanelGraph.setLayout(new java.awt.BorderLayout());
 
         statTable.setAutoCreateRowSorter(true);
+        statTable.setFont(new java.awt.Font("Ubuntu", 0, 15)); // NOI18N
         statTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -373,16 +374,9 @@ public class Gui extends javax.swing.JFrame{
             Class[] types = new Class [] {
                 java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class
             };
-            boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false
-            };
 
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
-            }
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
             }
         });
         jScrollPane1.setViewportView(statTable);
@@ -526,26 +520,18 @@ public class Gui extends javax.swing.JFrame{
                         loadImage(s);
                     }
                     else{
-                        codosObj.runCodos(txtEx1.getText(), txtPrecision.getText());
-                        BufferedReader br = new BufferedReader(new FileReader("./stat/Codos/Codos_Stat.txt"));
-                        String strLine;
-                        //StringBuilder sb = new StringBuilder();
-                        while ((strLine = br.readLine()) != null){
-                            String[] s = strLine.split("\t");
-                            Object[] ob = new Object[s.length];
-                            for(int i=0; i< s.length; i++){
-                                if(i == 1 || i == 3){
-                                    ob[i] = s[i] ;
-                                }
-                                else{
-                                    ob[i] = Integer.parseInt(s[i]) ;
-                                }
-                            }
-                            DefaultTableModel tableModel = (DefaultTableModel)statTable.getModel();
-                            tableModel.addRow(ob);
-                       }
+                        File f = new File("./stat/Codos/Codos_Stat.txt");
+                        
+                        if(!f.exists()){
+                            f.createNewFile();
+                        }
+                        
+                        FileWriter fw = new FileWriter(f, true);
+                        DefaultTableModel tableModel = (DefaultTableModel)statTable.getModel();
+                        codosObj.runCodos(txtEx1.getText(), txtPrecision.getText(), fw, tableModel);
+                        
+                        fw.close();
                         jScrollPane1.getColumnHeader().setVisible(true);
-                        br.close();
                     }
     		} catch (IOException e1) {
                     // TODO Auto-generated catch block
@@ -575,7 +561,8 @@ public class Gui extends javax.swing.JFrame{
                         FileWriter fw = new FileWriter(f, true);
                         DefaultTableModel tableModel = (DefaultTableModel)statTable.getModel();
                         remiaObj.runRemia(txtPrecision.getText(), fw, tableModel);
- 
+                        
+                        fw.close();
                         jScrollPane1.getColumnHeader().setVisible(true);
                     }
     		} catch (IOException e1) {

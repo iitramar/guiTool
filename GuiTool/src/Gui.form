@@ -544,15 +544,18 @@
                 <Component class="javax.swing.JTable" name="statTable">
                   <Properties>
                     <Property name="autoCreateRowSorter" type="boolean" value="true"/>
+                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                      <Font name="Ubuntu" size="15" style="0"/>
+                    </Property>
                     <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
                       <Table columnCount="7" rowCount="0">
-                        <Column editable="false" title="S.No" type="java.lang.Integer"/>
-                        <Column editable="false" title="Target" type="java.lang.Integer"/>
-                        <Column editable="false" title="Reactant" type="java.lang.Integer"/>
-                        <Column editable="false" title="Buffer" type="java.lang.Integer"/>
-                        <Column editable="false" title="Waste" type="java.lang.Integer"/>
-                        <Column editable="false" title="Operations" type="java.lang.Integer"/>
-                        <Column editable="false" title="MLB" type="java.lang.Integer"/>
+                        <Column editable="true" title="S.No" type="java.lang.Integer"/>
+                        <Column editable="true" title="Target" type="java.lang.Integer"/>
+                        <Column editable="true" title="Reactant" type="java.lang.Integer"/>
+                        <Column editable="true" title="Buffer" type="java.lang.Integer"/>
+                        <Column editable="true" title="Waste" type="java.lang.Integer"/>
+                        <Column editable="true" title="Operations" type="java.lang.Integer"/>
+                        <Column editable="true" title="MLB" type="java.lang.Integer"/>
                       </Table>
                     </Property>
                   </Properties>

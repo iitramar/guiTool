@@ -8,6 +8,7 @@ import java.util.Vector;
 import java.io.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.table.DefaultTableModel;
 
 public class codos {
 	
@@ -209,8 +210,66 @@ public class codos {
                 
 		stats.generateStats(tree, compound, compound1, N, s_n, fileName);
 	}
+        
+        int serialNo = 1 ;
+        public void runCodosForStat(String s_c_t, String s_del, String s_n, FileWriter fw, DefaultTableModel tableModel) throws IOException{
+		int N,d;
+		Vector<String> compound = new Vector<String>();
+		Vector<String> compound1 = new Vector<String>();
+		Scanner sc = new Scanner(System.in);
+		N = inputConversion(s_c_t);
+		d = inputConversion(s_del);
+		int T[] = new int[N];
+		convertArray(s_n, T);
+		for(int i=0 ;i<N ; i++){
+			compound.add(""+(i+1));
+		}
+		int[][] recipeMatrix = new int[100][d];
+		codos cod = new codos();
+		cod.codos(T,recipeMatrix, compound);
+		
+		for(int i=0;i<N;i++){
+			compound1.add("R" + (i+1));
+		}
+		
+		for(int i=N; i<compound.size();i++){
+			String s = compound.get(i);
+			int first = (int)s.charAt(0)-48;
+			int second = (int)s.charAt(1)-48;
+			String s1 = compound1.get(first) + compound1.get(second);
+			compound1.add(s1);
+		}
+		dotUtility du = new dotUtility();
+		Tree tree = du.matrixToTree(recipeMatrix, ptr, compound1);
+		Forest forest = new Forest();
+		forest.buildForest(compound,compound1,N);
+                forest.expandTree(tree, compound1, N);
+		Stats stats = new Stats();
+                
+                stats.fillCount(tree.root, compound1, N);
+		stats.getWaste();
+                String lastLine  = serialNo + "\t" + s_n + "\t" + stats.reactant + "\t" + "NA" + "\t" + stats.waste + "\t" + stats.operation ;
+		serialNo ++ ;
+                
+                fw.append(lastLine + "\n");
+                
+                String[] sArray = lastLine.split("\t");
+                Object[] ob = new Object[sArray.length];
+                for(int i=0; i< sArray.length; i++){
+                    if(i == 1 || i == 3){
+                        ob[i] = sArray[i] ;
+                    }
+                    else{
+                        ob[i] = Integer.parseInt(sArray[i]) ;
+                    }
+                }
+            
+                tableModel.addRow(ob);
+                
+		
+	}
 
-        public void findComb(int arr[] , int current , int end  ,int sum, String s_c_t, String s_del){
+        public void findComb(int arr[] , int current , int end  ,int sum, String s_c_t, String s_del, FileWriter fw, DefaultTableModel tableModel){
 		if(end - current + 1 > sum){
 			return ;
 		}
@@ -226,7 +285,7 @@ public class codos {
 			}
                         s = s+arr[i];
                     try {
-                        runCodos(s_c_t,s_del,s,"./stat/Codos/Codos_Stat.txt");
+                        runCodosForStat(s_c_t,s_del, s, fw, tableModel);
                     } catch (IOException ex) {
                         Logger.getLogger(codos.class.getName()).log(Level.SEVERE, null, ex);
                     }
@@ -236,16 +295,16 @@ public class codos {
 
 		for(int i=1 ; i <= (sum - end + current) ;i ++){
 			arr[current] = i ;
-			findComb(arr , current + 1 , end , sum - i, s_c_t, s_del);
+			findComb(arr , current + 1 , end , sum - i, s_c_t, s_del, fw, tableModel);
 		}
 	}
         
-	public void runCodos(String s_c_t, String s_del){
-            int N,d;
+	public void runCodos(String s_c_t, String s_del, FileWriter fw, DefaultTableModel tableModel){
+            int N,d,serialNo = 1;
             N = inputConversion(s_c_t);
             d = inputConversion(s_del);
             int s = (int)Math.pow(2, d);
             int[] arr = new int[N];
-            findComb(arr , 0 , N-1, s, s_c_t, s_del);
+            findComb(arr , 0 , N-1, s, s_c_t, s_del, fw, tableModel);
 	}
 }
