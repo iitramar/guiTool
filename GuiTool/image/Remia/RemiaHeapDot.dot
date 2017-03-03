@@ -1,21 +1,29 @@
 digraph G { 
 rankdir = BT;
-101[label= " 256/256 " ];
-202[label= " 128/256 " ];
+101[label= " 512/512 " ];
+202[label= " 256/512 " ];
 202->101
-202[style=filled, fillcolor=yellow];
-201[label= " 256/256 " ];
-201[style=filled, fillcolor=yellow];
-301[label= " 256/256 " ];
+203[label= " 256/512 " ];
+203->101
+404[label= " 128/512 " ];
+404->202
+405[label= " 128/512 " ];
+405->202
+808[label= " 64/512 " ];
+808->404
+1616[label= " 32/512 " ];
+1616->808
+3232[label= " 16/512 " ];
+3232->1616
+3232[style=filled, fillcolor=yellow];
+405[style=filled, fillcolor=yellow];
+406[label= " 128/512 " ];
+406->203
+406[style=filled, fillcolor=yellow];
+201[label= " 512/512 " ];
+402[label= " 256/512 " ];
+402->201
+402[style=filled, fillcolor=yellow];
+301[label= " 512/512 " ];
 301[style=filled, fillcolor=yellow];
-401[label= " 256/256 " ];
-401[style=filled, fillcolor=yellow];
-501[label= " 256/256 " ];
-501[style=filled, fillcolor=yellow];
-601[label= " 256/256 " ];
-601[style=filled, fillcolor=yellow];
-701[label= " 256/256 " ];
-701[style=filled, fillcolor=yellow];
-801[label= " 256/256 " ];
-801[style=filled, fillcolor=yellow];
 }

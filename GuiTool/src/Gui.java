@@ -1,6 +1,9 @@
 
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.Desktop;
+import java.awt.Dimension;
+import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.File;
@@ -49,6 +52,8 @@ public class Gui extends javax.swing.JFrame{
         lblOperationVal.setVisible(false);
         jScrollPane1.getColumnHeader().setVisible(false);
         jPanelStats.setVisible(false);
+        zoomIn.setVisible(false);
+        zoomOut.setVisible(false);
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
         centerRenderer.setHorizontalAlignment( JLabel.CENTER );
         for(int i=0;i<statTable.getColumnCount();i++){
@@ -104,6 +109,8 @@ public class Gui extends javax.swing.JFrame{
         btnBrowse = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
+        zoomIn = new javax.swing.JButton();
+        zoomOut = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Frame");
@@ -389,7 +396,7 @@ public class Gui extends javax.swing.JFrame{
         );
         jPanelInfoLayout.setVerticalGroup(
             jPanelInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 711, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 655, Short.MAX_VALUE)
         );
 
         jPanelGraph.add(jPanelInfo, java.awt.BorderLayout.CENTER);
@@ -403,15 +410,40 @@ public class Gui extends javax.swing.JFrame{
 
         jLabel2.setText("Open Stats file");
 
+        zoomIn.setBackground(new java.awt.Color(244, 197, 12));
+        zoomIn.setText("ZOOM IN");
+        zoomIn.setName("+"); // NOI18N
+        zoomIn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                zoomInActionPerformed(evt);
+            }
+        });
+
+        zoomOut.setBackground(new java.awt.Color(244, 197, 12));
+        zoomOut.setText("ZOOM OUT");
+        zoomOut.setName("-"); // NOI18N
+        zoomOut.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                zoomOutActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addGap(378, 378, 378)
+                .addComponent(zoomOut, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(486, 486, 486)
+                .addComponent(zoomIn, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 81, Short.MAX_VALUE)
+            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addComponent(zoomIn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(zoomOut, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -428,12 +460,16 @@ public class Gui extends javax.swing.JFrame{
                     .addComponent(jPanelStats, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(3, 3, 3)
                 .addComponent(jPanelGraph, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanelGraph, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jPanelInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(31, 31, 31)
@@ -442,21 +478,20 @@ public class Gui extends javax.swing.JFrame{
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(btnBrowse)
                             .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jPanelGraph, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+    BufferedImage image = null;
+    JLabel lblImage = null;
+    int width = 600, height = 400 ;
     public void loadImage(String s){
         jPanelInfo.setVisible(false);
         File f = null;
-        BufferedImage image = null;
         try {
-            int width = 300, height = 200 ;
             System.out.println("Reading Image");
             f = new File(s);
             image = new BufferedImage(width,height,BufferedImage.TYPE_INT_ARGB);
@@ -465,8 +500,15 @@ public class Gui extends javax.swing.JFrame{
         } catch (IOException e) {
             e.printStackTrace();
         }
-        JLabel lblImage = new JLabel(new ImageIcon(image));
+        lblImage = new JLabel(new ImageIcon(image));
+        lblImage.setSize(new Dimension(width,height));
+        lblImage.setIcon(new ImageIcon(image.getScaledInstance(width, height, Image.SCALE_SMOOTH)));
+        lblImage.updateUI();
         jPanelGraph.add(lblImage, BorderLayout.CENTER);
+        jPanelGraph.add(zoomIn, BorderLayout.NORTH);
+        jPanelGraph.add(zoomOut, BorderLayout.SOUTH);
+        zoomIn.setVisible(true);
+        zoomOut.setVisible(true);
         jPanelGraph.revalidate();
     }
     
@@ -741,6 +783,25 @@ public class Gui extends javax.swing.JFrame{
             }
     }//GEN-LAST:event_btnBrowseActionPerformed
 
+    private void zoomInActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_zoomInActionPerformed
+        // TODO add your handling code here:
+        //JLabel lb = (JLabel)jPanelGraph.getComponent(0);
+        width = (int)(1.1 * width);
+        height = (int)(1.1 * height);
+        lblImage.setSize(new Dimension(width,height));
+        lblImage.setIcon(new ImageIcon(image.getScaledInstance(width, height, Image.SCALE_SMOOTH)));
+        lblImage.updateUI();
+    }//GEN-LAST:event_zoomInActionPerformed
+
+    private void zoomOutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_zoomOutActionPerformed
+        // TODO add your handling code here:
+        width = (int)(0.9 * width);
+        height = (int)(0.9 * height);
+        lblImage.setSize(new Dimension(width,height));
+        lblImage.setIcon(new ImageIcon(image.getScaledInstance(width, height, Image.SCALE_SMOOTH)));
+        lblImage.updateUI();
+    }//GEN-LAST:event_zoomOutActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -814,5 +875,7 @@ public class Gui extends javax.swing.JFrame{
     private javax.swing.JTextField txtEx2;
     private javax.swing.JTextField txtPrecision;
     private javax.swing.JTextField txtTarget;
+    private javax.swing.JButton zoomIn;
+    private javax.swing.JButton zoomOut;
     // End of variables declaration//GEN-END:variables
 }
