@@ -3,6 +3,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -135,26 +136,46 @@ class TreeToDot{
 	}
 	
 	public void dotToPng() throws IOException{
-    	final String graphvizDotUtilityPath = "/usr/bin/dot";
-    	final String imageType = "png";
-    	final String sourceDotFilePath = "./image/Codos/CodosDot.dot";
-    	final String outputImageFilePath = "./image/Codos/CodosDot.png";
+            
+            final String imageType = "png";
+            final String sourceDotFilePath = "./image/Codos/CodosDot.dot";
+            final String outputImageFilePath = "./image/Codos/CodosDot.png";
+            
+            char os = System.getProperty("os.name").charAt(0);
+            
+            if(os == 'L'){
+                String graphvizDotUtilityPath = "/usr/bin/dot";
+                List commandList = new ArrayList();
+                commandList.add(graphvizDotUtilityPath);
+                commandList.add("-T" + imageType);
+                commandList.add(sourceDotFilePath);
+                commandList.add("-o" + outputImageFilePath);
 
-    	final List commandList = new ArrayList();
-    	commandList.add(graphvizDotUtilityPath);
-    	commandList.add("-T" + imageType);
-    	commandList.add(sourceDotFilePath);
-    	commandList.add("-o" + outputImageFilePath);
-    	
-    	try {
-			Process process = new ProcessBuilder(commandList).start();
-			
-			
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-    }
+                try {
+                    Process process = new ProcessBuilder(commandList).start();
+                } catch (Exception e) {
+                // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+            }
+            else if(os == 'W'){
+                try { 
+                    Process p=Runtime.getRuntime().exec("cmd /c dot -Tpng " + sourceDotFilePath + " -o " +  outputImageFilePath); 
+                    p.waitFor(); 
+                    BufferedReader reader=new BufferedReader(new InputStreamReader(p.getInputStream())); 
+                    String line=reader.readLine(); 
+                    while(line!=null) 
+                    { 
+                    System.out.println(line); 
+                    line=reader.readLine(); 
+                    } 
+
+                } catch(IOException e1) {} 
+                catch(InterruptedException e2) {}
+            }
+            
+        
+        }
 
 	
 }
