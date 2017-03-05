@@ -487,7 +487,7 @@ public class Gui extends javax.swing.JFrame{
     }// </editor-fold>//GEN-END:initComponents
     BufferedImage image = null;
     JLabel lblImage = null;
-    int width = 600, height = 400 ;
+    int width = 500, height = 500 ;
     public void loadImage(String s){
         jPanelInfo.setVisible(false);
         File f = null;
@@ -615,6 +615,38 @@ public class Gui extends javax.swing.JFrame{
                     e1.printStackTrace();
     		}
         }
+        else if(obj == "BitScanning"){
+            BitScanning bsObj = new BitScanning();
+            try {   
+                    if(obj1 == "Demo" || obj1 == "Comparison"){
+                        bsObj.runBitScan(txtTarget.getText(), txtPrecision.getText());
+                        TimeUnit.MILLISECONDS.sleep(1000);
+                        String s = "./image/BitScanning/BitScanningDot.png";
+                        loadStat("BitScanning");
+                        loadImage(s);
+                    }
+                    else{
+                        File f = new File("./stat/BitScanning/BitScanning_Stat.txt");
+                        
+                        if(!f.exists()){
+                            f.createNewFile();
+                        }
+                        
+                        FileWriter fw = new FileWriter(f, true);
+                        DefaultTableModel tableModel = (DefaultTableModel)statTable.getModel();
+                        bsObj.runBitScan(txtPrecision.getText(), fw, tableModel);
+                        
+                        fw.close();
+                        jScrollPane1.getColumnHeader().setVisible(true);
+                    }
+    		} catch (IOException e1) {
+                    // TODO Auto-generated catch block
+                    e1.printStackTrace();
+                } catch (InterruptedException e1) {
+                    // TODO Auto-generated catch block
+                    e1.printStackTrace();
+    		}
+        }
     }//GEN-LAST:event_btnSubmitActionPerformed
     
     private void objectiveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_objectiveActionPerformed
@@ -688,6 +720,7 @@ public class Gui extends javax.swing.JFrame{
             if(comboBox2 == "Dilution"){
                 if(obj == "SDST"){
                     algorithms.addItem("Vospa");
+                    algorithms.addItem("BitScanning");
                 }
             }
         }
@@ -746,6 +779,17 @@ public class Gui extends javax.swing.JFrame{
         }
         else if(obj == "Remia"){
             
+            if(obj1 == "Demo" || obj1 == "Comparison"){
+                lblTarget.setText("Target Concentration");
+                lblTarget.setVisible(true);
+                txtTarget.setVisible(true);
+            }
+            lblPrecision.setText("Accuracy");
+            lblPrecision.setVisible(true);
+            txtPrecision.setVisible(true);
+        }
+        
+        else if(obj == "BitScanning"){
             if(obj1 == "Demo" || obj1 == "Comparison"){
                 lblTarget.setText("Target Concentration");
                 lblTarget.setVisible(true);
