@@ -20,7 +20,7 @@ def rec(target,root):
 	rec(target,root.right)
 	
 def tree_to_dot(root):
-	target = open("../g2/pp.dot",'w')
+	target = open("../image/Minmix/MinmixDot.dot",'w')
 	target.write("digraph minmix{\nrankdir = TD;\n size=\"8,10.5\";\n ")
 	rec(target,root)
 	target.write("}")
@@ -62,7 +62,7 @@ def minmix(sample_array):
 	
 	tree_to_dot(root)
 	
-filename = "../g2/minmix.input"
+filename = "../image/Minmix/minmix.input"
 target = open(filename,'r')
 stri = target.read()
 stri = stri.split(" ")

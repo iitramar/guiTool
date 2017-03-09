@@ -158,7 +158,7 @@ public class BitScanning
             String[] sArray = lastLine.split("\t");
             Object[] ob = new Object[sArray.length];
             for(int i=0; i< sArray.length; i++){
-                if( i == 0 || i == 1){
+                if( i == 0 || i == 1 || i == 5){
                     ob[i] = Integer.parseInt(sArray[i]) ;
                 }
                 else{

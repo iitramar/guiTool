@@ -1,0 +1,14 @@
+digraph mtc{
+node0 [label="00000"];
+node1 [label="00101"];
+node2 [label="01100"];
+node3 [label="10111"];
+node4 [label="00010"];
+node5 [label="00110"];
+node3 -> node2 [label="5"];
+node2 -> node5 [label="0"];
+node5 -> node0 [label="3"];
+node0 -> node4 [label="4"];
+node4 -> node1 [label="5"];
+node1 -> node3 [label="5"];
+}

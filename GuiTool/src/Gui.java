@@ -488,6 +488,7 @@ public class Gui extends javax.swing.JFrame{
     BufferedImage image = null;
     JLabel lblImage = null;
     int width = 500, height = 500 ;
+    
     public void loadImage(String s){
         jPanelInfo.setVisible(false);
         File f = null;
@@ -647,6 +648,241 @@ public class Gui extends javax.swing.JFrame{
                     e1.printStackTrace();
     		}
         }
+        else if(obj == "DMRW"){
+            Dmrw dmrwObj = new Dmrw();
+            FileWriter fw ;
+            try {   
+                    if(obj1 == "Demo" || obj1 == "Comparison"){
+                        fw = new FileWriter("./image/DMRW/dmrw.input");
+			fw.write(txtEx2.getText() + " " + txtEx1.getText() + " " + txtTarget.getText() + " " + txtPrecision.getText());
+			fw.close();
+                        TimeUnit.MILLISECONDS.sleep(100);
+                        dmrwObj.runDmrw(obj);
+                        TimeUnit.MILLISECONDS.sleep(1000);
+                        String s = "./image/DMRW/DMRWDot.png";
+                        dmrwObj.dotToPng(s,obj);
+                        //loadStat("DMRW");
+                        TimeUnit.MILLISECONDS.sleep(1000);
+                        loadImage(s);
+                    }
+//                    else{
+//                        File f = new File("./stat/BitScanning/BitScanning_Stat.txt");
+//                        
+//                        if(!f.exists()){
+//                            f.createNewFile();
+//                        }
+//                        
+//                        FileWriter fw = new FileWriter(f, true);
+//                        DefaultTableModel tableModel = (DefaultTableModel)statTable.getModel();
+//                        bsObj.runBitScan(txtPrecision.getText(), fw, tableModel);
+//                        
+//                        fw.close();
+//                        jScrollPane1.getColumnHeader().setVisible(true);
+//                    }
+    		} catch (IOException e1) {
+                    // TODO Auto-generated catch block
+                    e1.printStackTrace();
+                } catch (InterruptedException e1) {
+                    // TODO Auto-generated catch block
+                    e1.printStackTrace();
+    		}
+        }
+        else if(obj == "IDMA"){
+            Dmrw dmrwObj = new Dmrw();
+            FileWriter fw ;
+            try {   
+                    if(obj1 == "Demo" || obj1 == "Comparison"){
+                        fw = new FileWriter("./image/IDMA/idma.input");
+			fw.write(txtEx2.getText() + " " + txtEx1.getText() + " " + txtTarget.getText() + " " + txtPrecision.getText());
+			fw.close();
+                        TimeUnit.MILLISECONDS.sleep(1000);
+                        dmrwObj.runDmrw(obj);
+                        TimeUnit.MILLISECONDS.sleep(1000);
+                        String s = "./image/IDMA/IDMADot.png";
+                        dmrwObj.dotToPng(s,obj);
+                        TimeUnit.MILLISECONDS.sleep(1000);
+                        //loadStat("DMRW");
+                        loadImage(s);
+                    }
+//                    else{
+//                        File f = new File("./stat/BitScanning/BitScanning_Stat.txt");
+//                        
+//                        if(!f.exists()){
+//                            f.createNewFile();
+//                        }
+//                        
+//                        FileWriter fw = new FileWriter(f, true);
+//                        DefaultTableModel tableModel = (DefaultTableModel)statTable.getModel();
+//                        bsObj.runBitScan(txtPrecision.getText(), fw, tableModel);
+//                        
+//                        fw.close();
+//                        jScrollPane1.getColumnHeader().setVisible(true);
+//                    }
+    		} catch (IOException e1) {
+                    // TODO Auto-generated catch block
+                    e1.printStackTrace();
+                } catch (InterruptedException e1) {
+                    // TODO Auto-generated catch block
+                    e1.printStackTrace();
+    		}
+        }
+        else if(obj == "Minmix"){
+            Dmrw dmrwObj = new Dmrw();
+            FileWriter fw ;
+            try {   
+                    if(obj1 == "Demo" || obj1 == "Comparison"){
+                        fw = new FileWriter("./image/Minmix/minmix.input");
+			fw.write(txtEx2.getText() + " " + txtTarget.getText() + " " + txtPrecision.getText());
+			fw.close();
+                        TimeUnit.MILLISECONDS.sleep(1000);
+                        dmrwObj.runDmrw(obj);
+                        TimeUnit.MILLISECONDS.sleep(1000);
+                        String s = "./image/Minmix/MinmixDot.png";
+                        dmrwObj.dotToPng(s,obj);
+                        TimeUnit.MILLISECONDS.sleep(1000);
+                        //loadStat("DMRW");
+                        loadImage(s);
+                    }
+//                    else{
+//                        File f = new File("./stat/BitScanning/BitScanning_Stat.txt");
+//                        
+//                        if(!f.exists()){
+//                            f.createNewFile();
+//                        }
+//                        
+//                        FileWriter fw = new FileWriter(f, true);
+//                        DefaultTableModel tableModel = (DefaultTableModel)statTable.getModel();
+//                        bsObj.runBitScan(txtPrecision.getText(), fw, tableModel);
+//                        
+//                        fw.close();
+//                        jScrollPane1.getColumnHeader().setVisible(true);
+//                    }
+    		} catch (IOException e1) {
+                    // TODO Auto-generated catch block
+                    e1.printStackTrace();
+                } catch (InterruptedException e1) {
+                    // TODO Auto-generated catch block
+                    e1.printStackTrace();
+    		}
+        }
+        else if(obj == "Gorma"){
+            Dmrw dmrwObj = new Dmrw();
+            FileWriter fw ;
+            try {   
+                    if(obj1 == "Demo" || obj1 == "Comparison"){
+                        fw = new FileWriter("./image/Gorma/gorma.input");
+			fw.write(txtTarget.getText() + " " + txtPrecision.getText());
+			fw.close();
+                        TimeUnit.MILLISECONDS.sleep(100);
+                        dmrwObj.runDmrw(obj);
+                        TimeUnit.MILLISECONDS.sleep(1000);
+                        String s = "./image/Gorma/GormaDot.png";
+                        dmrwObj.dotToPng(s,obj);
+                        //loadStat("DMRW");
+                        TimeUnit.MILLISECONDS.sleep(1000);
+                        loadImage(s);
+                    }
+//                    else{
+//                        File f = new File("./stat/BitScanning/BitScanning_Stat.txt");
+//                        
+//                        if(!f.exists()){
+//                            f.createNewFile();
+//                        }
+//                        
+//                        FileWriter fw = new FileWriter(f, true);
+//                        DefaultTableModel tableModel = (DefaultTableModel)statTable.getModel();
+//                        bsObj.runBitScan(txtPrecision.getText(), fw, tableModel);
+//                        
+//                        fw.close();
+//                        jScrollPane1.getColumnHeader().setVisible(true);
+//                    }
+    		} catch (IOException e1) {
+                    // TODO Auto-generated catch block
+                    e1.printStackTrace();
+                } catch (InterruptedException e1) {
+                    // TODO Auto-generated catch block
+                    e1.printStackTrace();
+    		}
+        }
+        else if(obj == "MTC"){
+            Dmrw dmrwObj = new Dmrw();
+            FileWriter fw ;
+            try {   
+                    if(obj1 == "Demo" || obj1 == "Comparison"){
+                        fw = new FileWriter("./image/MTC/mtc.input");
+			fw.write(txtEx2.getText() + " " + txtPrecision.getText() + " " + txtTarget.getText());
+			fw.close();
+                        TimeUnit.MILLISECONDS.sleep(100);
+                        dmrwObj.runDmrw(obj);
+                        TimeUnit.MILLISECONDS.sleep(1000);
+                        String s = "./image/MTC/MTCDot.png";
+                        dmrwObj.dotToPng(s,obj);
+                        //loadStat("DMRW");
+                        TimeUnit.MILLISECONDS.sleep(1000);
+                        loadImage(s);
+                    }
+//                    else{
+//                        File f = new File("./stat/BitScanning/BitScanning_Stat.txt");
+//                        
+//                        if(!f.exists()){
+//                            f.createNewFile();
+//                        }
+//                        
+//                        FileWriter fw = new FileWriter(f, true);
+//                        DefaultTableModel tableModel = (DefaultTableModel)statTable.getModel();
+//                        bsObj.runBitScan(txtPrecision.getText(), fw, tableModel);
+//                        
+//                        fw.close();
+//                        jScrollPane1.getColumnHeader().setVisible(true);
+//                    }
+    		} catch (IOException e1) {
+                    // TODO Auto-generated catch block
+                    e1.printStackTrace();
+                } catch (InterruptedException e1) {
+                    // TODO Auto-generated catch block
+                    e1.printStackTrace();
+    		}
+        }
+        else if(obj == "RMA"){
+            Dmrw dmrwObj = new Dmrw();
+            FileWriter fw ;
+            try {   
+                    if(obj1 == "Demo" || obj1 == "Comparison"){
+                        fw = new FileWriter("./image/RMA/rma.input");
+			fw.write(txtEx2.getText() + " " + txtPrecision.getText() + " " + txtTarget.getText());
+			fw.close();
+                        TimeUnit.MILLISECONDS.sleep(100);
+                        dmrwObj.runDmrw(obj);
+                        TimeUnit.MILLISECONDS.sleep(1000);
+                        String s = "./image/RMA/RMADot.png";
+                        dmrwObj.dotToPng(s,obj);
+                        //loadStat("DMRW");
+                        TimeUnit.MILLISECONDS.sleep(1000);
+                        loadImage(s);
+                    }
+//                    else{
+//                        File f = new File("./stat/BitScanning/BitScanning_Stat.txt");
+//                        
+//                        if(!f.exists()){
+//                            f.createNewFile();
+//                        }
+//                        
+//                        FileWriter fw = new FileWriter(f, true);
+//                        DefaultTableModel tableModel = (DefaultTableModel)statTable.getModel();
+//                        bsObj.runBitScan(txtPrecision.getText(), fw, tableModel);
+//                        
+//                        fw.close();
+//                        jScrollPane1.getColumnHeader().setVisible(true);
+//                    }
+    		} catch (IOException e1) {
+                    // TODO Auto-generated catch block
+                    e1.printStackTrace();
+                } catch (InterruptedException e1) {
+                    // TODO Auto-generated catch block
+                    e1.printStackTrace();
+    		}
+        }
+        
     }//GEN-LAST:event_btnSubmitActionPerformed
     
     private void objectiveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_objectiveActionPerformed
@@ -731,9 +967,11 @@ public class Gui extends javax.swing.JFrame{
                     algorithms.addItem("DMRW");
                     algorithms.addItem("IDMA");
                     algorithms.addItem("Minmix");
+                    algorithms.addItem("Gorma");
                 }
                 else if(obj == "SDMT"){
                     algorithms.addItem("ExRemia");
+                    algorithms.addItem("MTC");
                 }
                 else if(obj == "MDST"){
                     
@@ -745,6 +983,7 @@ public class Gui extends javax.swing.JFrame{
             else if(comboBox2 == "Mixing"){
                 if(obj == "SDST"){
                     algorithms.addItem("Codos");
+                    algorithms.addItem("RMA");
                 }
                 else if(obj == "SDMT"){
                     
@@ -792,6 +1031,87 @@ public class Gui extends javax.swing.JFrame{
         else if(obj == "BitScanning"){
             if(obj1 == "Demo" || obj1 == "Comparison"){
                 lblTarget.setText("Target Concentration");
+                lblTarget.setVisible(true);
+                txtTarget.setVisible(true);
+            }
+            lblPrecision.setText("Accuracy");
+            lblPrecision.setVisible(true);
+            txtPrecision.setVisible(true);
+        }
+        else if(obj == "DMRW"){
+            if(obj1 == "Demo" || obj1 == "Comparison"){
+                lblEx1.setText("Sample");
+                lblEx2.setText("Buffer");
+                lblEx1.setVisible(true);
+                lblEx2.setVisible(true);
+                txtEx1.setVisible(true);
+                txtEx2.setVisible(true);
+                lblTarget.setText("Target Concentration");
+                lblTarget.setVisible(true);
+                txtTarget.setVisible(true);
+            }
+            lblPrecision.setText("Accuracy");
+            lblPrecision.setVisible(true);
+            txtPrecision.setVisible(true);
+        }
+        else if(obj == "IDMA"){
+            if(obj1 == "Demo" || obj1 == "Comparison"){
+                lblEx1.setText("Sample");
+                lblEx2.setText("Buffer");
+                lblEx1.setVisible(true);
+                lblEx2.setVisible(true);
+                txtEx1.setVisible(true);
+                txtEx2.setVisible(true);
+                lblTarget.setText("Target Concentration");
+                lblTarget.setVisible(true);
+                txtTarget.setVisible(true);
+            }
+            lblPrecision.setText("Accuracy");
+            lblPrecision.setVisible(true);
+            txtPrecision.setVisible(true);
+        }
+        else if(obj == "Minmix"){
+            if(obj1 == "Demo" || obj1 == "Comparison"){
+                lblEx2.setText("Number of Reactants");
+                lblEx2.setVisible(true);
+                txtEx2.setVisible(true);
+                lblTarget.setText("Target Concentration");
+                lblTarget.setVisible(true);
+                txtTarget.setVisible(true);
+            }
+            lblPrecision.setText("Accuracy");
+            lblPrecision.setVisible(true);
+            txtPrecision.setVisible(true);
+        }
+        else if(obj == "Gorma"){
+            if(obj1 == "Demo" || obj1 == "Comparison"){
+                lblTarget.setText("Target Concentration");
+                lblTarget.setVisible(true);
+                txtTarget.setVisible(true);
+            }
+            lblPrecision.setText("Accuracy");
+            lblPrecision.setVisible(true);
+            txtPrecision.setVisible(true);
+        }
+        else if(obj == "MTC"){
+            if(obj1 == "Demo" || obj1 == "Comparison"){
+                lblEx2.setText("Number of Targets");
+                lblEx2.setVisible(true);
+                txtEx2.setVisible(true);
+                lblTarget.setText("Target Concentrations");
+                lblTarget.setVisible(true);
+                txtTarget.setVisible(true);
+            }
+            lblPrecision.setText("Accuracy");
+            lblPrecision.setVisible(true);
+            txtPrecision.setVisible(true);
+        }
+        else if(obj == "RMA"){
+            if(obj1 == "Demo" || obj1 == "Comparison"){
+                lblEx2.setText("Number of Reactants");
+                lblEx2.setVisible(true);
+                txtEx2.setVisible(true);
+                lblTarget.setText("Target Concentrations");
                 lblTarget.setVisible(true);
                 txtTarget.setVisible(true);
             }

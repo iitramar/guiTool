@@ -50,8 +50,8 @@ def rec(target, root,yy):
 	
 def graph_to_dot(root):
 	#print root
-	target = open("../g2/pp.dot","w")
-	target.write("digraph DMRW{\nrankdir = LR;\n size=\"8,10.5\";\n ")
+	target = open("./image/DMRW/DMRWDot.dot","w")
+	target.write("digraph DMRW{\nrankdir = LR;\n")
 	rec(target,root,25)
 	target.write("}")
 	target.close()
@@ -136,10 +136,11 @@ def dmrw(cl,ch,ct,n):
 	#preorder(mid_node)
 	#print tmp.left_val
 	graph_to_dot(mid_node)
-	target = open("../g2/dmrw.stat",'w')
+	target = open("./stat/DMRW/DMRW_Demo.txt",'w')
 	target.write("%d %d %d"%(tmp.right_val,tmp.left_val,total_waste))
+	target.close()
 
-filename = "../g2/dmrw.input"
+filename = "./image/DMRW/dmrw.input"
 target = open(filename,'r')
 stri = target.read()
 stri = stri.split(" ")

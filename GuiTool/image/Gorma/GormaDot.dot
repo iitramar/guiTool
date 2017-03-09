@@ -1,0 +1,1 @@
+digraph groma{node0 [label="6/16"];node1 [label="3/4"];node3 [label="1"];node4 [label="1/2"];node5 [label="1"];node6 [label="0"];node2 [label="0"];node0 -> node1;node1 -> node3;node1 -> node4;node4 -> node5;node4 -> node6;node0 -> node2;}
