@@ -152,7 +152,7 @@ public class BitScanning
                 fw.append(lastLine + "\n");
                 
             } catch (IOException ex) {
-                Logger.getLogger(Remia.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(BitScanning.class.getName()).log(Level.SEVERE, null, ex);
             }
             
             String[] sArray = lastLine.split("\t");

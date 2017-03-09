@@ -843,6 +843,38 @@ public class Gui extends javax.swing.JFrame{
                     e1.printStackTrace();
     		}
         }
+        else if(obj == "Vospa"){
+            vospa vospaObj = new vospa();
+            try {   
+                    if(obj1 == "Demo" || obj1 == "Comparison"){
+                        vospaObj.runVospa(txtTarget.getText(), txtPrecision.getText(), txtEx2.getText());
+                        TimeUnit.MILLISECONDS.sleep(1000);
+                        String s = "./image/Vospa/VospaDot.png";
+                        loadStat("Vospa");
+                        loadImage(s);
+                    }
+                    else{
+                        File f = new File("./stat/Vospa/Vospa_Stat.txt");
+                        
+                        if(!f.exists()){
+                            f.createNewFile();
+                        }
+                        
+                        FileWriter fw = new FileWriter(f, true);
+                        DefaultTableModel tableModel = (DefaultTableModel)statTable.getModel();
+                        vospaObj.runVospa(txtPrecision.getText(),txtEx2.getText(), fw, tableModel);
+                        
+                        fw.close();
+                        jScrollPane1.getColumnHeader().setVisible(true);
+                    }
+    		} catch (IOException e1) {
+                    // TODO Auto-generated catch block
+                    e1.printStackTrace();
+                } catch (InterruptedException e1) {
+                    // TODO Auto-generated catch block
+                    e1.printStackTrace();
+    		}
+        }
         else if(obj == "RMA"){
             Dmrw dmrwObj = new Dmrw();
             FileWriter fw ;
@@ -874,7 +906,7 @@ public class Gui extends javax.swing.JFrame{
 //                        fw.close();
 //                        jScrollPane1.getColumnHeader().setVisible(true);
 //                    }
-    		} catch (IOException e1) {
+                }catch (IOException e1) {
                     // TODO Auto-generated catch block
                     e1.printStackTrace();
                 } catch (InterruptedException e1) {
@@ -882,7 +914,6 @@ public class Gui extends javax.swing.JFrame{
                     e1.printStackTrace();
     		}
         }
-        
     }//GEN-LAST:event_btnSubmitActionPerformed
     
     private void objectiveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_objectiveActionPerformed
@@ -1118,6 +1149,26 @@ public class Gui extends javax.swing.JFrame{
             lblPrecision.setText("Accuracy");
             lblPrecision.setVisible(true);
             txtPrecision.setVisible(true);
+        }
+        else if(obj == "Vospa"){
+            
+            if(obj1 == "Demo" || obj1 == "Comparison"){
+                lblTarget.setText("Target Concentration");
+                lblTarget.setVisible(true);
+                txtTarget.setVisible(true);
+                
+                lblPrecision.setText("Tolerance");
+                lblPrecision.setVisible(true);
+                txtPrecision.setVisible(true);
+            }
+            else if(obj1 == "Stats"){
+                lblPrecision.setText("Accuracy");
+                lblPrecision.setVisible(true);
+                txtPrecision.setVisible(true);
+            }
+            lblEx2.setText("Segments");
+            lblEx2.setVisible(true);
+            txtEx2.setVisible(true);
         }
     }//GEN-LAST:event_algorithmsActionPerformed
 
