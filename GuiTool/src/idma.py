@@ -83,7 +83,7 @@ def rec(target, root,yy):
 	
 def graph_to_dot(root):
 	print root
-	target = open("../image/IDMA/IDMADot.dot","w")
+	target = open("./image/IDMA/IDMADot.dot","w")
 	target.write("digraph DMRW{\nrankdir = LR;\n size=\"8,10.5\";\n ")
 	rec(target,root,25)
 	target.write("}")
@@ -259,7 +259,7 @@ def idma(cl,ch,ct,n):
 		
 	
 	
-filename = "../image/IDMA/idma.input"
+filename = "./image/IDMA/idma.input"
 
 target = open(filename,'r')
 stri = target.read()

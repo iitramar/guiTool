@@ -1,22 +1,14 @@
-<<<<<<< HEAD
-<?xml version="1.0" encoding="UTF-8"?>
-<project-private xmlns="http://www.netbeans.org/ns/project-private/1">
-    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
-    <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group/>
-    </open-files>
-</project-private>
-=======
 <?xml version="1.0" encoding="UTF-8"?>
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/Devendra/Documents/NetBeansProjects/guiTool/GuiTool/src/UtilityBitScanning.java</file>
-            <file>file:/C:/Users/Devendra/Documents/NetBeansProjects/guiTool/GuiTool/src/BitScanning.java</file>
-            <file>file:/C:/Users/Devendra/Documents/NetBeansProjects/guiTool/GuiTool/src/vospa.java</file>
-            <file>file:/C:/Users/Devendra/Documents/NetBeansProjects/guiTool/GuiTool/src/Gui.java</file>
+            <file>file:/home/linux/workspace/Development/Java/guiTool/GuiTool/src/Gui.java</file>
+            <file>file:/home/linux/workspace/Development/Java/guiTool/GuiTool/src/UtilityCodos.java</file>
+            <file>file:/home/linux/workspace/Development/Java/guiTool/GuiTool/src/Dmrw.java</file>
+            <file>file:/home/linux/workspace/Development/Java/guiTool/GuiTool/src/vospa.java</file>
+            <file>file:/home/linux/workspace/Development/Java/guiTool/GuiTool/src/dmrw.py</file>
+            <file>file:/home/linux/workspace/Development/Java/guiTool/GuiTool/src/codos.java</file>
         </group>
     </open-files>
 </project-private>
->>>>>>> d236429de3b44db39f8bc94fa11e34ad182dfb1c

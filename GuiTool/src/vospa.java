@@ -398,7 +398,7 @@ class vospa
         
     }
     
-    public void runVospaForStat(String s_c_t, String s_del, String s_n, FileWriter fw, DefaultTableModel tableModel, int serialNo) throws IOException
+    public void runVospaForStat(String s_c_t, Double s_del, String s_n, FileWriter fw, DefaultTableModel tableModel, int serialNo) throws IOException
     {
         vospa obj = new vospa();
         double c_t, del;
@@ -410,7 +410,8 @@ class vospa
 
         c_t = obj.inputConversion(s_c_t);
         //System.out.print("Enter Tolerance = ");
-        del = obj.inputConversion(s_del);
+        del = s_del.floatValue();
+        //del = obj.inputConversion(s_del);
         //System.out.print("Enter Number of segments = ");
         n = (int)obj.inputConversion(s_n);
         double AV = obj.Vospa(c_t, del, n, b);
@@ -446,7 +447,7 @@ class vospa
         double den = Math.pow(2, inputConversion(s_del));
         for(int i =1 ; i < den ;i ++){
             try {
-                runVospaForStat(((Double)(i/den)).toString(), ((Double)(1/(2*den))).toString(), s_n, fw, tableModel, i);
+                runVospaForStat(((Double)(i/den)).toString(), ((Double)(1/(2*den))), s_n, fw, tableModel, i);
             } catch (IOException ex) {
                 Logger.getLogger(BitScanning.class.getName()).log(Level.SEVERE, null, ex);
             }

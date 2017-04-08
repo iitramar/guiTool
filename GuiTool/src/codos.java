@@ -131,7 +131,7 @@ public class codos {
 		String s = "";
 		int j = 0;
 		for(int i=0;i<s_n.length();i++){
-			if(s_n.charAt(i)!=' '){
+			if(s_n.charAt(i)!=':' && s_n.charAt(i)!=' '){
 				s = s+s_n.charAt(i);
 			}
 			else{
@@ -277,7 +277,7 @@ public class codos {
                         int i;
 			for(i =0 ; i < arr.length-1;i ++){
 				System.out.print(arr[i] + " ");
-                                s = s+arr[i]+" ";
+                                s = s+arr[i]+":";
 			}
                         s = s+arr[i];
                     try {

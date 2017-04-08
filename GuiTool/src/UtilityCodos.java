@@ -389,7 +389,7 @@ class Stats{
 		}
 		fillCount(t.root, compound1, N);
 		getWaste();
-		fw.append(serialNo + "\t" + s_n + "\t" + reactant + "\t" + "NA" + "\t"  + waste + "\t" + operation + "\n");
+                fw.append(serialNo + "\t" + s_n + "\t" + reactant + "\t" + "NA" + "\t"  + waste + "\t" + operation + "\n");
 		System.out.println(reactant + " " + waste + " " + operation);
 		fw.close();
 	}

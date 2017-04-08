@@ -16,6 +16,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumn;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -235,7 +236,7 @@ public class Gui extends javax.swing.JFrame{
                             .addComponent(algoClass, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(algorithms, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(architecture, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(0, 0, Short.MAX_VALUE))
+                        .addGap(0, 45, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelInputLayout.createSequentialGroup()
                         .addGroup(jPanelInputLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(lblEx1)
@@ -381,9 +382,16 @@ public class Gui extends javax.swing.JFrame{
             Class[] types = new Class [] {
                 java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class
             };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, false
+            };
 
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
             }
         });
         jScrollPane1.setViewportView(statTable);
@@ -456,7 +464,7 @@ public class Gui extends javax.swing.JFrame{
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnBrowse))
-                    .addComponent(jPanelInput, javax.swing.GroupLayout.PREFERRED_SIZE, 326, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPanelInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jPanelStats, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(3, 3, 3)
                 .addComponent(jPanelGraph, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -477,8 +485,7 @@ public class Gui extends javax.swing.JFrame{
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(btnBrowse)
-                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
@@ -549,7 +556,12 @@ public class Gui extends javax.swing.JFrame{
                 f.delete();
             }
         }
-       
+        
+        if(mixingSpecs.getSelectedItem().toString()== "Mixing"){
+            statTable.getColumnModel().getColumn(3).setMinWidth(0);
+            statTable.getColumnModel().getColumn(3).setMaxWidth(0);
+        }
+        
         String obj = algorithms.getSelectedItem().toString();
         String obj1 = objective.getSelectedItem().toString();
         if(obj == "Codos"){
@@ -574,6 +586,7 @@ public class Gui extends javax.swing.JFrame{
                         codosObj.runCodos(txtEx1.getText(), txtPrecision.getText(), fw, tableModel);
                         
                         fw.close();
+                        
                         jScrollPane1.getColumnHeader().setVisible(true);
                     }
     		} catch (IOException e1) {
@@ -1190,8 +1203,15 @@ public class Gui extends javax.swing.JFrame{
     private void btnBrowseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBrowseActionPerformed
         // TODO add your handling code here:
         String algo = algorithms.getSelectedItem().toString();
-        try {
-                Desktop.getDesktop().open(new File("./stat/" + algo + "/" + algo + "_Stat.txt"));
+        String obj = objective.getSelectedItem().toString();
+        try {   
+                if(obj == "Demo"){
+                    Desktop.getDesktop().open(new File("./stat/" + algo + "/" + algo + "_Demo.txt"));
+                }
+                else if(obj == "Stats"){
+                    Desktop.getDesktop().open(new File("./stat/" + algo + "/" + algo + "_Stat.txt"));
+                }
+                
             } catch (IOException e1) {
 
                 e1.printStackTrace();
