@@ -47,10 +47,10 @@ public class Gui extends javax.swing.JFrame{
         txtEx2.setVisible(false);
         txtTarget.setVisible(false);
         txtPrecision.setVisible(false);
-        lblReactantVal.setVisible(false);
-        lblBufferVal.setVisible(false);
-        lblWasteVal.setVisible(false);
-        lblOperationVal.setVisible(false);
+//        lblReactantVal.setVisible(false);
+//        lblBufferVal.setVisible(false);
+//        lblWasteVal.setVisible(false);
+//        lblOperationVal.setVisible(false);
         jScrollPane1.getColumnHeader().setVisible(false);
         jPanelStats.setVisible(false);
         zoomIn.setVisible(false);
@@ -95,14 +95,8 @@ public class Gui extends javax.swing.JFrame{
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jPanelStats = new javax.swing.JPanel();
-        lblReactant = new javax.swing.JLabel();
-        lblBuffer = new javax.swing.JLabel();
-        lblWaste = new javax.swing.JLabel();
-        lblOperation = new javax.swing.JLabel();
-        lblReactantVal = new javax.swing.JLabel();
-        lblBufferVal = new javax.swing.JLabel();
-        lblWasteVal = new javax.swing.JLabel();
-        lblOperationVal = new javax.swing.JLabel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        demoTable = new javax.swing.JTable();
         jPanelGraph = new javax.swing.JPanel();
         jPanelInfo = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -297,73 +291,43 @@ public class Gui extends javax.swing.JFrame{
 
         jPanelStats.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)), "Statistics"));
 
-        lblReactant.setFont(new java.awt.Font("Ubuntu", 3, 18)); // NOI18N
-        lblReactant.setText("Reactant");
+        demoTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {"Reactant", null, null},
+                {"Buffer", null, null},
+                {"Waste", null, null},
+                {"Operations", null, null}
+            },
+            new String [] {
+                "", "Algorithm", "Algorithm 2"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false
+            };
 
-        lblBuffer.setFont(new java.awt.Font("Ubuntu", 3, 18)); // NOI18N
-        lblBuffer.setText("Buffer");
-
-        lblWaste.setFont(new java.awt.Font("Ubuntu", 3, 18)); // NOI18N
-        lblWaste.setText("Waste");
-
-        lblOperation.setFont(new java.awt.Font("Ubuntu", 3, 18)); // NOI18N
-        lblOperation.setText("Operation");
-
-        lblReactantVal.setFont(new java.awt.Font("Ubuntu", 0, 18)); // NOI18N
-        lblReactantVal.setText("jLabel2");
-
-        lblBufferVal.setFont(new java.awt.Font("Ubuntu", 0, 18)); // NOI18N
-        lblBufferVal.setText("jLabel3");
-
-        lblWasteVal.setFont(new java.awt.Font("Ubuntu", 0, 18)); // NOI18N
-        lblWasteVal.setText("jLabel6");
-
-        lblOperationVal.setFont(new java.awt.Font("Ubuntu", 0, 18)); // NOI18N
-        lblOperationVal.setText("jLabel7");
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        demoTable.setRowHeight(25);
+        jScrollPane2.setViewportView(demoTable);
 
         javax.swing.GroupLayout jPanelStatsLayout = new javax.swing.GroupLayout(jPanelStats);
         jPanelStats.setLayout(jPanelStatsLayout);
         jPanelStatsLayout.setHorizontalGroup(
             jPanelStatsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelStatsLayout.createSequentialGroup()
-                .addGroup(jPanelStatsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(lblBufferVal)
-                    .addGroup(jPanelStatsLayout.createSequentialGroup()
-                        .addGroup(jPanelStatsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(lblOperation, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(lblWaste, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(lblBuffer, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(lblReactant, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGroup(jPanelStatsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanelStatsLayout.createSequentialGroup()
-                                .addGap(31, 31, 31)
-                                .addComponent(lblReactantVal))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelStatsLayout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(jPanelStatsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(lblWasteVal, javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(lblOperationVal, javax.swing.GroupLayout.Alignment.TRAILING))))))
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addContainerGap()
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                .addContainerGap())
         );
         jPanelStatsLayout.setVerticalGroup(
             jPanelStatsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelStatsLayout.createSequentialGroup()
-                .addContainerGap(25, Short.MAX_VALUE)
-                .addGroup(jPanelStatsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblReactant)
-                    .addComponent(lblReactantVal))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanelStatsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblBuffer)
-                    .addComponent(lblBufferVal))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanelStatsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblWaste)
-                    .addComponent(lblWasteVal))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanelStatsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblOperation)
-                    .addComponent(lblOperationVal)))
+                .addContainerGap()
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 133, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         jPanelGraph.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)), "Output"));
@@ -400,7 +364,7 @@ public class Gui extends javax.swing.JFrame{
         jPanelInfo.setLayout(jPanelInfoLayout);
         jPanelInfoLayout.setHorizontalGroup(
             jPanelInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1115, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 1115, Short.MAX_VALUE)
         );
         jPanelInfoLayout.setVerticalGroup(
             jPanelInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -482,10 +446,10 @@ public class Gui extends javax.swing.JFrame{
                         .addComponent(jPanelInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(31, 31, 31)
                         .addComponent(jPanelStats, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
+                        .addGap(28, 28, 28)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(btnBrowse)
-                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnBrowse))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
@@ -532,14 +496,15 @@ public class Gui extends javax.swing.JFrame{
             }
             
             String a[] = lastLine.split("\t");
-            lblReactantVal.setText(a[2]);
-            lblBufferVal.setText(a[3]);
-            lblWasteVal.setText(a[4]);
-            lblOperationVal.setText(a[5]);
-            lblReactantVal.setVisible(true);
-            lblBufferVal.setVisible(true);
-            lblWasteVal.setVisible(true);
-            lblOperationVal.setVisible(true);
+            
+//            lblReactantVal.setText(a[2]);
+//            lblBufferVal.setText(a[3]);
+//            lblWasteVal.setText(a[4]);
+//            lblOperationVal.setText(a[5]);
+//            lblReactantVal.setVisible(true);
+//            lblBufferVal.setVisible(true);
+//            lblWasteVal.setVisible(true);
+//            lblOperationVal.setVisible(true);
         }
         finally{
             br.close();
@@ -935,6 +900,8 @@ public class Gui extends javax.swing.JFrame{
         String obj = objective.getSelectedItem().toString();
         if(obj == "Demo"){
                 jPanelStats.setVisible(true);
+                demoTable.getColumnModel().getColumn(2).setMinWidth(0);
+                demoTable.getColumnModel().getColumn(2).setMaxWidth(0);
         }
         
         if(obj == "Demo" || obj == "Stats" || obj == "Comparison"){
@@ -1279,6 +1246,7 @@ public class Gui extends javax.swing.JFrame{
     private javax.swing.JButton btnBrowse;
     private javax.swing.JButton btnReset;
     private javax.swing.JButton btnSubmit;
+    private javax.swing.JTable demoTable;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -1291,18 +1259,11 @@ public class Gui extends javax.swing.JFrame{
     private javax.swing.JPanel jPanelInput;
     private javax.swing.JPanel jPanelStats;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JLabel lblBuffer;
-    private javax.swing.JLabel lblBufferVal;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel lblEx1;
     private javax.swing.JLabel lblEx2;
-    private javax.swing.JLabel lblOperation;
-    private javax.swing.JLabel lblOperationVal;
     private javax.swing.JLabel lblPrecision;
-    private javax.swing.JLabel lblReactant;
-    private javax.swing.JLabel lblReactantVal;
     private javax.swing.JLabel lblTarget;
-    private javax.swing.JLabel lblWaste;
-    private javax.swing.JLabel lblWasteVal;
     private javax.swing.JComboBox<String> mixingSpecs;
     private javax.swing.JComboBox<String> objective;
     private javax.swing.JTable statTable;
