@@ -64,7 +64,7 @@ public class BitScanning
     }
     
     public void writeStat(String s_c_t, String fileName) throws IOException{
-        File statFile = new File("./stat/BitScanning/" + fileName);
+        File statFile = new File(fileName);
         FileWriter fw = null;
         //FileReader fr = null;
         BufferedReader br = null;
@@ -97,7 +97,7 @@ public class BitScanning
         fw.close();
     }
 
-    void runBitScan(String ct , String d) throws IOException
+    void runBitScan(String ct , String d, String filename) throws IOException
     {
             TreeBS t = new TreeBS(0);
             double target = inputConversion(ct);
@@ -125,7 +125,7 @@ public class BitScanning
             ttd.dotToPng("BitScanningDot.dot", "BitScanningDot.png");
             
             calculateStat(t);
-            writeStat(ct, "BitScanning_Demo.txt");
+            writeStat(ct, filename);
     }
     
     void runBitScanForStat(String ct , String d,  FileWriter fw, DefaultTableModel tableModel) throws IOException

@@ -310,7 +310,7 @@ class vospa
 
     }
     
-    public void runVospa(String s_c_t, String s_del, String s_n) throws IOException
+    public void runVospa(String s_c_t, String s_del, String s_n, String stat_file) throws IOException
     {
         vospa obj = new vospa();
         double c_t, del;
@@ -319,10 +319,6 @@ class vospa
         //String path = "../BTP/src/Stats/";
        
         String file_name = "VospaDot.dot";
-        String stat_file = "Vospa_Demo.txt";
-        File statF = new File("./stat/Vospa/" + stat_file);
-        
-        //statF.createNewFile();
         obj.f = new File(folder_name + "/" + file_name);
         obj.f.createNewFile();
         obj.writer = new FileWriter(folder_name + "/" + file_name, false);
@@ -363,7 +359,7 @@ class vospa
 //        obj.writer.append("" + (int)obj.getOperations() + '\n');
 //        obj.writer.close();
 
-        File statFile = new File("./stat/Vospa/" + stat_file);
+        File statFile = new File(stat_file);
         FileWriter fw = null;
         //FileReader fr = null;
         BufferedReader br = null;

@@ -1,31 +1,36 @@
 digraph G { 
 rankdir = BT;
-1[label= " 31/64 " ];
-2[label= " 62/64 " ];
+1[label= " 100/512 " ];
+2[label= " 200/512 " ];
 2->1
-3[label= " 0/64 " ];
+3[label= " 0/512 " ];
 3->1
-4[label= " 60/64 " ];
+4[label= " 400/512 " ];
 4->2
-5[label= " 64/64 " ];
+5[label= " 0/512 " ];
 5->2
-8[label= " 56/64 " ];
+8[label= " 288/512 " ];
 8->4
-9[label= " 64/64 " ];
+9[label= " 512/512 " ];
 9->4
-16[label= " 48/64 " ];
+16[label= " 64/512 " ];
 16->8
-17[label= " 64/64 " ];
+17[label= " 512/512 " ];
 17->8
-32[label= " 32/64 " ];
+32[label= " 128/512 " ];
 32->16
-33[label= " 64/64 " ];
+33[label= " 0/512 " ];
 33->16
-64[label= " 0/64 " ];
+64[label= " 256/512 " ];
 64->32
-65[label= " 64/64 " ];
+65[label= " 0/512 " ];
 65->32
-64[style=filled, fillcolor=yellow];
+128[label= " 0/512 " ];
+128->64
+129[label= " 512/512 " ];
+129->64
+128[style=filled, fillcolor=yellow];
+129[style=filled, fillcolor=yellow];
 65[style=filled, fillcolor=yellow];
 33[style=filled, fillcolor=yellow];
 17[style=filled, fillcolor=yellow];

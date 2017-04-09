@@ -51,6 +51,8 @@ public class Gui extends javax.swing.JFrame{
         jPanelStats.setVisible(false);
         zoomIn.setVisible(false);
         zoomOut.setVisible(false);
+        algorithms1.setVisible(false);
+        jLabel7.setVisible(false);
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
         centerRenderer.setHorizontalAlignment( JLabel.CENTER );
         for(int i=0;i<statTable.getColumnCount();i++){
@@ -480,9 +482,10 @@ public class Gui extends javax.swing.JFrame{
     }// </editor-fold>//GEN-END:initComponents
     BufferedImage image = null;
     JLabel lblImage = null;
-    int width = 500, height = 500 ;
+    JLabel lblImage1 = null;
+    int width = 470, height = 500 ;
     
-    public void loadImage(String s){
+    public void loadImage(String s, int count){
         jPanelInfo.setVisible(false);
         File f = null;
         try {
@@ -498,18 +501,36 @@ public class Gui extends javax.swing.JFrame{
         lblImage.setSize(new Dimension(width,height));
         lblImage.setIcon(new ImageIcon(image.getScaledInstance(width, height, Image.SCALE_SMOOTH)));
         lblImage.updateUI();
-        jPanelGraph.add(lblImage, BorderLayout.CENTER);
-        jPanelGraph.add(zoomIn, BorderLayout.NORTH);
-        jPanelGraph.add(zoomOut, BorderLayout.SOUTH);
-        zoomIn.setVisible(true);
-        zoomOut.setVisible(true);
+        String obj = objective.getSelectedItem().toString();
+        if(obj == "Demo"){
+            jPanelGraph.add(lblImage, BorderLayout.CENTER);
+            jPanelGraph.add(zoomIn, BorderLayout.NORTH);
+            jPanelGraph.add(zoomOut, BorderLayout.SOUTH);
+            zoomIn.setVisible(true);
+            zoomOut.setVisible(true);
+        }
+        else if(obj == "Comparison"){
+            if(count == 0){
+                jPanelGraph.add(lblImage, BorderLayout.WEST);
+            }
+            else if(count == 1){
+                jPanelGraph.add(lblImage, BorderLayout.EAST);
+            }
+        }
+        
         jPanelGraph.revalidate();
     }
     
-    public void loadStat(String fileName) throws IOException{
+    public void loadStat(String fileName, int count) throws IOException{
         BufferedReader br = null;
+        String obj = objective.getSelectedItem().toString();
         try {
-            br = new BufferedReader(new FileReader("./stat/" + fileName + "/" + fileName + "_Demo.txt"));
+            if(obj == "Demo"){
+                br = new BufferedReader(new FileReader("./stat/" + fileName + "/" + fileName + "_Demo.txt"));
+            }
+            else if(obj == "Comparison"){
+                br = new BufferedReader(new FileReader("./stat/Comparison/" + "Comparison.txt"));
+            }
             String lastLine = "";
             String sCurrentLine;
             while ((sCurrentLine = br.readLine()) != null) 
@@ -520,7 +541,7 @@ public class Gui extends javax.swing.JFrame{
             String a[] = lastLine.split("\t");
             DefaultTableModel demoTableModel = (DefaultTableModel)demoTable.getModel();
             for(int i=2; i<=5; i++){
-                demoTableModel.setValueAt(a[i], i-2, 1);
+                demoTableModel.setValueAt(a[i], i-2, count+1);
             }
 
         }
@@ -530,119 +551,125 @@ public class Gui extends javax.swing.JFrame{
         
     }
     
-    private void btnSubmitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSubmitActionPerformed
-        // TODO add your handling code here:
-        if(objective.getSelectedItem().toString() == "Stats"){
-            String algo = algorithms.getSelectedItem().toString();
-            File f = new File("./stat/" + algo + "/" + algo + "_Stat.txt");
-            if(f.exists()){
-                f.delete();
+    public void callAlgorithm(String obj1, String obj, int count){
+
+    if(obj == "Codos"){
+    codos codosObj = new codos();
+    try {   
+            if(obj1 == "Demo"){
+                codosObj.runCodos(txtEx1.getText(), txtPrecision.getText(), txtTarget.getText(), "./stat/Codos/Codos_Demo.txt");
+                TimeUnit.MILLISECONDS.sleep(1000);
+                String s = "./image/Codos/CodosDot.png";
+                loadStat("Codos", 0);
+                loadImage(s,count);
             }
+            else if(obj1 == "Comparison"){
+                codosObj.runCodos(txtEx1.getText(), txtPrecision.getText(), txtTarget.getText(), "./stat/Comparison/Comparison.txt");
+                TimeUnit.MILLISECONDS.sleep(1000);
+                String s = "./image/Codos/CodosDot.png";
+                loadStat("Codos", count);
+                loadImage(s,count);
+            }
+            else{
+                File f = new File("./stat/Codos/Codos_Stat.txt");
+
+                if(!f.exists()){
+                    f.createNewFile();
+                }
+
+                FileWriter fw = new FileWriter(f, true);
+                DefaultTableModel tableModel = (DefaultTableModel)statTable.getModel();
+                codosObj.runCodos(txtEx1.getText(), txtPrecision.getText(), fw, tableModel);
+
+                fw.close();
+
+                jScrollPane1.getColumnHeader().setVisible(true);
+            }
+        } catch (IOException e1) {
+            // TODO Auto-generated catch block
+            e1.printStackTrace();
+        } catch (InterruptedException e1) {
+            // TODO Auto-generated catch block
+            e1.printStackTrace();
         }
-        
-        if(mixingSpecs.getSelectedItem().toString()== "Mixing"){
-            statTable.getColumnModel().getColumn(3).setMinWidth(0);
-            statTable.getColumnModel().getColumn(3).setMaxWidth(0);
-        }
-        
-        String obj = algorithms.getSelectedItem().toString();
-        String obj1 = objective.getSelectedItem().toString();
-        if(obj == "Codos"){
-            codos codosObj = new codos();
-            try {   
-                    if(obj1 == "Demo" || obj1 == "Comparison"){
-                        codosObj.runCodos(txtEx1.getText(), txtPrecision.getText(), txtTarget.getText(), "./stat/Codos/Codos_Demo.txt");
-                        TimeUnit.MILLISECONDS.sleep(1000);
-                        String s = "./image/Codos/CodosDot.png";
-                        loadStat("Codos");
-                        loadImage(s);
-                    }
-                    else{
-                        File f = new File("./stat/Codos/Codos_Stat.txt");
-                        
-                        if(!f.exists()){
-                            f.createNewFile();
-                        }
-                        
-                        FileWriter fw = new FileWriter(f, true);
-                        DefaultTableModel tableModel = (DefaultTableModel)statTable.getModel();
-                        codosObj.runCodos(txtEx1.getText(), txtPrecision.getText(), fw, tableModel);
-                        
-                        fw.close();
-                        
-                        jScrollPane1.getColumnHeader().setVisible(true);
-                    }
-    		} catch (IOException e1) {
-                    // TODO Auto-generated catch block
-                    e1.printStackTrace();
-                } catch (InterruptedException e1) {
-                    // TODO Auto-generated catch block
-                    e1.printStackTrace();
-    		}
         }
         else if(obj == "Remia"){
             Remia remiaObj = new Remia();
             try {   
-                    if(obj1 == "Demo" || obj1 == "Comparison"){
+                    if(obj1 == "Demo"){
                         remiaObj.runRemia("1", txtTarget.getText(),txtPrecision.getText(), "Remia_Demo.txt");
                         TimeUnit.MILLISECONDS.sleep(1000);
                         String s = "./image/Remia/RemiaDot.png";
-                        loadStat("Remia");
-                        loadImage(s);
+                        loadStat("Remia",0);
+                        loadImage(s,count);
+                    }
+                    else if(obj1 == "Comparison"){
+                        remiaObj.runRemia("1", txtTarget.getText(),txtPrecision.getText(), "./stat/Comparison/Comparison.txt");
+                        TimeUnit.MILLISECONDS.sleep(1000);
+                        String s = "./image/Remia/RemiaDot.png";
+                        loadStat("Remia", count);
+                        loadImage(s,count);
                     }
                     else{
                         File f = new File("./stat/Remia/Remia_Stat.txt");
-                        
+
                         if(!f.exists()){
                             f.createNewFile();
                         }
-                        
+
                         FileWriter fw = new FileWriter(f, true);
                         DefaultTableModel tableModel = (DefaultTableModel)statTable.getModel();
                         remiaObj.runRemia(txtPrecision.getText(), fw, tableModel);
-                        
+
                         fw.close();
                         jScrollPane1.getColumnHeader().setVisible(true);
                     }
-    		} catch (IOException e1) {
+                } catch (IOException e1) {
                     // TODO Auto-generated catch block
                     e1.printStackTrace();
                 } catch (InterruptedException e1) {
                     // TODO Auto-generated catch block
                     e1.printStackTrace();
-    		}
+                }
         }
         else if(obj == "BitScanning"){
             BitScanning bsObj = new BitScanning();
             try {   
-                    if(obj1 == "Demo" || obj1 == "Comparison"){
-                        bsObj.runBitScan(txtTarget.getText(), txtPrecision.getText());
+                    if(obj1 == "Demo"){
+                        bsObj.runBitScan(txtTarget.getText(), txtPrecision.getText(),"./stat/BitScanning/BitScanning_Demo.txt");
                         TimeUnit.MILLISECONDS.sleep(1000);
                         String s = "./image/BitScanning/BitScanningDot.png";
-                        loadStat("BitScanning");
-                        loadImage(s);
+                        loadStat("BitScanning",0);
+                        loadImage(s,count);
+                    }
+                    else if(obj1 == "Comparison"){
+                        bsObj.runBitScan("100", "9","./stat/Comparison/Comparison.txt");
+                        TimeUnit.MILLISECONDS.sleep(1000);
+                        String s = "./image/BitScanning/BitScanningDot.png";
+                        loadStat("BitScanning", count);
+                        loadImage(s,count);
                     }
                     else{
                         File f = new File("./stat/BitScanning/BitScanning_Stat.txt");
-                        
+
                         if(!f.exists()){
                             f.createNewFile();
                         }
-                        
+
                         FileWriter fw = new FileWriter(f, true);
                         DefaultTableModel tableModel = (DefaultTableModel)statTable.getModel();
                         bsObj.runBitScan(txtPrecision.getText(), fw, tableModel);
-                        
+
                         fw.close();
                         jScrollPane1.getColumnHeader().setVisible(true);
                     }
-    		} catch (IOException e1) {
+                } catch (IOException e1) {
                     // TODO Auto-generated catch block
                     e1.printStackTrace();
                 } catch (InterruptedException e1) {
                     // TODO Auto-generated catch block
                     e1.printStackTrace();
-    		}
+                }
         }
         else if(obj == "DMRW"){
             Dmrw dmrwObj = new Dmrw();
@@ -650,8 +677,8 @@ public class Gui extends javax.swing.JFrame{
             try {   
                     if(obj1 == "Demo" || obj1 == "Comparison"){
                         fw = new FileWriter("./image/DMRW/dmrw.input");
-			fw.write(txtEx2.getText() + " " + txtEx1.getText() + " " + txtTarget.getText() + " " + txtPrecision.getText());
-			fw.close();
+                        fw.write(txtEx2.getText() + " " + txtEx1.getText() + " " + txtTarget.getText() + " " + txtPrecision.getText());
+                        fw.close();
                         TimeUnit.MILLISECONDS.sleep(100);
                         dmrwObj.runDmrw(obj);
                         TimeUnit.MILLISECONDS.sleep(1000);
@@ -659,7 +686,7 @@ public class Gui extends javax.swing.JFrame{
                         dmrwObj.dotToPng(s,obj);
                         //loadStat("DMRW");
                         TimeUnit.MILLISECONDS.sleep(1000);
-                        loadImage(s);
+                        loadImage(s,count);
                     }
 //                    else{
 //                        File f = new File("./stat/BitScanning/BitScanning_Stat.txt");
@@ -675,13 +702,13 @@ public class Gui extends javax.swing.JFrame{
 //                        fw.close();
 //                        jScrollPane1.getColumnHeader().setVisible(true);
 //                    }
-    		} catch (IOException e1) {
+                } catch (IOException e1) {
                     // TODO Auto-generated catch block
                     e1.printStackTrace();
                 } catch (InterruptedException e1) {
                     // TODO Auto-generated catch block
                     e1.printStackTrace();
-    		}
+                }
         }
         else if(obj == "IDMA"){
             Dmrw dmrwObj = new Dmrw();
@@ -689,8 +716,8 @@ public class Gui extends javax.swing.JFrame{
             try {   
                     if(obj1 == "Demo" || obj1 == "Comparison"){
                         fw = new FileWriter("./image/IDMA/idma.input");
-			fw.write(txtEx2.getText() + " " + txtEx1.getText() + " " + txtTarget.getText() + " " + txtPrecision.getText());
-			fw.close();
+                        fw.write(txtEx2.getText() + " " + txtEx1.getText() + " " + txtTarget.getText() + " " + txtPrecision.getText());
+                        fw.close();
                         TimeUnit.MILLISECONDS.sleep(1000);
                         dmrwObj.runDmrw(obj);
                         TimeUnit.MILLISECONDS.sleep(1000);
@@ -698,7 +725,7 @@ public class Gui extends javax.swing.JFrame{
                         dmrwObj.dotToPng(s,obj);
                         TimeUnit.MILLISECONDS.sleep(1000);
                         //loadStat("DMRW");
-                        loadImage(s);
+                        loadImage(s,count);
                     }
 //                    else{
 //                        File f = new File("./stat/BitScanning/BitScanning_Stat.txt");
@@ -714,13 +741,13 @@ public class Gui extends javax.swing.JFrame{
 //                        fw.close();
 //                        jScrollPane1.getColumnHeader().setVisible(true);
 //                    }
-    		} catch (IOException e1) {
+                } catch (IOException e1) {
                     // TODO Auto-generated catch block
                     e1.printStackTrace();
                 } catch (InterruptedException e1) {
                     // TODO Auto-generated catch block
                     e1.printStackTrace();
-    		}
+                }
         }
         else if(obj == "Minmix"){
             Dmrw dmrwObj = new Dmrw();
@@ -728,8 +755,8 @@ public class Gui extends javax.swing.JFrame{
             try {   
                     if(obj1 == "Demo" || obj1 == "Comparison"){
                         fw = new FileWriter("./image/Minmix/minmix.input");
-			fw.write(txtEx2.getText() + " " + txtTarget.getText() + " " + txtPrecision.getText());
-			fw.close();
+                        fw.write(txtEx2.getText() + " " + txtTarget.getText() + " " + txtPrecision.getText());
+                        fw.close();
                         TimeUnit.MILLISECONDS.sleep(1000);
                         dmrwObj.runDmrw(obj);
                         TimeUnit.MILLISECONDS.sleep(1000);
@@ -737,7 +764,7 @@ public class Gui extends javax.swing.JFrame{
                         dmrwObj.dotToPng(s,obj);
                         TimeUnit.MILLISECONDS.sleep(1000);
                         //loadStat("DMRW");
-                        loadImage(s);
+                        loadImage(s,count);
                     }
 //                    else{
 //                        File f = new File("./stat/BitScanning/BitScanning_Stat.txt");
@@ -753,13 +780,13 @@ public class Gui extends javax.swing.JFrame{
 //                        fw.close();
 //                        jScrollPane1.getColumnHeader().setVisible(true);
 //                    }
-    		} catch (IOException e1) {
+                } catch (IOException e1) {
                     // TODO Auto-generated catch block
                     e1.printStackTrace();
                 } catch (InterruptedException e1) {
                     // TODO Auto-generated catch block
                     e1.printStackTrace();
-    		}
+                }
         }
         else if(obj == "Gorma"){
             Dmrw dmrwObj = new Dmrw();
@@ -767,8 +794,8 @@ public class Gui extends javax.swing.JFrame{
             try {   
                     if(obj1 == "Demo" || obj1 == "Comparison"){
                         fw = new FileWriter("./image/Gorma/gorma.input");
-			fw.write(txtTarget.getText() + " " + txtPrecision.getText());
-			fw.close();
+                        fw.write(txtTarget.getText() + " " + txtPrecision.getText());
+                        fw.close();
                         TimeUnit.MILLISECONDS.sleep(100);
                         dmrwObj.runDmrw(obj);
                         TimeUnit.MILLISECONDS.sleep(1000);
@@ -776,7 +803,7 @@ public class Gui extends javax.swing.JFrame{
                         dmrwObj.dotToPng(s,obj);
                         //loadStat("DMRW");
                         TimeUnit.MILLISECONDS.sleep(1000);
-                        loadImage(s);
+                        loadImage(s,count);
                     }
 //                    else{
 //                        File f = new File("./stat/BitScanning/BitScanning_Stat.txt");
@@ -792,13 +819,13 @@ public class Gui extends javax.swing.JFrame{
 //                        fw.close();
 //                        jScrollPane1.getColumnHeader().setVisible(true);
 //                    }
-    		} catch (IOException e1) {
+                } catch (IOException e1) {
                     // TODO Auto-generated catch block
                     e1.printStackTrace();
                 } catch (InterruptedException e1) {
                     // TODO Auto-generated catch block
                     e1.printStackTrace();
-    		}
+                }
         }
         else if(obj == "MTC"){
             Dmrw dmrwObj = new Dmrw();
@@ -806,8 +833,8 @@ public class Gui extends javax.swing.JFrame{
             try {   
                     if(obj1 == "Demo" || obj1 == "Comparison"){
                         fw = new FileWriter("./image/MTC/mtc.input");
-			fw.write(txtEx2.getText() + " " + txtPrecision.getText() + " " + txtTarget.getText());
-			fw.close();
+                        fw.write(txtEx2.getText() + " " + txtPrecision.getText() + " " + txtTarget.getText());
+                        fw.close();
                         TimeUnit.MILLISECONDS.sleep(100);
                         dmrwObj.runDmrw(obj);
                         TimeUnit.MILLISECONDS.sleep(1000);
@@ -815,7 +842,7 @@ public class Gui extends javax.swing.JFrame{
                         dmrwObj.dotToPng(s,obj);
                         //loadStat("DMRW");
                         TimeUnit.MILLISECONDS.sleep(1000);
-                        loadImage(s);
+                        loadImage(s,count);
                     }
 //                    else{
 //                        File f = new File("./stat/BitScanning/BitScanning_Stat.txt");
@@ -831,45 +858,52 @@ public class Gui extends javax.swing.JFrame{
 //                        fw.close();
 //                        jScrollPane1.getColumnHeader().setVisible(true);
 //                    }
-    		} catch (IOException e1) {
+                } catch (IOException e1) {
                     // TODO Auto-generated catch block
                     e1.printStackTrace();
                 } catch (InterruptedException e1) {
                     // TODO Auto-generated catch block
                     e1.printStackTrace();
-    		}
+                }
         }
         else if(obj == "Vospa"){
             vospa vospaObj = new vospa();
             try {   
-                    if(obj1 == "Demo" || obj1 == "Comparison"){
-                        vospaObj.runVospa(txtTarget.getText(), txtPrecision.getText(), txtEx2.getText());
+                    if(obj1 == "Demo"){
+                        vospaObj.runVospa(txtTarget.getText(), txtPrecision.getText(), txtEx2.getText(),"./stat/Vospa/Vospa_Demo.txt");
                         TimeUnit.MILLISECONDS.sleep(1000);
                         String s = "./image/Vospa/VospaDot.png";
-                        loadStat("Vospa");
-                        loadImage(s);
+                        loadStat("Vospa",0);
+                        loadImage(s,count);
+                    }
+                    else if(obj1 == "Comparison"){
+                        vospaObj.runVospa(txtTarget.getText(), txtPrecision.getText(), txtEx2.getText(),"./stat/Comparison/Comparison.txt");
+                        TimeUnit.MILLISECONDS.sleep(1000);
+                        String s = "./image/Vospa/VospaDot.png";
+                        loadStat("Vospa", count);
+                        loadImage(s,count);
                     }
                     else{
                         File f = new File("./stat/Vospa/Vospa_Stat.txt");
-                        
+
                         if(!f.exists()){
                             f.createNewFile();
                         }
-                        
+
                         FileWriter fw = new FileWriter(f, true);
                         DefaultTableModel tableModel = (DefaultTableModel)statTable.getModel();
                         vospaObj.runVospa(txtPrecision.getText(),txtEx2.getText(), fw, tableModel);
-                        
+
                         fw.close();
                         jScrollPane1.getColumnHeader().setVisible(true);
                     }
-    		} catch (IOException e1) {
+                } catch (IOException e1) {
                     // TODO Auto-generated catch block
                     e1.printStackTrace();
                 } catch (InterruptedException e1) {
                     // TODO Auto-generated catch block
                     e1.printStackTrace();
-    		}
+                }
         }
         else if(obj == "RMA"){
             Dmrw dmrwObj = new Dmrw();
@@ -877,8 +911,8 @@ public class Gui extends javax.swing.JFrame{
             try {   
                     if(obj1 == "Demo" || obj1 == "Comparison"){
                         fw = new FileWriter("./image/RMA/rma.input");
-			fw.write(txtEx2.getText() + " " + txtPrecision.getText() + " " + txtTarget.getText());
-			fw.close();
+                        fw.write(txtEx2.getText() + " " + txtPrecision.getText() + " " + txtTarget.getText());
+                        fw.close();
                         TimeUnit.MILLISECONDS.sleep(100);
                         dmrwObj.runDmrw(obj);
                         TimeUnit.MILLISECONDS.sleep(1000);
@@ -886,7 +920,7 @@ public class Gui extends javax.swing.JFrame{
                         dmrwObj.dotToPng(s,obj);
                         //loadStat("DMRW");
                         TimeUnit.MILLISECONDS.sleep(1000);
-                        loadImage(s);
+                        loadImage(s,count);
                     }
 //                    else{
 //                        File f = new File("./stat/BitScanning/BitScanning_Stat.txt");
@@ -908,7 +942,35 @@ public class Gui extends javax.swing.JFrame{
                 } catch (InterruptedException e1) {
                     // TODO Auto-generated catch block
                     e1.printStackTrace();
-    		}
+                }
+        }
+
+    }
+    
+    private void btnSubmitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSubmitActionPerformed
+        // TODO add your handling code here:
+        if(objective.getSelectedItem().toString() == "Stats"){
+            String algo = algorithms.getSelectedItem().toString();
+            File f = new File("./stat/" + algo + "/" + algo + "_Stat.txt");
+            if(f.exists()){
+                f.delete();
+            }
+        }
+        
+        if(mixingSpecs.getSelectedItem().toString()== "Mixing"){
+            statTable.getColumnModel().getColumn(3).setMinWidth(0);
+            statTable.getColumnModel().getColumn(3).setMaxWidth(0);
+        }
+        
+        String algorithm = algorithms.getSelectedItem().toString();
+        String algorithm1 = algorithms1.getSelectedItem().toString();
+        String obj1 = objective.getSelectedItem().toString();
+        if(obj1 == "Demo" || obj1 == "Stats"){
+            callAlgorithm(obj1, algorithm, 0);
+        }
+        else{
+            callAlgorithm(obj1, algorithm, 0);
+            callAlgorithm(obj1, algorithm1, 1);
         }
     }//GEN-LAST:event_btnSubmitActionPerformed
     
@@ -916,24 +978,72 @@ public class Gui extends javax.swing.JFrame{
         // TODO add your handling code here
         String s = "Demo - To get Demo of an algorithm\nStats - To generate Statistics file for an algorithm\nComparison - To Compare any two algorithms";
         String obj = objective.getSelectedItem().toString();
-        if(obj == "Demo"){
-                jPanelStats.setVisible(true);
-                demoTable.getColumnModel().getColumn(2).setMinWidth(0);
-                demoTable.getColumnModel().getColumn(2).setMaxWidth(0);
+        algorithms1.setVisible(false);
+        if(obj == "Stats"){
+            jPanelStats.setVisible(false);
         }
+        jLabel7.setVisible(false);
         
-        if(obj == "Demo" || obj == "Stats" || obj == "Comparison"){
-            architecture.addItem("CMFB");
-            architecture.addItem("DMFB");
-            architecture.addItem("PMD");
-            architecture.addItem("MEDA");
-            architecture.setVisible(true);
+        if(obj == "Demo" || obj == "Comparison"){
+                jPanelStats.setVisible(true);
+                if(obj == "Demo"){
+                    demoTable.setModel(new javax.swing.table.DefaultTableModel(
+                    new Object [][] {
+                        {"Reactant", null, null},
+                        {"Buffer", null, null},
+                        {"Waste", null, null},
+                        {"Operations", null, null}
+                    },
+                    new String [] {
+                        "", "Algorithm"
+                    }
+                    ) {
+                    boolean[] canEdit = new boolean [] {
+                        false, false, false
+                    };
+
+                    public boolean isCellEditable(int rowIndex, int columnIndex) {
+                        return canEdit [columnIndex];
+                    }
+                    });
+                }
+                else if(obj == "Comparison"){
+                    demoTable.setModel(new javax.swing.table.DefaultTableModel(
+                    new Object [][] {
+                        {"Reactant", null, null},
+                        {"Buffer", null, null},
+                        {"Waste", null, null},
+                        {"Operations", null, null}
+                    },
+                    new String [] {
+                        "", "Algorithm", "Algorithm 2"
+                    }
+                    ) {
+                    boolean[] canEdit = new boolean [] {
+                        false, false, false
+                    };
+
+                    public boolean isCellEditable(int rowIndex, int columnIndex) {
+                        return canEdit [columnIndex];
+                    }
+                    });
+                    algorithms1.setVisible(true);
+                    jLabel7.setVisible(true);
+                }
         }
+        //architecture.removeAllItems();
+        architecture.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select" }));
+        architecture.addItem("CMFB");
+        architecture.addItem("DMFB");
+        architecture.addItem("PMD");
+        architecture.addItem("MEDA");
+        architecture.setVisible(true);
     }//GEN-LAST:event_objectiveActionPerformed
 
     private void architectureActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_architectureActionPerformed
         // TODO add your handling code here:
         String obj = architecture.getSelectedItem().toString();
+        mixingSpecs.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select" }));
         if(obj == "CMFB"){
             mixingSpecs.addItem("Dilution");
         }
@@ -952,6 +1062,7 @@ public class Gui extends javax.swing.JFrame{
         // TODO add your handling code here:
         String comboBox1 = architecture.getSelectedItem().toString();
         String obj = mixingSpecs.getSelectedItem().toString();
+        algoClass.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select" }));
         if(comboBox1 == "CMFB"){
             if(obj == "Dilution"){
                 algoClass.addItem("SDST");
@@ -981,6 +1092,7 @@ public class Gui extends javax.swing.JFrame{
         String comboBox1 = architecture.getSelectedItem().toString();
         String comboBox2 = mixingSpecs.getSelectedItem().toString();
         String obj = algoClass.getSelectedItem().toString();
+        algorithms.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select" }));
         if(comboBox1 == "CMFB"){
             if(comboBox2 == "Dilution"){
                 if(obj == "SDST"){
@@ -1168,6 +1280,13 @@ public class Gui extends javax.swing.JFrame{
             lblEx2.setVisible(true);
             txtEx2.setVisible(true);
         }
+        algorithms1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select" }));
+        for(int i = 0;i<algorithms.getItemCount();i++){
+            algorithms1.addItem(algorithms.getItemAt(i));
+        }
+        Object algo = algorithms.getSelectedItem();
+        algorithms1.removeItem(algo);
+        algorithms1.removeItemAt(0);
     }//GEN-LAST:event_algorithmsActionPerformed
 
     private void txtTargetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTargetActionPerformed
