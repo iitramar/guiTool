@@ -1,36 +1,26 @@
 digraph G { 
 rankdir = BT;
-101[label= " 1024/1024 " ];
-202[label= " 512/1024 " ];
+101[label= " 512/512 " ];
+202[label= " 256/512 " ];
 202->101
-203[label= " 512/1024 " ];
+203[label= " 256/512 " ];
 203->101
-404[label= " 256/1024 " ];
+404[label= " 128/512 " ];
 404->202
-405[label= " 256/1024 " ];
+405[label= " 128/512 " ];
 405->202
-808[label= " 128/1024 " ];
+808[label= " 64/512 " ];
 808->404
-809[label= " 128/1024 " ];
-809->404
-1616[label= " 64/1024 " ];
+1616[label= " 32/512 " ];
 1616->808
 1616[style=filled, fillcolor=yellow];
-809[style=filled, fillcolor=yellow];
-810[label= " 128/1024 " ];
-810->405
-811[label= " 128/1024 " ];
-811->405
-810[style=filled, fillcolor=yellow];
-811[style=filled, fillcolor=yellow];
-406[label= " 256/1024 " ];
-406->203
-407[label= " 256/1024 " ];
-407->203
-812[label= " 128/1024 " ];
-812->406
-812[style=filled, fillcolor=yellow];
-407[style=filled, fillcolor=yellow];
-201[label= " 1024/1024 " ];
-201[style=filled, fillcolor=yellow];
+405[style=filled, fillcolor=yellow];
+203[style=filled, fillcolor=yellow];
+201[label= " 512/512 " ];
+402[label= " 256/512 " ];
+402->201
+403[label= " 256/512 " ];
+403->201
+402[style=filled, fillcolor=yellow];
+403[style=filled, fillcolor=yellow];
 }

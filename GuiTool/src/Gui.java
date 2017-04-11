@@ -287,21 +287,21 @@ public class Gui extends javax.swing.JFrame{
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanelInputLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(algorithms1, javax.swing.GroupLayout.DEFAULT_SIZE, 21, Short.MAX_VALUE))
+                            .addComponent(algorithms1, javax.swing.GroupLayout.PREFERRED_SIZE, 21, Short.MAX_VALUE))
                         .addGap(18, 18, 18)
                         .addComponent(txtEx1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanelInputLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblEx2, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(txtEx2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanelInputLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(txtEx2)
+                    .addComponent(lblEx2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanelInputLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblTarget)
                     .addComponent(txtTarget, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(17, 17, 17)
-                .addGroup(jPanelInputLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(txtPrecision, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblPrecision))
+                .addGroup(jPanelInputLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(lblPrecision, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(txtPrecision))
                 .addGap(19, 19, 19)
                 .addGroup(jPanelInputLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnSubmit)
@@ -388,7 +388,7 @@ public class Gui extends javax.swing.JFrame{
         );
         jPanelInfoLayout.setVerticalGroup(
             jPanelInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 655, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 674, Short.MAX_VALUE)
         );
 
         jPanelGraph.add(jPanelInfo, java.awt.BorderLayout.CENTER);
@@ -445,16 +445,14 @@ public class Gui extends javax.swing.JFrame{
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel2)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnBrowse))
-                            .addComponent(jPanelInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(3, 3, 3))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jPanelStats, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
+                        .addComponent(jLabel2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnBrowse))
+                    .addComponent(jPanelInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(20, 20, 20)
+                        .addComponent(jPanelStats, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(3, 3, 3)
                 .addComponent(jPanelGraph, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
@@ -468,9 +466,9 @@ public class Gui extends javax.swing.JFrame{
                     .addComponent(jPanelGraph, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jPanelInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGap(18, 18, 18)
                         .addComponent(jPanelStats, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(btnBrowse))))
@@ -510,6 +508,10 @@ public class Gui extends javax.swing.JFrame{
             zoomOut.setVisible(true);
         }
         else if(obj == "Comparison"){
+            width = (int)(0.47 * jPanelGraph.getWidth()) ;
+            height = (int)(0.7 * jPanelGraph.getHeight()) ; 
+            lblImage.setIcon(new ImageIcon(image.getScaledInstance(width, height, Image.SCALE_SMOOTH)));
+            lblImage.updateUI();
             if(count == 0){
                 jPanelGraph.add(lblImage, BorderLayout.WEST);
             }
@@ -517,7 +519,6 @@ public class Gui extends javax.swing.JFrame{
                 jPanelGraph.add(lblImage, BorderLayout.EAST);
             }
         }
-        
         jPanelGraph.revalidate();
     }
     
@@ -965,10 +966,17 @@ public class Gui extends javax.swing.JFrame{
         String algorithm = algorithms.getSelectedItem().toString();
         String algorithm1 = algorithms1.getSelectedItem().toString();
         String obj1 = objective.getSelectedItem().toString();
+        
         if(obj1 == "Demo" || obj1 == "Stats"){
+            demoTable.getColumnModel().getColumn(1).setHeaderValue(algorithm);
+            demoTable.getTableHeader().repaint();
             callAlgorithm(obj1, algorithm, 0);
+            
         }
         else{
+            demoTable.getColumnModel().getColumn(1).setHeaderValue(algorithm);
+            demoTable.getColumnModel().getColumn(2).setHeaderValue(algorithm1);
+            demoTable.getTableHeader().repaint();
             callAlgorithm(obj1, algorithm, 0);
             callAlgorithm(obj1, algorithm1, 1);
         }
@@ -1107,8 +1115,8 @@ public class Gui extends javax.swing.JFrame{
                     algorithms.addItem("Remia");
                     algorithms.addItem("DMRW");
                     algorithms.addItem("IDMA");
-                    algorithms.addItem("Minmix");
                     algorithms.addItem("Gorma");
+                    algorithms.addItem("BitScanning");
                 }
                 else if(obj == "SDMT"){
                     algorithms.addItem("ExRemia");
@@ -1124,6 +1132,7 @@ public class Gui extends javax.swing.JFrame{
             else if(comboBox2 == "Mixing"){
                 if(obj == "SDST"){
                     algorithms.addItem("Codos");
+                    algorithms.addItem("Minmix");
                     algorithms.addItem("RMA");
                 }
                 else if(obj == "SDMT"){
@@ -1379,7 +1388,6 @@ public class Gui extends javax.swing.JFrame{
             }
         });
     }
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> algoClass;
     private javax.swing.JComboBox<String> algorithms;
