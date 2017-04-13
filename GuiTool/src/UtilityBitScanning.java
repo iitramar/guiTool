@@ -140,6 +140,7 @@ class TreeBSToDot{
 	void bsGraphStart() throws IOException{
 		fw.append("digraph G { \n");
 		fw.append("rankdir = BT;" + '\n');
+                fw.append("graph [label= <<u>Bit-Scanning</u>> , labelloc=t, fontsize=30];" + '\n');
 	}
 	
 	void bsGraphEnd() throws IOException{

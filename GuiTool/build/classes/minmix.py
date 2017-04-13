@@ -21,7 +21,7 @@ def rec(target,root):
 	
 def tree_to_dot(root):
 	target = open("./image/Minmix/MinmixDot.dot",'w')
-	target.write("digraph minmix{\nrankdir = TD;\n size=\"8,10.5\";\n ")
+	target.write("digraph minmix{\nrankdir = TD;\n size=\"8,10.5\";\n graph [label= <<u>MinMix</u>> , labelloc=t, fontsize=30];\n")
 	rec(target,root)
 	target.write("}")
 	target.close()

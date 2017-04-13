@@ -324,6 +324,7 @@ class vospa
         obj.writer = new FileWriter(folder_name + "/" + file_name, false);
         obj.writer.append(obj.start_graph() + '\n');
         obj.writer.append("rankdir = BT;" + '\n');
+        obj.writer.append("graph [label= <<u>Vospa</u>> , labelloc=t, fontsize=30];" + '\n');
         obj.writer.append("compound=true;" + '\n');
         //obj.writer.append("splines=line;" + '\n');
 //        obj.writer.append("ratio=\"fill\";" + '\n');

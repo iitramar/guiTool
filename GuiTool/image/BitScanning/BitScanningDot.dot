@@ -1,5 +1,6 @@
 digraph G { 
 rankdir = BT;
+graph [label= <<u>Bit-Scanning</u>> , labelloc=t, fontsize=30];
 1[label= " 100/512 " ];
 2[label= " 200/512 " ];
 2->1

@@ -350,6 +350,7 @@ class TreeRemiaToDot{
 	void remiaGraphStart() throws IOException{
 		fw.append("digraph G { \n");
 		fw.append("rankdir = BT;" + '\n');
+                fw.append("graph [label= <<u>Remia</u>> , labelloc=t, fontsize=30];" + '\n');
 	}
 	
 	void remiaGraphEnd() throws IOException{

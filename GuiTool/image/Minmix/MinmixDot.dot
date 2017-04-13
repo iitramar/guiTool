@@ -1,7 +1,8 @@
 digraph minmix{
 rankdir = TD;
  size="8,10.5";
- m1 -> x1_0 ;
+ graph [label= <<u>MinMix</u>> , labelloc=t, fontsize=30];
+m1 -> x1_0 ;
 m1 -> m0;
 m0 -> x2_1 ;
 m0 -> x0_2;
