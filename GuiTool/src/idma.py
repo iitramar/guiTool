@@ -167,6 +167,8 @@ def dmrw(cl,ch,ct,n):
 	#preorder(mid_node)
 	return mid_node
 
+
+	
 def idma(cl,ch,ct,n):
 	power_of_two = 2**n
 	target_node = dmrw(cl,ch,ct,n)
@@ -251,20 +253,26 @@ def idma(cl,ch,ct,n):
 	print nl
 	print nr
 	reset_visited(root_of_new_tree)
-	graph_to_dot(root_of_new_tree)
-	reset_visited(root_of_new_tree)
-	postorder(root_of_new_tree)
+	#~ graph_to_dot(root_of_new_tree)
+	#~ reset_visited(root_of_new_tree)
+	#~ postorder(root_of_new_tree)
 	return root_of_new_tree 
 	print "heya!!"
 		
 	
 	
-filename = "./image/IDMA/idma.input"
+def main():
+	filename = "./image/IDMA/idma.input"
 
-target = open(filename,'r')
-stri = target.read()
-stri = stri.split(" ")
-idma(float(stri[0]),float(stri[1]),float(stri[2]),float(stri[3]))
+	target = open(filename,'r')
+	stri = target.read()
+	stri = stri.split(" ")
+	root = idma(float(stri[0]),float(stri[1]),float(stri[2]),float(stri[3]))
+	graph_to_dot(root)
+	
+	
+if __name__=="__main__":
+	main()
 
 		
 		

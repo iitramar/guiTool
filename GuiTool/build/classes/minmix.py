@@ -27,7 +27,7 @@ def tree_to_dot(root):
 	target.close()
 	
 def minmix_helper(bins,depth):
-	#print "fcuk"
+	
 	if(len(bins[depth])==0):
 		child1 = minmix_helper(bins,depth-1)
 		child2 = minmix_helper(bins,depth-1)
@@ -59,17 +59,46 @@ def minmix(sample_array):
 			if(sample_array[j][0] & mask != 0):
 				bins[i].append(j)
 	root = minmix_helper(bins,depth)
+	return (root,bins)
+
+def get_waste(root):
+	if(root==None):
+		return 0
+	if(root.left==None and root.right==None):
+		return 0
+	return 1 + get_waste(root.left) + get_waste(root.right)
 	
+def generate_stat(sample_array):
+	minmix_output = minmix(sample_array)
+	root = minmix_output[0]
+	bins = minmix_output[1]
+	total_sample_array = [sum(i) for i in bins]
+	waste = get_waste(root)
+	return (root,total_sample_array,waste)
+	
+	
+def main():
+	filename = "./image/Minmix/minmix.input"
+	target = open(filename,'r')
+	stri = target.read()
+	stri = stri.split(" ")
+	d = int(stri.pop())
+	total = int(stri[0])
+	arr = [[d for j in range(2)] for i in range(total)]
+	for i in range(total):
+		arr[i][0] = int(stri.pop())
+	generate_stat_output = generate_stat(sample_array)
+	root = generate_stat_output[0]
+	total_sample = generate_stat_output[1]
+	waste = generate_stat_output[2]
+	stat_filename = "./image/Minmix/minmix_stat.output"
+	stat_filehandle = open(stat_filename,'w')
+	for i in total_sample:
+		stat_filehandle.write("%d ")
+	stat_filehandle.write("\n%d\n"%waste)
+	stat_filehandle.close()
 	tree_to_dot(root)
 	
-filename = "./image/Minmix/minmix.input"
-target = open(filename,'r')
-stri = target.read()
-stri = stri.split(" ")
-d = int(stri.pop())
-total = int(stri[0])
-arr = [[d for j in range(2)] for i in range(total)]
-for i in range(total):
-	arr[i][0] = int(stri.pop())
-minmix(arr)
+if __name__=='__main__':
+	main()
 

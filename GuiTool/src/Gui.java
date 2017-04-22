@@ -10,6 +10,8 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
@@ -33,6 +35,7 @@ public class Gui extends javax.swing.JFrame{
     /**
      * Creates new form Gui
      */
+    Set<String> tiwariAlgo = new HashSet<String>();
     public Gui() {
         initComponents();
         //architecture.setVisible(false);
@@ -60,6 +63,8 @@ public class Gui extends javax.swing.JFrame{
             statTable.getColumnModel().getColumn(i).setHeaderRenderer(centerRenderer);
         }
         setExtendedState(javax.swing.JFrame.MAXIMIZED_BOTH);
+        tiwariAlgo.add("DMRW"); tiwariAlgo.add("IDMA"); tiwariAlgo.add("Gorma"); tiwariAlgo.add("Minmix"); 
+        tiwariAlgo.add("MTC"); tiwariAlgo.add("RMA");
     }
 
     /**
@@ -530,6 +535,37 @@ public class Gui extends javax.swing.JFrame{
                 br = new BufferedReader(new FileReader("./stat/" + fileName + "/" + fileName + "_Demo.txt"));
             }
             else if(obj == "Comparison"){
+                
+                if(tiwariAlgo.contains(fileName)){
+                    System.out.println("algo1 = " + fileName);
+                    BufferedReader br1 = new BufferedReader(new FileReader("./stat/" + fileName + "/" + fileName + "_Demo.txt"));
+                    BufferedReader br2 = new BufferedReader(new FileReader("./stat/Comparison/" + "Comparison.txt"));
+                    String sCurrentLine;
+                    String lastLine = "";
+                    while ((sCurrentLine = br1.readLine()) != null) 
+                    {
+                        lastLine = sCurrentLine;
+                    }
+                    String lastLineComp = "";
+                    String sCurrentLineComp;
+                    while ((sCurrentLineComp = br2.readLine()) != null) 
+                    {
+                        lastLineComp = sCurrentLineComp;
+                    }
+                    String b[] = lastLineComp.split("\t");
+                    String a[] = lastLine.split("\t");
+                    int counter = Integer.parseInt(b[0]) + 1;
+                    lastLineComp = Integer.toString(counter);
+                    for(int i=1;i<a.length;i++){
+                        lastLineComp += "\t" + a[i];
+                    }
+                    System.out.println("lastLineComp = " + lastLineComp);
+                    FileWriter fw = new FileWriter("./stat/Comparison/" + "Comparison.txt",true);
+                    fw.append(lastLineComp + "\n");
+                    fw.close();
+                    br2.close();
+                    br1.close();
+                }
                 br = new BufferedReader(new FileReader("./stat/Comparison/" + "Comparison.txt"));
             }
             String lastLine = "";
@@ -558,14 +594,14 @@ public class Gui extends javax.swing.JFrame{
     codos codosObj = new codos();
     try {   
             if(obj1 == "Demo"){
-                codosObj.runCodos(txtEx1.getText(), txtPrecision.getText(), txtTarget.getText(), "./stat/Codos/Codos_Demo.txt");
+                codosObj.runCodos(txtEx2.getText(), txtPrecision.getText(), txtTarget.getText(), "./stat/Codos/Codos_Demo.txt");
                 TimeUnit.MILLISECONDS.sleep(1000);
                 String s = "./image/Codos/CodosDot.png";
                 loadStat("Codos", 0);
                 loadImage(s,count);
             }
             else if(obj1 == "Comparison"){
-                codosObj.runCodos(txtEx1.getText(), txtPrecision.getText(), txtTarget.getText(), "./stat/Comparison/Comparison.txt");
+                codosObj.runCodos(txtEx2.getText(), txtPrecision.getText(), txtTarget.getText(), "./stat/Comparison/Comparison.txt");
                 TimeUnit.MILLISECONDS.sleep(1000);
                 String s = "./image/Codos/CodosDot.png";
                 loadStat("Codos", count);
@@ -580,7 +616,7 @@ public class Gui extends javax.swing.JFrame{
 
                 FileWriter fw = new FileWriter(f, true);
                 DefaultTableModel tableModel = (DefaultTableModel)statTable.getModel();
-                codosObj.runCodos(txtEx1.getText(), txtPrecision.getText(), fw, tableModel);
+                codosObj.runCodos(txtEx2.getText(), txtPrecision.getText(), fw, tableModel);
 
                 fw.close();
 
@@ -681,7 +717,7 @@ public class Gui extends javax.swing.JFrame{
                         fw.write(txtEx2.getText() + " " + txtEx1.getText() + " " + txtTarget.getText() + " " + txtPrecision.getText());
                         fw.close();
                         TimeUnit.MILLISECONDS.sleep(100);
-                        dmrwObj.runDmrw(obj);
+                        dmrwObj.runDmrw(obj,obj1);
                         TimeUnit.MILLISECONDS.sleep(1000);
                         String s = "./image/DMRW/DMRWDot.png";
                         dmrwObj.dotToPng(s,obj);
@@ -720,7 +756,7 @@ public class Gui extends javax.swing.JFrame{
                         fw.write(txtEx2.getText() + " " + txtEx1.getText() + " " + txtTarget.getText() + " " + txtPrecision.getText());
                         fw.close();
                         TimeUnit.MILLISECONDS.sleep(1000);
-                        dmrwObj.runDmrw(obj);
+                        dmrwObj.runDmrw(obj,obj1);
                         TimeUnit.MILLISECONDS.sleep(1000);
                         String s = "./image/IDMA/IDMADot.png";
                         dmrwObj.dotToPng(s,obj);
@@ -759,7 +795,7 @@ public class Gui extends javax.swing.JFrame{
                         fw.write(txtEx2.getText() + " " + txtTarget.getText() + " " + txtPrecision.getText());
                         fw.close();
                         TimeUnit.MILLISECONDS.sleep(1000);
-                        dmrwObj.runDmrw(obj);
+                        dmrwObj.runDmrw(obj,obj1);
                         TimeUnit.MILLISECONDS.sleep(1000);
                         String s = "./image/Minmix/MinmixDot.png";
                         dmrwObj.dotToPng(s,obj);
@@ -798,7 +834,7 @@ public class Gui extends javax.swing.JFrame{
                         fw.write(txtTarget.getText() + " " + txtPrecision.getText());
                         fw.close();
                         TimeUnit.MILLISECONDS.sleep(100);
-                        dmrwObj.runDmrw(obj);
+                        dmrwObj.runDmrw(obj,obj1);
                         TimeUnit.MILLISECONDS.sleep(1000);
                         String s = "./image/Gorma/GormaDot.png";
                         dmrwObj.dotToPng(s,obj);
@@ -837,7 +873,7 @@ public class Gui extends javax.swing.JFrame{
                         fw.write(txtEx2.getText() + " " + txtPrecision.getText() + " " + txtTarget.getText());
                         fw.close();
                         TimeUnit.MILLISECONDS.sleep(100);
-                        dmrwObj.runDmrw(obj);
+                        dmrwObj.runDmrw(obj,obj1);
                         TimeUnit.MILLISECONDS.sleep(1000);
                         String s = "./image/MTC/MTCDot.png";
                         dmrwObj.dotToPng(s,obj);
@@ -910,33 +946,58 @@ public class Gui extends javax.swing.JFrame{
             Dmrw dmrwObj = new Dmrw();
             FileWriter fw ;
             try {   
-                    if(obj1 == "Demo" || obj1 == "Comparison"){
+                    if(obj1 == "Demo"){
                         fw = new FileWriter("./image/RMA/rma.input");
                         fw.write(txtEx2.getText() + " " + txtPrecision.getText() + " " + txtTarget.getText());
                         fw.close();
                         TimeUnit.MILLISECONDS.sleep(100);
-                        dmrwObj.runDmrw(obj);
+                        dmrwObj.runDmrw(obj,obj1);
                         TimeUnit.MILLISECONDS.sleep(1000);
                         String s = "./image/RMA/RMADot.png";
                         dmrwObj.dotToPng(s,obj);
-                        //loadStat("DMRW");
+                        loadStat("RMA",0);
                         TimeUnit.MILLISECONDS.sleep(1000);
                         loadImage(s,count);
                     }
-//                    else{
-//                        File f = new File("./stat/BitScanning/BitScanning_Stat.txt");
-//                        
-//                        if(!f.exists()){
-//                            f.createNewFile();
-//                        }
-//                        
-//                        FileWriter fw = new FileWriter(f, true);
-//                        DefaultTableModel tableModel = (DefaultTableModel)statTable.getModel();
-//                        bsObj.runBitScan(txtPrecision.getText(), fw, tableModel);
-//                        
-//                        fw.close();
-//                        jScrollPane1.getColumnHeader().setVisible(true);
-//                    }
+                    else if(obj1 == "Comparison"){
+                        fw = new FileWriter("./image/RMA/rma.input");
+                        fw.write(txtEx2.getText() + " " + txtPrecision.getText() + " " + txtTarget.getText());
+                        fw.close();
+                        TimeUnit.MILLISECONDS.sleep(100);
+                        dmrwObj.runDmrw(obj,obj1);
+                        TimeUnit.MILLISECONDS.sleep(1000);
+                        String s = "./image/RMA/RMADot.png";
+                        dmrwObj.dotToPng(s,obj);
+                        TimeUnit.MILLISECONDS.sleep(1000);
+                        loadStat("RMA", count);
+                        loadImage(s,count);
+                    }
+                    else{
+                        fw = new FileWriter("./image/RMA/rma.input");
+                        fw.write(txtEx2.getText() + " " + txtPrecision.getText());
+                        fw.close();
+                        TimeUnit.MILLISECONDS.sleep(100);
+                        dmrwObj.runDmrw(obj,obj1);
+                        TimeUnit.MILLISECONDS.sleep(3000);
+                        DefaultTableModel tableModel = (DefaultTableModel)statTable.getModel();
+                        FileReader fr = new FileReader("./stat/RMA/RMA_Stat.txt");
+                        String sCurrentLine;
+                        BufferedReader br = new BufferedReader(fr);
+                        while ((sCurrentLine = br.readLine()) != null) {
+                            String[] sArray = sCurrentLine.split("\t");
+                            Object[] ob = new Object[sArray.length];
+                            for(int i=0; i< sArray.length; i++){
+                                if(i == 1 || i == 3){
+                                    ob[i] = sArray[i] ;
+                                }
+                                else{
+                                    ob[i] = Integer.parseInt(sArray[i]) ;
+                                }
+                            }
+                            tableModel.addRow(ob);
+			}
+                        jScrollPane1.getColumnHeader().setVisible(true);
+                    }
                 }catch (IOException e1) {
                     // TODO Auto-generated catch block
                     e1.printStackTrace();
@@ -1154,9 +1215,9 @@ public class Gui extends javax.swing.JFrame{
         String obj = algorithms.getSelectedItem().toString();
         String obj1 = objective.getSelectedItem().toString();
         if(obj == "Codos"){
-            lblEx1.setText("Number of Reactants");
-            lblEx1.setVisible(true);
-            txtEx1.setVisible(true);
+            lblEx2.setText("Number of Reactants");
+            lblEx2.setVisible(true);
+            txtEx2.setVisible(true);
             if(obj1 == "Demo" || obj1 == "Comparison"){
                 lblTarget.setText("Target Concentration");
                 lblTarget.setVisible(true);
@@ -1257,10 +1318,10 @@ public class Gui extends javax.swing.JFrame{
             txtPrecision.setVisible(true);
         }
         else if(obj == "RMA"){
+            lblEx2.setText("Number of Reactants");
+            lblEx2.setVisible(true);
+            txtEx2.setVisible(true);
             if(obj1 == "Demo" || obj1 == "Comparison"){
-                lblEx2.setText("Number of Reactants");
-                lblEx2.setVisible(true);
-                txtEx2.setVisible(true);
                 lblTarget.setText("Target Concentrations");
                 lblTarget.setVisible(true);
                 txtTarget.setVisible(true);
@@ -1388,6 +1449,7 @@ public class Gui extends javax.swing.JFrame{
             }
         });
     }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> algoClass;
     private javax.swing.JComboBox<String> algorithms;

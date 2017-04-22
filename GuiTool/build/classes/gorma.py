@@ -10,6 +10,7 @@ class node:
 		self.right = None
 		self.waste = 1
 		self.sharable = 1
+		self.visited = 0
 		
 	def __repr__(self):
 		return "%s/%s %s"%(self.cv,2**(self.d),self.node_id)
@@ -199,6 +200,30 @@ def cmt_enumeration(z,d):
 		y = y+1
 	return best_tree
 
+def post_order(root):
+	if root==None:
+		return (0,0,0)
+	if root.visited == 1:
+		return (0,0,0)
+	root.visited = 1
+	waste, sample, buff = 0,0,0
+	waste += root.waste
+	if root.cv == 1 and root.d==0:
+		sample += 1
+	if root.cv ==0 and root.d == 0 :
+		buff += 1
+	left_ans = post_order(root.left)
+	right_ans = post_order(root.right)
+	waste += left_ans[2] + right_ans[2]
+	sample += left_ans[0] + right_ans[0]
+	buff += left_ans[1] + right_ans[1]
+	return (sample, buff, waste)
+	
+def get_stat(ct,d):
+	root = cmt_enumeration(ct,d)
+	maximal_droplet_sharing(root)
+	return post_order(root)
+	
 def gorma(ct,d):
 	bt = cmt_enumeration(ct,d)
 	
@@ -211,8 +236,12 @@ def gorma(ct,d):
 
 
 
-filename = "./image/Gorma/gorma.input"
-filehandle = open(filename)
-gorma_input = filehandle.read()
-gorma_input = gorma_input.split(" ")
-gorma(int(gorma_input[0]),int(gorma_input[1]))
+def main():
+	filename = "./image/Gorma/gorma.input"
+	filehandle = open(filename)
+	gorma_input = filehandle.read()
+	gorma_input = gorma_input.split(" ")
+	gorma(int(gorma_input[0]),int(gorma_input[1]))
+	
+if __name__=="__main__":
+	main()

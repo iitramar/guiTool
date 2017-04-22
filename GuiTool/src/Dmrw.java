@@ -46,10 +46,17 @@ public class Dmrw {
 
     }
 	
-    public void runDmrw(String s){
+    public void runDmrw(String s, String obj){
         final List commandList = new ArrayList();
         final String pythonPath = "/usr/bin/python";
-        final String sourceFile = "./src/" + s.toLowerCase() + ".py";
+        final String sourceFile;
+        if(obj == "Stats"){
+            sourceFile = "./src/" + s.toLowerCase() + "_stat.py";
+        }
+        else{
+            sourceFile = "./src/" + s.toLowerCase() + ".py";
+        }
+        
         commandList.add(pythonPath);
         commandList.add(sourceFile);
         System.out.println("commandlist = " + commandList);

@@ -270,26 +270,79 @@ def rma(A,d):
 	n = len(A)
 	#pdb.set_trace()
 	p = [pair(A[i],i) for i in range(n)]
+	print p
 	root = node("m0")
 	print root.cv
 	partitioning(p,l,root)
 	print "preorder starts here!!"
 	#preorder(root)
-	tree_to_dot(root)
+	#tree_to_dot(root)
+	return root
 
-filename = "./image/RMA/rma.input"
-filehandle = open(filename)
-rma_input = filehandle.read()
-rma_input = rma_input.split(" ")
-no_of_reactant = int(rma_input[0])
-accuracy = int(rma_input[1])
-A = [ int(rma_input[i+2]) for i in range(no_of_reactant)]
+def get_stat_recursive(root, total_reactants):
+	
+	waste, reactant = 0,0
+	
+	if root==None:
+		return (waste, reactant)
+	root_concentration = root.cv
+	if root_concentration[0]=='m':
+		waste += 1
 		
-
-A = ratio_approx(A)
-print sum(A)
-print A
-rma(A,accuracy)
+	if root_concentration[0]=='x':
+		reactant += 1
+		
+	left_ans = get_stat_recursive(root.left,total_reactants)
+	right_ans = get_stat_recursive(root.right,total_reactants)
+	waste += left_ans[1] + right_ans[1]
+	reactant += left_ans[0] + right_ans[0]
+	return (reactant,waste)
+	
+def get_stat(A, accuracy):
+	A = ratio_approx(A)
+	print sum(A)
+	root = rma(A,accuracy)
+	return get_stat_recursive(root, len(A))
+	
+def main():
+	filename = "./image/RMA/rma.input"
+	filehandle = open(filename)
+	rma_input = filehandle.read()
+	rma_input = rma_input.split(" ")
+	no_of_reactant = int(rma_input[0])
+	accuracy = int(rma_input[1])
+	A = [ int(rma_input[i+2]) for i in range(no_of_reactant)]
+			
+	print "ratio approx starts here"
+	A = ratio_approx(A)
+	print sum(A)
+	print A
+	root = rma(A,accuracy)
+	stat = get_stat_recursive(root, no_of_reactant)
+	stat_filename = "./stat/RMA/RMA_Demo.txt"
+	counter = 1
+	if os.path.isfile(stat_filename):
+		stat_file_handle = open(stat_filename)
+		stat_file_data = stat_file_handle.read()
+		stat_file_data_linewise = stat_file_data.split("\n")
+		if stat_file_data_linewise !=['']:
+			print stat_file_data_linewise
+			stat_file_data_linewise.pop()
+			last_value = (stat_file_data_linewise.pop()).split("\t")
+			counter += int(last_value[0])
+		stat_file_handle.close()
+		
+	stat_file_handle = open(stat_filename,'a')
+	stat_file_handle.write("%d\t"%counter)
+	for i in range(len(A)-1):
+		stat_file_handle.write("%d "%A[i])
+	stat_file_handle.write("%d\t"%A[-1])
+	stat_file_handle.write("%d\tNA\t%d\t%d\n"%(stat[0],stat[1]-1,stat[1]))
+	stat_file_handle.close()
+	tree_to_dot(root)
+	
+if __name__=="__main__":
+	main()
 
 
 	
