@@ -500,8 +500,13 @@ public class Gui extends javax.swing.JFrame{
     int width = 470, height = 500 ;
     
     public void loadImage(String s, int count){
-        width = (int)(0.8 * jPanelGraph.getWidth()) ;
+        width = (int)(0.75 * jPanelGraph.getWidth()) ;
         height = (int)(0.8 * jPanelGraph.getHeight()) ;
+        if(algorithms.getSelectedItem().toString() == "Remia"){
+            width = (int)(0.93 * jPanelGraph.getWidth()) ;
+            height = (int)(0.8 * jPanelGraph.getHeight()) ;
+        }
+        
         jPanelInfo.setVisible(false);
         File f = null;
         try {
@@ -685,6 +690,24 @@ public class Gui extends javax.swing.JFrame{
                     // TODO Auto-generated catch block
                     e1.printStackTrace();
                 }
+        }
+        else if(obj == "ExRemia"){
+            try {
+                Remia remiaObj = new Remia();
+                remiaObj.runRemia(txtEx2.getText(), txtTarget.getText(),txtPrecision.getText(), "ExRemia_Demo.txt");
+                TimeUnit.MILLISECONDS.sleep(1000);
+                String s = "./image/Remia/RemiaDot.png";
+                if(is_demo == 1){
+                    try {
+                        loadStat("ExRemia", 0);
+                        loadImage(s,count);
+                    } catch (IOException ex) {
+                        Logger.getLogger(Gui.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+            } catch (InterruptedException ex) {
+                Logger.getLogger(Gui.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
         else if(obj == "BitScanning"){
             BitScanning bsObj = new BitScanning();
@@ -1410,6 +1433,17 @@ public class Gui extends javax.swing.JFrame{
                 lblTarget.setVisible(true);
                 txtTarget.setVisible(true);
             }
+            lblPrecision.setText("Accuracy");
+            lblPrecision.setVisible(true);
+            txtPrecision.setVisible(true);
+        }
+        else if(obj == "ExRemia"){
+            lblEx2.setText("Number of Reactants");
+            lblEx2.setVisible(true);
+            txtEx2.setVisible(true);
+            lblTarget.setText("Target Concentration");
+            lblTarget.setVisible(true);
+            txtTarget.setVisible(true);
             lblPrecision.setText("Accuracy");
             lblPrecision.setVisible(true);
             txtPrecision.setVisible(true);
