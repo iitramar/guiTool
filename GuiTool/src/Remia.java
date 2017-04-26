@@ -1,3 +1,6 @@
+import java.awt.Color;
+import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.HashMap;
@@ -10,6 +13,9 @@ import java.io.FileWriter;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
+import java.io.BufferedReader;
+import java.util.concurrent.TimeUnit;
+import javax.imageio.ImageIO;
 
 public class Remia {
 
@@ -151,7 +157,7 @@ public class Remia {
 	}
 
 	public void writeStat(String s_c_t, String fileName) throws IOException{
-		File statFile = new File("./stat/Remia/" + fileName);
+		File statFile = new File(fileName);
                 FileWriter fw = null;
                 //FileReader fr = null;
                 BufferedReader br = null;
@@ -183,6 +189,36 @@ public class Remia {
 		//System.out.println(reactant + " " + waste + " " + operation);
 		fw.close();
 	}
+        
+        public BufferedImage joinBufferedImage(String imgOne, String imgTwo) {
+            BufferedImage img1 = null,img2 = null;
+            
+            try {
+                img1 = ImageIO.read(new File("./image/Remia/" + imgOne));
+                img2 = ImageIO.read(new File("./image/Remia/" + imgTwo));
+            } catch (IOException ex) {
+                Logger.getLogger(Remia.class.getName()).log(Level.SEVERE, null, ex);
+            }
+                
+                //do some calculate first
+                int offset  = 5;
+                int wid = img1.getWidth()+img2.getWidth()+offset;
+                int height = Math.max(img1.getHeight(),img2.getHeight())+offset;
+                //create a new buffer and draw two image into the new image
+                BufferedImage newImage = new BufferedImage(wid,height, BufferedImage.TYPE_INT_ARGB);
+                Graphics2D g2 = newImage.createGraphics();
+                Color oldColor = g2.getColor();
+                //fill background
+                g2.setPaint(Color.WHITE);
+                g2.fillRect(0, 0, wid, height);
+                //draw image
+                g2.setColor(oldColor);
+                g2.drawImage(img1, null, 0, 0);
+                g2.drawImage(img2, null, img1.getWidth()+offset, 0);
+                g2.dispose();
+                System.out.println("Done combining!!");
+                return newImage;
+        }
 	
 	public void runRemia( String s_n, String s_c_t, String s_del , String fileName){
 		
@@ -230,7 +266,7 @@ public class Remia {
 		TreeRemiaToDot ttd = new TreeRemiaToDot();
 		try {
 			ttd.createDotFile("RemiaDot.dot");
-			ttd.remiaGraphStart();
+			ttd.remiaGraphStart("Interpolation");
 			int j=1;
 			// for(int i=0;i<forest.setOfTreeRemia.size();i++){
 			// 	System.out.println("I = " + i );
@@ -243,10 +279,10 @@ public class Remia {
 				j = j+100;
 			}
 			ttd.remiaGraphEnd();
-			ttd.dotToPng("RemiaDot.dot" ,"RemiaDot.png");
+			ttd.dotToPng("RemiaDot.dot" ,"RemiaDotOld.png");
 
 			ttd.createDotFile("RemiaHeapDot.dot");
-			ttd.remiaGraphStart();
+			ttd.remiaGraphStart("Exponentiation");
 			for(int i=0;i<forest.setOfTreeRemia.size();i++){
 				System.out.println("I = " + i );
 				ttd.writeToDot(forest.setOfTreeRemia.get(i),j , den);
@@ -255,18 +291,28 @@ public class Remia {
 
 			ttd.remiaGraphEnd();
 			ttd.dotToPng("RemiaHeapDot.dot" , "RemiaHeapDot.png");
-
+                        
+                        TimeUnit.MILLISECONDS.sleep(1000);
+                        ImageIO.write(joinBufferedImage("RemiaDotOld.png", "RemiaHeapDot.png"), "PNG", new File("./image/Remia/RemiaDot.png"));
 
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
+		} catch (InterruptedException ex) {
+                Logger.getLogger(Remia.class.getName()).log(Level.SEVERE, null, ex);
+            }
 
 		calculateStat();
 		System.out.println("reactant = " + reactant + " buffer = " + buffer + " waste = " + waste + " operations = " + operations);
 
 		try{
-			writeStat(s_c_t, fileName);
+                        if(N==1){
+                            writeStat(s_c_t, "./stat/Remia/" + fileName);
+                        }
+                        else{
+                            writeStat(s_c_t, "./stat/ExRemia/" + fileName);
+                        }
+			
 		}
 		catch (IOException e) {
 			// TODO Auto-generated catch block
