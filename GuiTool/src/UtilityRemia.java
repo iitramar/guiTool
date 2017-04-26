@@ -347,10 +347,10 @@ class TreeRemiaToDot{
 		fillTreeRemiaDetail(n.right,2*i+1, den);
 	}
 	
-	void remiaGraphStart() throws IOException{
+	void remiaGraphStart(String process) throws IOException{
 		fw.append("digraph G { \n");
 		fw.append("rankdir = BT;" + '\n');
-                fw.append("graph [label= <<u>Remia</u>> , labelloc=t, fontsize=30];" + '\n');
+                fw.append("graph [label= \"Remia " + process +  "\", labelloc=t, fontsize=30];" + '\n');
 	}
 	
 	void remiaGraphEnd() throws IOException{
