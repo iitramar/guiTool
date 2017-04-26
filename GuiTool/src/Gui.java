@@ -1380,6 +1380,19 @@ public class Gui extends javax.swing.JFrame{
         String obj = objective.getSelectedItem().toString();
         try {   
                 if(obj == "Demo"){
+                    jPanelInfo.setVisible(true);
+                    DefaultTableModel tableModel = (DefaultTableModel)statTable.getModel();
+                    String sCurrentLine;
+                    BufferedReader br = new BufferedReader(new FileReader("./stat/" + algo + "/" + algo + "_Demo.txt"));
+                    while ((sCurrentLine = br.readLine()) != null) {
+                        String[] sArray = sCurrentLine.split("\t");
+                        Object[] ob = new Object[sArray.length];
+                        for(int i=0; i< sArray.length; i++){
+                            ob[i] = sArray[i] ;
+                        }
+                        tableModel.addRow(ob);
+                    }
+                    jScrollPane1.getColumnHeader().setVisible(true);
                     Desktop.getDesktop().open(new File("./stat/" + algo + "/" + algo + "_Demo.txt"));
                 }
                 else if(obj == "Stats"){

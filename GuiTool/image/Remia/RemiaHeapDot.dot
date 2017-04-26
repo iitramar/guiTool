@@ -1,31 +1,29 @@
 digraph G { 
 rankdir = BT;
 graph [label= <<u>Remia</u>> , labelloc=t, fontsize=30];
-101[label= " 512/512 " ];
-202[label= " 256/512 " ];
+101[label= " 256/256 " ];
+202[label= " 128/256 " ];
 202->101
-404[label= " 128/512 " ];
+203[label= " 128/256 " ];
+203->101
+404[label= " 64/256 " ];
 404->202
-405[label= " 128/512 " ];
+405[label= " 64/256 " ];
 405->202
-808[label= " 64/512 " ];
+808[label= " 32/256 " ];
 808->404
-809[label= " 64/512 " ];
+809[label= " 32/256 " ];
 809->404
-1616[label= " 32/512 " ];
+1616[label= " 16/256 " ];
 1616->808
-1617[label= " 32/512 " ];
-1617->808
-3232[label= " 16/512 " ];
+3232[label= " 8/256 " ];
 3232->1616
-6464[label= " 8/512 " ];
-6464->3232
-6464[style=filled, fillcolor=yellow];
-1617[style=filled, fillcolor=yellow];
-1618[label= " 32/512 " ];
-1618->809
-1618[style=filled, fillcolor=yellow];
-810[label= " 64/512 " ];
+3232[style=filled, fillcolor=yellow];
+809[style=filled, fillcolor=yellow];
+810[label= " 32/256 " ];
 810->405
 810[style=filled, fillcolor=yellow];
+406[label= " 64/256 " ];
+406->203
+406[style=filled, fillcolor=yellow];
 }
