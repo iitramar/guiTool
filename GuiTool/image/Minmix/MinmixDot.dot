@@ -1,9 +1,15 @@
 digraph minmix{
-rankdir = TD;
+rankdir = BT;
  size="8,10.5";
  graph [label= <<u>MinMix</u>> , labelloc=t, fontsize=30];
-m1 -> x1_0 ;
-m1 -> m0;
-m0 -> x2_1 ;
-m0 -> x0_2;
+m0 -> m4 ;
+m3 -> m4;
+x2_0 -> m0 ;
+x1_1 -> m0;
+x0_2 -> m3 ;
+m2 -> m3;
+x0_3 -> m2 ;
+m1 -> m2;
+x1_4 -> m1 ;
+x0_5 -> m1;
 }

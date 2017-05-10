@@ -122,7 +122,7 @@ class TreeToDot{
 	void remiaGraphStart() throws IOException{
 		fw.append("digraph G {\n");
 		fw.append("rankdir = BT;" + '\n');
-                fw.append("graph [label= <<u>Codos</u>> , labelloc=t, fontsize=30];" + '\n');
+                fw.append("graph [label= <<u>CoDOS</u>> , labelloc=t, fontsize=30];" + '\n');
 	}
 	
 	void remiaGraphEnd() throws IOException{

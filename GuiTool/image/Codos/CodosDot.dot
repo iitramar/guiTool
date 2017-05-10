@@ -1,26 +1,31 @@
 digraph G {
 rankdir = BT;
-graph [label= <<u>Codos</u>> , labelloc=t, fontsize=30];
-1[style=filled, fillcolor= "#FBCEB1", label=R2R3R1R2R1];
-2[label=R2R3R1R2];
+graph [label= <<u>CoDOS</u>> , labelloc=t, fontsize=30];
+1[style=filled, fillcolor= "#FBCEB1", label=R2R1R2R3R1R2];
+2[label=R2R1R2R3];
 2->1
-3[label=R1];
+3[label=R1R2];
 3->1
-4[label=R2R3R1];
+4[label=R2R1R2];
 4->2
-5[label=R2];
+5[label=R3];
 5->2
-8[label=R2R3];
+8[label=R2];
 8->4
-9[label=R1];
+9[label=R1R2];
 9->4
-16[label=R2];
-16->8
-17[label=R3];
-17->8
-16[style=filled, fillcolor=yellow];
-17[style=filled, fillcolor=yellow];
-9[style=filled, fillcolor=yellow];
+8[style=filled, fillcolor=yellow];
+18[label=R1];
+18->9
+19[label=R2];
+19->9
+18[style=filled, fillcolor=yellow];
+19[style=filled, fillcolor=yellow];
 5[style=filled, fillcolor=yellow];
-3[style=filled, fillcolor=yellow];
+6[label=R1];
+6->3
+7[label=R2];
+7->3
+6[style=filled, fillcolor=yellow];
+7[style=filled, fillcolor=yellow];
 }

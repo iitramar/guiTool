@@ -1,6 +1,6 @@
 import math
 import pdb
-
+import os
 class node:
 	mix = 0
 	reactant = 0
@@ -13,15 +13,15 @@ def rec(target,root):
 	if(root==None):
 		return
 	if(root.left!=None):
-		target.write("%s -> %s ;\n"%(root.cv,root.left.cv))
+		target.write("%s -> %s ;\n"%(root.left.cv,root.cv))
 	if(root.right!=None):
-		target.write("%s -> %s;\n"%(root.cv, root.right.cv))
+		target.write("%s -> %s;\n"%(root.right.cv,root.cv))
 	rec(target,root.left)
 	rec(target,root.right)
 	
 def tree_to_dot(root):
 	target = open("./image/Minmix/MinmixDot.dot",'w')
-	target.write("digraph minmix{\nrankdir = TD;\n size=\"8,10.5\";\n graph [label= <<u>MinMix</u>> , labelloc=t, fontsize=30];\n")
+	target.write("digraph minmix{\nrankdir = BT;\n size=\"8,10.5\";\n graph [label= <<u>MinMix</u>> , labelloc=t, fontsize=30];\n")
 	rec(target,root)
 	target.write("}")
 	target.close()
@@ -58,8 +58,10 @@ def minmix(sample_array):
 		for j in range(n_reagents):
 			if(sample_array[j][0] & mask != 0):
 				bins[i].append(j)
+	bins_2 = [[j for j in i] for i in bins]
 	root = minmix_helper(bins,depth)
-	return (root,bins)
+	
+	return (root,bins_2)
 
 def get_waste(root):
 	if(root==None):
@@ -72,9 +74,12 @@ def generate_stat(sample_array):
 	minmix_output = minmix(sample_array)
 	root = minmix_output[0]
 	bins = minmix_output[1]
-	total_sample_array = [sum(i) for i in bins]
+	print bins
+	total_sample_array = [len(i) for i in bins]
+	#~ print total_sample_array
+	total_sample = sum(total_sample_array)
 	waste = get_waste(root)
-	return (root,total_sample_array,waste)
+	return (root,total_sample,waste)
 	
 	
 def main():
@@ -83,20 +88,42 @@ def main():
 	stri = target.read()
 	stri = stri.split(" ")
 	d = int(stri.pop())
-	total = int(stri[0])
+	d = 2**d
+	total = int(stri.pop(0))
 	arr = [[d for j in range(2)] for i in range(total)]
 	for i in range(total):
-		arr[i][0] = int(stri.pop())
-	generate_stat_output = generate_stat(sample_array)
+		arr[i][0] = int(stri.pop(0))
+	sample_array = [i[0] for i in arr]
+	generate_stat_output = generate_stat(arr)
 	root = generate_stat_output[0]
 	total_sample = generate_stat_output[1]
 	waste = generate_stat_output[2]
-	stat_filename = "./image/Minmix/minmix_stat.output"
-	stat_filehandle = open(stat_filename,'w')
-	for i in total_sample:
-		stat_filehandle.write("%d ")
-	stat_filehandle.write("\n%d\n"%waste)
-	stat_filehandle.close()
+	#~ stat_filename = "./image/Minmix/minmix_stat.output"
+	stat_filename = "./stat/Minmix/Minmix_Demo.txt"
+	counter = 1
+	if os.path.isfile(stat_filename):
+		stat_file_handle = open(stat_filename)
+		stat_file_data = stat_file_handle.read()
+		stat_file_data_linewise = stat_file_data.split("\n")
+		if stat_file_data_linewise !=['']:
+			print stat_file_data_linewise
+			stat_file_data_linewise.pop()
+			last_value = (stat_file_data_linewise.pop()).split("\t")
+			counter += int(last_value[0])
+		stat_file_handle.close()
+		
+	stat_file_handle = open(stat_filename,'a')
+	stat_file_handle.write("%d\t"%counter)
+	for i in range(len(arr)-1):
+		stat_file_handle.write("%d "%arr[i][0])
+	stat_file_handle.write("%d\t"%arr[-1][0])
+	stat_file_handle.write("%d\tNA\t%d\t%d\n"%(total_sample,waste-1,waste))
+	stat_file_handle.close()
+	#~ stat_filehandle = open(stat_filename,'w')
+	#~ for i in total_sample:
+		#~ stat_filehandle.write("%d "%i)
+	#~ stat_filehandle.write("\n%d\n"%waste)
+	#~ stat_filehandle.close()
 	tree_to_dot(root)
 	
 if __name__=='__main__':

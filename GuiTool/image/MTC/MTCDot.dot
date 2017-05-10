@@ -1,7 +1,6 @@
 digraph mtc{
 node0 [label="0000"];
-node1 [label="0100"];
-node2 [label="1101"];
-node3 [label="1111"];
-node4 [label="0110"];
+node1 [label="0101"];
+node2 [label="0111"];
+node3 [label="1001"];
 node3 -> node2 [label="3"];

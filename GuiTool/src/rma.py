@@ -86,6 +86,7 @@ def rec(target,root):
 def tree_to_dot(root):
 	target = open("./image/RMA/RMADot.dot",'w')
 	target.write("digraph minmix{\n")
+        target.write("graph [label= <<u>RMA</u>> , labelloc=t, fontsize=30];" + '\n')
 	rec(target,root)
 	target.write("}")
 	target.close()

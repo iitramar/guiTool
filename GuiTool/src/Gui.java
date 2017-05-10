@@ -251,14 +251,13 @@ public class Gui extends javax.swing.JFrame{
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(txtPrecision))
                     .addGroup(jPanelInputLayout.createSequentialGroup()
-                        .addGroup(jPanelInputLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanelInputLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(jPanelInputLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(28, 28, 28)
                         .addGroup(jPanelInputLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(algorithms1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -295,17 +294,15 @@ public class Gui extends javax.swing.JFrame{
                 .addGroup(jPanelInputLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(algorithms, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanelInputLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(algorithms1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanelInputLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(txtEx1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanelInputLayout.createSequentialGroup()
-                        .addGap(44, 44, 44)
-                        .addComponent(lblEx1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(jPanelInputLayout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanelInputLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(algorithms1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-                        .addGap(18, 18, 18)
-                        .addComponent(txtEx1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(11, 11, 11)
+                        .addComponent(lblEx1, javax.swing.GroupLayout.DEFAULT_SIZE, 24, Short.MAX_VALUE)))
                 .addGap(18, 18, 18)
                 .addGroup(jPanelInputLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(txtEx2)
@@ -319,9 +316,11 @@ public class Gui extends javax.swing.JFrame{
                     .addComponent(lblPrecision, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(txtPrecision))
                 .addGap(18, 18, 18)
-                .addGroup(jPanelInputLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(jPanelInputLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(btnSubmit)
-                    .addComponent(btnReset, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanelInputLayout.createSequentialGroup()
+                        .addComponent(btnReset, javax.swing.GroupLayout.DEFAULT_SIZE, 29, Short.MAX_VALUE)
+                        .addGap(3, 3, 3)))
                 .addContainerGap())
         );
 
@@ -722,7 +721,7 @@ public class Gui extends javax.swing.JFrame{
                         }
                     }
                     else if(obj1 == "Comparison"){
-                        bsObj.runBitScan("100", "9","./stat/Comparison/Comparison.txt");
+                        bsObj.runBitScan(txtTarget.getText(), txtPrecision.getText(),"./stat/Comparison/Comparison.txt");
                         TimeUnit.MILLISECONDS.sleep(1000);
                         String s = "./image/BitScanning/BitScanningDot.png";
                         loadStat("BitScanning", count);
@@ -754,7 +753,7 @@ public class Gui extends javax.swing.JFrame{
             Dmrw dmrwObj = new Dmrw();
             FileWriter fw ;
             try {   
-                    if(obj1 == "Demo" || obj1 == "Comparison"){
+                    if(obj1 == "Demo"){
                         fw = new FileWriter("./image/DMRW/dmrw.input");
                         fw.write(txtEx2.getText() + " " + txtEx1.getText() + " " + txtTarget.getText() + " " + txtPrecision.getText());
                         fw.close();
@@ -764,8 +763,35 @@ public class Gui extends javax.swing.JFrame{
                         String s = "./image/DMRW/DMRWDot.png";
                         dmrwObj.dotToPng(s,obj);
                         //loadStat("DMRW");
-                        TimeUnit.MILLISECONDS.sleep(1000);
-                        loadImage(s,count);
+                        if(is_demo == 1){
+                            loadStat("DMRW", 0);
+                            TimeUnit.MILLISECONDS.sleep(1000);
+                            loadImage(s,count);  
+                        }
+                    }
+                    else if(obj1 == "Comparison"){
+                        
+                    }
+                    else{
+                        fw = new FileWriter("./image/Gorma/gorma.input");
+                        fw.write(txtPrecision.getText());
+                        fw.close();
+                        TimeUnit.MILLISECONDS.sleep(100);
+                        dmrwObj.runDmrw(obj,obj1);
+                        TimeUnit.MILLISECONDS.sleep(3000);
+                        DefaultTableModel tableModel = (DefaultTableModel)statTable.getModel();
+                        FileReader fr = new FileReader("./stat/Gorma/Gorma_Stat.txt");
+                        String sCurrentLine;
+                        BufferedReader br = new BufferedReader(fr);
+                        while ((sCurrentLine = br.readLine()) != null) {
+                            String[] sArray = sCurrentLine.split("\t");
+                            Object[] ob = new Object[sArray.length];
+                            for(int i=0; i< sArray.length; i++){
+                                ob[i] = Integer.parseInt(sArray[i]) ;
+                            }
+                            tableModel.addRow(ob);
+			}
+                        jScrollPane1.getColumnHeader().setVisible(true);
                     }
 //                    else{
 //                        File f = new File("./stat/BitScanning/BitScanning_Stat.txt");
@@ -793,7 +819,7 @@ public class Gui extends javax.swing.JFrame{
             Dmrw dmrwObj = new Dmrw();
             FileWriter fw ;
             try {   
-                    if(obj1 == "Demo" || obj1 == "Comparison"){
+                    if(obj1 == "Demo"){
                         fw = new FileWriter("./image/IDMA/idma.input");
                         fw.write(txtEx2.getText() + " " + txtEx1.getText() + " " + txtTarget.getText() + " " + txtPrecision.getText());
                         fw.close();
@@ -804,7 +830,35 @@ public class Gui extends javax.swing.JFrame{
                         dmrwObj.dotToPng(s,obj);
                         TimeUnit.MILLISECONDS.sleep(1000);
                         //loadStat("DMRW");
-                        loadImage(s,count);
+                        if(is_demo == 1){
+                            loadStat("IDMA", 0);
+                            TimeUnit.MILLISECONDS.sleep(1000);
+                            loadImage(s,count);  
+                        }
+                    }
+                    else if(obj1 == "Comparison"){
+                        
+                    }
+                    else{
+                        fw = new FileWriter("./image/Gorma/gorma.input");
+                        fw.write(txtPrecision.getText());
+                        fw.close();
+                        TimeUnit.MILLISECONDS.sleep(100);
+                        dmrwObj.runDmrw(obj,obj1);
+                        TimeUnit.MILLISECONDS.sleep(3000);
+                        DefaultTableModel tableModel = (DefaultTableModel)statTable.getModel();
+                        FileReader fr = new FileReader("./stat/Gorma/Gorma_Stat.txt");
+                        String sCurrentLine;
+                        BufferedReader br = new BufferedReader(fr);
+                        while ((sCurrentLine = br.readLine()) != null) {
+                            String[] sArray = sCurrentLine.split("\t");
+                            Object[] ob = new Object[sArray.length];
+                            for(int i=0; i< sArray.length; i++){
+                                ob[i] = Integer.parseInt(sArray[i]) ;
+                            }
+                            tableModel.addRow(ob);
+			}
+                        jScrollPane1.getColumnHeader().setVisible(true);
                     }
 //                    else{
 //                        File f = new File("./stat/BitScanning/BitScanning_Stat.txt");
@@ -832,7 +886,7 @@ public class Gui extends javax.swing.JFrame{
             Dmrw dmrwObj = new Dmrw();
             FileWriter fw ;
             try {   
-                    if(obj1 == "Demo" || obj1 == "Comparison"){
+                    if(obj1 == "Demo"){
                         fw = new FileWriter("./image/Minmix/minmix.input");
                         fw.write(txtEx2.getText() + " " + txtTarget.getText() + " " + txtPrecision.getText());
                         fw.close();
@@ -843,7 +897,41 @@ public class Gui extends javax.swing.JFrame{
                         dmrwObj.dotToPng(s,obj);
                         TimeUnit.MILLISECONDS.sleep(1000);
                         //loadStat("DMRW");
-                        loadImage(s,count);
+                        if(is_demo == 1){
+                            loadStat("Minmix", 0);
+                            TimeUnit.MILLISECONDS.sleep(1000);
+                            loadImage(s,count);  
+                        }
+                        
+                    }
+                    else if(obj1 == "Comparison"){
+                        
+                    }
+                    else{
+                        fw = new FileWriter("./image/Minmix/minmix.input");
+                        fw.write(txtEx2.getText() + " " + txtPrecision.getText());
+                        fw.close();
+                        TimeUnit.MILLISECONDS.sleep(100);
+                        dmrwObj.runDmrw(obj,obj1);
+                        TimeUnit.MILLISECONDS.sleep(3000);
+                        DefaultTableModel tableModel = (DefaultTableModel)statTable.getModel();
+                        FileReader fr = new FileReader("./stat/Minmix/Minmix_Stat.txt");
+                        String sCurrentLine;
+                        BufferedReader br = new BufferedReader(fr);
+                        while ((sCurrentLine = br.readLine()) != null) {
+                            String[] sArray = sCurrentLine.split("\t");
+                            Object[] ob = new Object[sArray.length];
+                            for(int i=0; i< sArray.length; i++){
+                                if(i == 1 || i == 3){
+                                    ob[i] = sArray[i] ;
+                                }
+                                else{
+                                    ob[i] = Integer.parseInt(sArray[i]) ;
+                                }
+                            }
+                            tableModel.addRow(ob);
+			}
+                        jScrollPane1.getColumnHeader().setVisible(true);
                     }
 //                    else{
 //                        File f = new File("./stat/BitScanning/BitScanning_Stat.txt");
@@ -871,7 +959,7 @@ public class Gui extends javax.swing.JFrame{
             Dmrw dmrwObj = new Dmrw();
             FileWriter fw ;
             try {   
-                    if(obj1 == "Demo" || obj1 == "Comparison"){
+                    if(obj1 == "Demo"){
                         fw = new FileWriter("./image/Gorma/gorma.input");
                         fw.write(txtTarget.getText() + " " + txtPrecision.getText());
                         fw.close();
@@ -881,8 +969,35 @@ public class Gui extends javax.swing.JFrame{
                         String s = "./image/Gorma/GormaDot.png";
                         dmrwObj.dotToPng(s,obj);
                         //loadStat("DMRW");
-                        TimeUnit.MILLISECONDS.sleep(1000);
-                        loadImage(s,count);
+                        if(is_demo == 1){
+                            loadStat("Gorma", 0);
+                            TimeUnit.MILLISECONDS.sleep(1000);
+                            loadImage(s,count);  
+                        }
+                    }
+                    else if(obj1 == "Comparison"){
+                        
+                    }
+                    else{
+                        fw = new FileWriter("./image/Gorma/gorma.input");
+                        fw.write(txtPrecision.getText());
+                        fw.close();
+                        TimeUnit.MILLISECONDS.sleep(100);
+                        dmrwObj.runDmrw(obj,obj1);
+                        TimeUnit.MILLISECONDS.sleep(3000);
+                        DefaultTableModel tableModel = (DefaultTableModel)statTable.getModel();
+                        FileReader fr = new FileReader("./stat/Gorma/Gorma_Stat.txt");
+                        String sCurrentLine;
+                        BufferedReader br = new BufferedReader(fr);
+                        while ((sCurrentLine = br.readLine()) != null) {
+                            String[] sArray = sCurrentLine.split("\t");
+                            Object[] ob = new Object[sArray.length];
+                            for(int i=0; i< sArray.length; i++){
+                                ob[i] = Integer.parseInt(sArray[i]) ;
+                            }
+                            tableModel.addRow(ob);
+			}
+                        jScrollPane1.getColumnHeader().setVisible(true);
                     }
 //                    else{
 //                        File f = new File("./stat/BitScanning/BitScanning_Stat.txt");
@@ -910,7 +1025,7 @@ public class Gui extends javax.swing.JFrame{
             Dmrw dmrwObj = new Dmrw();
             FileWriter fw ;
             try {   
-                    if(obj1 == "Demo" || obj1 == "Comparison"){
+                    if(obj1 == "Demo"){
                         fw = new FileWriter("./image/MTC/mtc.input");
                         fw.write(txtEx2.getText() + " " + txtPrecision.getText() + " " + txtTarget.getText());
                         fw.close();
@@ -919,10 +1034,13 @@ public class Gui extends javax.swing.JFrame{
                         TimeUnit.MILLISECONDS.sleep(1000);
                         String s = "./image/MTC/MTCDot.png";
                         dmrwObj.dotToPng(s,obj);
-                        //loadStat("DMRW");
-                        TimeUnit.MILLISECONDS.sleep(1000);
-                        loadImage(s,count);
+                        if(is_demo == 1){
+                            loadStat("DMRW", 0);
+                            TimeUnit.MILLISECONDS.sleep(1000);
+                            loadImage(s,count);  
+                        }
                     }
+                    
 //                    else{
 //                        File f = new File("./stat/BitScanning/BitScanning_Stat.txt");
 //                        
@@ -958,7 +1076,11 @@ public class Gui extends javax.swing.JFrame{
                         }
                     }
                     else if(obj1 == "Comparison"){
-                        vospaObj.runVospa(txtTarget.getText(), txtPrecision.getText(), txtEx2.getText(),"./stat/Comparison/Comparison.txt");
+                        int denpow = Integer.parseInt(txtPrecision.getText());
+                        int den = (int)Math.pow(2, denpow);
+                        String stemp = ((Integer)den).toString();
+                        System.out.println("stemp = " + stemp);
+                        vospaObj.runVospa(txtTarget.getText()+"/"+stemp, "0.01", "4","./stat/Comparison/Comparison.txt");
                         TimeUnit.MILLISECONDS.sleep(1000);
                         String s = "./image/Vospa/VospaDot.png";
                         loadStat("Vospa", count);
@@ -1057,6 +1179,8 @@ public class Gui extends javax.swing.JFrame{
     
     private void btnSubmitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSubmitActionPerformed
         // TODO add your handling code here:
+        statTable.getColumnModel().getColumn(6).setMinWidth(0);
+        statTable.getColumnModel().getColumn(6).setMaxWidth(0);
         if(objective.getSelectedItem().toString() == "Stats"){
             String algo = algorithms.getSelectedItem().toString();
             File f = new File("./stat/" + algo + "/" + algo + "_Stat.txt");
@@ -1170,7 +1294,7 @@ public class Gui extends javax.swing.JFrame{
                     }
                     ) {
                     boolean[] canEdit = new boolean [] {
-                        false, false, false
+                        false, true, false
                     };
 
                     public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -1191,7 +1315,7 @@ public class Gui extends javax.swing.JFrame{
                     }
                     ) {
                     boolean[] canEdit = new boolean [] {
-                        false, false, false
+                        false, true, false
                     };
 
                     public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -1294,6 +1418,7 @@ public class Gui extends javax.swing.JFrame{
             }
             else if(comboBox2 == "Mixing"){
                 if(obj == "SDST"){
+                    //add dropdown
                     algorithms.addItem("Codos");
                     algorithms.addItem("Minmix");
                     algorithms.addItem("RMA");
@@ -1492,10 +1617,10 @@ public class Gui extends javax.swing.JFrame{
             txtPrecision.setVisible(true);
         }
         else if(obj == "Minmix"){
+            lblEx2.setText("Number of Reactants");
+            lblEx2.setVisible(true);
+            txtEx2.setVisible(true);
             if(obj1 == "Demo" || obj1 == "Comparison"){
-                lblEx2.setText("Number of Reactants");
-                lblEx2.setVisible(true);
-                txtEx2.setVisible(true);
                 lblTarget.setText("Target Concentration");
                 lblTarget.setVisible(true);
                 txtTarget.setVisible(true);

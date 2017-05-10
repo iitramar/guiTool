@@ -51,7 +51,12 @@ public class Dmrw {
         final String pythonPath = "/usr/bin/python";
         final String sourceFile;
         if(obj == "Stats"){
-            sourceFile = "./src/" + s.toLowerCase() + "_stat.py";
+            if(s == "IDMA" || s == "DMRW"){
+                sourceFile = "./src/" + "gorma_stat.py";
+            }
+            else{
+                sourceFile = "./src/" + s.toLowerCase() + "_stat.py";
+            }
         }
         else{
             sourceFile = "./src/" + s.toLowerCase() + ".py";

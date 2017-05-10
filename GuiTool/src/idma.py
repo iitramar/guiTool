@@ -1,5 +1,5 @@
 import pdb
-
+import os
 class node:
 	def __init__(self,cv,side):
 		self.cv = cv
@@ -165,6 +165,25 @@ def dmrw(cl,ch,ct,n):
 		num = num - 1
 	#pdb.set_trace()
 	#preorder(mid_node)
+	stat_filename = "./stat/IDMA/IDMA_Demo.txt"
+	counter = 1
+	if os.path.isfile(stat_filename):
+		stat_file_handle = open(stat_filename)
+		stat_file_data = stat_file_handle.read()
+		stat_file_data_linewise = stat_file_data.split("\n")
+		if stat_file_data_linewise !=['']:
+			print stat_file_data_linewise
+			stat_file_data_linewise.pop()
+			last_value = (stat_file_data_linewise.pop()).split("\t")
+			counter += int(last_value[0])
+		stat_file_handle.close()
+		
+	stat_file_handle = open(stat_filename,'a')
+	stat_file_handle.write("%d\t"%counter)
+	#~ target = open("./stat/IDMA/IDMA_Demo.txt",'w')
+	stat_file_handle.write("%d\t"%c)
+	stat_file_handle.write("%d\t%d\t%d\t%d\n"%(tmp.right_val,tmp.right_val,tmp.left_val,total_waste))
+	stat_file_handle.close()
 	return mid_node
 
 
@@ -267,7 +286,8 @@ def main():
 	target = open(filename,'r')
 	stri = target.read()
 	stri = stri.split(" ")
-	root = idma(float(stri[0]),float(stri[1]),float(stri[2]),float(stri[3]))
+	#~ root = idma(float(stri[0]),float(stri[1]),float((stri[2])/math.pow(2,float(stri[3]))),float(stri[3]))
+	root = dmrw(float(stri[0]),float(stri[1]),float(stri[2])/2**(float(stri[3])),float(stri[3]))
 	graph_to_dot(root)
 	
 	

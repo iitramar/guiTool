@@ -1,4 +1,5 @@
 from collections import deque
+import os
 import pdb
 class node:
 	
@@ -18,11 +19,11 @@ class node:
 
 def rec(target,root):
 	if(root.left!=None):
-		target.write("%s -> %s;\n"%(root.node_id,root.left.node_id))
+		target.write("%s -> %s;\n"%(root.left.node_id,root.node_id))
 		#print "%d/%d -> %d/%d;\n"%(root.cv,root.d,root.left.cv,root.left.d)
 		rec(target,root.left)
 	if(root.right!=None):
-		target.write("%s -> %s;\n"%(root.node_id,root.right.node_id))
+		target.write("%s -> %s;\n"%(root.right.node_id,root.node_id))
 		#print "%d/%d -> %d/%d;\n"%(root.cv,root.d,root.right.cv,root.right.d)
 		rec(target,root.right)
 
@@ -61,7 +62,7 @@ def modify_dot(root):
 def tree_to_dot(root):
 	nm = "%d_%d"%(root.cv,root.d)
 	targ = open("./image/Gorma/GormaDotOld.dot",'w')
-	targ.write("digraph groma{\n")
+	targ.write("digraph groma{\nrankdir = BT;\n")
 	rec_label(targ,root)
 	rec(targ,root)
 	targ.write("}")
@@ -202,22 +203,25 @@ def cmt_enumeration(z,d):
 
 def post_order(root):
 	if root==None:
-		return (0,0,0)
+		return (0,0,0,0)
 	if root.visited == 1:
-		return (0,0,0)
+		return (0,0,0,0)
 	root.visited = 1
-	waste, sample, buff = 0,0,0
+	mix_step,waste, sample, buff =0, 0,0,0
 	waste += root.waste
 	if root.cv == 1 and root.d==0:
 		sample += 1
-	if root.cv ==0 and root.d == 0 :
+	elif root.cv ==0 and root.d == 0 :
 		buff += 1
+	else:
+		mix_step += 1
 	left_ans = post_order(root.left)
 	right_ans = post_order(root.right)
 	waste += left_ans[2] + right_ans[2]
 	sample += left_ans[0] + right_ans[0]
 	buff += left_ans[1] + right_ans[1]
-	return (sample, buff, waste)
+	mix_step += left_ans[3] + right_ans[3]
+	return (sample, buff, waste,mix_step)
 	
 def get_stat(ct,d):
 	root = cmt_enumeration(ct,d)
@@ -232,7 +236,8 @@ def gorma(ct,d):
 	
 	#for i in level:
 		#print "%s/%s"%(i.cv,2**(i.d))
-	tree_to_dot(bt)
+	return bt
+	
 
 
 
@@ -241,7 +246,30 @@ def main():
 	filehandle = open(filename)
 	gorma_input = filehandle.read()
 	gorma_input = gorma_input.split(" ")
-	gorma(int(gorma_input[0]),int(gorma_input[1]))
+	bt = gorma(int(gorma_input[0]),int(gorma_input[1]))
+	tree_to_dot(bt)
+	stat = post_order(bt)
+	stat_filename = "./stat/Gorma/Gorma_Demo.txt"
+	counter = 1
+	if os.path.isfile(stat_filename):
+		stat_file_handle = open(stat_filename)
+		stat_file_data = stat_file_handle.read()
+		stat_file_data_linewise = stat_file_data.split("\n")
+		if stat_file_data_linewise !=['']:
+			print stat_file_data_linewise
+			stat_file_data_linewise.pop()
+			last_value = (stat_file_data_linewise.pop()).split("\t")
+			counter += int(last_value[0])
+		stat_file_handle.close()
+		
+	stat_file_handle = open(stat_filename,'a')
+	stat_file_handle.write("%d\t"%counter)
+	#~ for i in range(len(A)-1):
+		#~ stat_file_handle.write("%d "%A[i])
+	#~ stat_file_handle.write("%d\t"%A[-1])
+	stat_file_handle.write("%d\t"%(int(gorma_input[0])))
+	stat_file_handle.write("%d\t%d\t%d\t%d\n"%(stat[3],stat[0],stat[1],stat[2]))
+	stat_file_handle.close()
 	
 if __name__=="__main__":
 	main()

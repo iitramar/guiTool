@@ -1,5 +1,6 @@
 import pdb
-
+import math
+import os
 class node:
 	def __init__(self,cv,side):
 		self.cv = cv
@@ -136,12 +137,30 @@ def dmrw(cl,ch,ct,n):
 	#preorder(mid_node)
 	#print tmp.left_val
 	graph_to_dot(mid_node)
-	target = open("./stat/DMRW/DMRW_Demo.txt",'w')
-	target.write("%d %d %d"%(tmp.right_val,tmp.left_val,total_waste))
-	target.close()
+	stat_filename = "./stat/DMRW/DMRW_Demo.txt"
+	counter = 1
+	if os.path.isfile(stat_filename):
+		stat_file_handle = open(stat_filename)
+		stat_file_data = stat_file_handle.read()
+		stat_file_data_linewise = stat_file_data.split("\n")
+		if stat_file_data_linewise !=['']:
+			print stat_file_data_linewise
+			stat_file_data_linewise.pop()
+			last_value = (stat_file_data_linewise.pop()).split("\t")
+			counter += int(last_value[0])
+		stat_file_handle.close()
+		
+	stat_file_handle = open(stat_filename,'a')
+	stat_file_handle.write("%d\t"%counter)
+	#~ target = open("./stat/DMRW/DMRW_Demo.txt",'w')
+	stat_file_handle.write("%d\t"%c)
+	stat_file_handle.write("%d\t%d\t%d\t%d\n"%(tmp.right_val,tmp.right_val,tmp.left_val,total_waste))
+	stat_file_handle.close()
 
 filename = "./image/DMRW/dmrw.input"
 target = open(filename,'r')
 stri = target.read()
 stri = stri.split(" ")
-dmrw(float(stri[0]),float(stri[1]),float(stri[2]),float(stri[3]))
+#~ pdb.set_trace()
+dmrw(float(stri[0]),float(stri[1]),float(stri[2])/2**(float(stri[3])),float(stri[3]))
+#~ math.pow(2,float(stri[3])

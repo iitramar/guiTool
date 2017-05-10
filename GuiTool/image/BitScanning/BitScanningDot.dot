@@ -1,34 +1,34 @@
 digraph G { 
 rankdir = BT;
 graph [label= <<u>Bit-Scanning</u>> , labelloc=t, fontsize=30];
-1[label= " 100/512 " ];
-2[label= " 200/512 " ];
+1[label= " 34/256 " ];
+2[label= " 68/256 " ];
 2->1
-3[label= " 0/512 " ];
+3[label= " 0/256 " ];
 3->1
-4[label= " 400/512 " ];
+4[label= " 136/256 " ];
 4->2
-5[label= " 0/512 " ];
+5[label= " 0/256 " ];
 5->2
-8[label= " 288/512 " ];
+8[label= " 16/256 " ];
 8->4
-9[label= " 512/512 " ];
+9[label= " 256/256 " ];
 9->4
-16[label= " 64/512 " ];
+16[label= " 32/256 " ];
 16->8
-17[label= " 512/512 " ];
+17[label= " 0/256 " ];
 17->8
-32[label= " 128/512 " ];
+32[label= " 64/256 " ];
 32->16
-33[label= " 0/512 " ];
+33[label= " 0/256 " ];
 33->16
-64[label= " 256/512 " ];
+64[label= " 128/256 " ];
 64->32
-65[label= " 0/512 " ];
+65[label= " 0/256 " ];
 65->32
-128[label= " 0/512 " ];
+128[label= " 0/256 " ];
 128->64
-129[label= " 512/512 " ];
+129[label= " 256/256 " ];
 129->64
 128[style=filled, fillcolor=yellow];
 129[style=filled, fillcolor=yellow];

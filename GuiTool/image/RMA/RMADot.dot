@@ -1,10 +1,9 @@
 digraph minmix{
-m0 -> x0_1 ;
+graph [label= <<u>RMA</u>> , labelloc=t, fontsize=30];
+m0 -> x1_1 ;
 m0 -> m1;
-m1 -> x1_2 ;
+m1 -> x2_2 ;
 m1 -> m2;
 m2 -> x0_3 ;
-m2 -> m3;
-m3 -> x1_4 ;
-m3 -> x2_5;
+m2 -> x2_4;
 }
