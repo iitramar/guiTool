@@ -43,16 +43,16 @@ def rec(target, root,yy):
 		target.write("%d [pos=\"6,%d!\"];\n"%(root.cv,yy))
 		
 	if(root.left_p!=None):
-		target.write("%d -> %d [label=\"%d\"];\n"%(root.cv,root.left_p.cv,root.left_val))
+		target.write("%d -> %d "%(root.left_p.cv,root.cv))
 		rec(target,root.left_p,yy)
 	if(root.right_p!=None):
-		target.write("%d -> %d [label=\"%d\"];\n"%(root.cv,root.right_p.cv,root.right_val))
+		target.write("%d -> %d ;\n"%(root.right_p.cv,root.cv))
 		rec(target,root.right_p,yy)
 	
 def graph_to_dot(root):
 	#print root
 	target = open("./image/DMRW/DMRWDot.dot","w")
-	target.write("digraph DMRW{\nrankdir = LR;\n")
+	target.write("digraph DMRW{\nrankdir = BT;\n")
 	rec(target,root,25)
 	target.write("}")
 	target.close()

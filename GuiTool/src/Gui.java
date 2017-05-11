@@ -605,6 +605,7 @@ public class Gui extends javax.swing.JFrame{
         
     }
     
+    /* Call your algorithm from the gui here */
     public void callAlgorithm(String obj1, String obj, int count, int is_demo){
         
         if(obj == "Codos"){
@@ -770,7 +771,17 @@ public class Gui extends javax.swing.JFrame{
                         }
                     }
                     else if(obj1 == "Comparison"){
-                        
+                        fw = new FileWriter("./image/DMRW/dmrw.input");
+                        fw.write("0" + " " + "1" + " " + txtTarget.getText() + " " + txtPrecision.getText());
+                        fw.close();
+                        TimeUnit.MILLISECONDS.sleep(100);
+                        dmrwObj.runDmrw(obj,obj1);
+                        TimeUnit.MILLISECONDS.sleep(1000);
+                        String s = "./image/DMRW/DMRWDot.png";
+                        dmrwObj.dotToPng(s,obj);
+                        TimeUnit.MILLISECONDS.sleep(1000);
+                        loadStat("DMRW", count);
+                        loadImage(s,count);
                     }
                     else{
                         fw = new FileWriter("./image/Gorma/gorma.input");
@@ -837,7 +848,17 @@ public class Gui extends javax.swing.JFrame{
                         }
                     }
                     else if(obj1 == "Comparison"){
-                        
+                        fw = new FileWriter("./image/IDMA/idma.input");
+                        fw.write("0" + " " + "1" + " " + txtTarget.getText() + " " + txtPrecision.getText());
+                        fw.close();
+                        TimeUnit.MILLISECONDS.sleep(100);
+                        dmrwObj.runDmrw(obj,obj1);
+                        TimeUnit.MILLISECONDS.sleep(1000);
+                        String s = "./image/IDMA/IDMADot.png";
+                        dmrwObj.dotToPng(s,obj);
+                        TimeUnit.MILLISECONDS.sleep(1000);
+                        loadStat("IDMA", count);
+                        loadImage(s,count);
                     }
                     else{
                         fw = new FileWriter("./image/Gorma/gorma.input");
@@ -905,7 +926,17 @@ public class Gui extends javax.swing.JFrame{
                         
                     }
                     else if(obj1 == "Comparison"){
-                        
+                        fw = new FileWriter("./image/Minmix/minmix.input");
+                        fw.write(txtEx2.getText() + " " + txtTarget.getText() + " " + txtPrecision.getText());
+                        fw.close();
+                        TimeUnit.MILLISECONDS.sleep(100);
+                        dmrwObj.runDmrw(obj,obj1);
+                        TimeUnit.MILLISECONDS.sleep(1000);
+                        String s = "./image/Minmix/MinmixDot.png";
+                        dmrwObj.dotToPng(s,obj);
+                        TimeUnit.MILLISECONDS.sleep(1000);
+                        loadStat("Minmix", count);
+                        loadImage(s,count);
                     }
                     else{
                         fw = new FileWriter("./image/Minmix/minmix.input");
@@ -976,7 +1007,17 @@ public class Gui extends javax.swing.JFrame{
                         }
                     }
                     else if(obj1 == "Comparison"){
-                        
+                        fw = new FileWriter("./image/Gorma/gorma.input");
+                        fw.write(txtTarget.getText() + " " + txtPrecision.getText());
+                        fw.close();
+                        TimeUnit.MILLISECONDS.sleep(100);
+                        dmrwObj.runDmrw(obj,obj1);
+                        TimeUnit.MILLISECONDS.sleep(1000);
+                        String s = "./image/Gorma/GormaDot.png";
+                        dmrwObj.dotToPng(s,obj);
+                        TimeUnit.MILLISECONDS.sleep(1000);
+                        loadStat("Gorma", count);
+                        loadImage(s,count);
                     }
                     else{
                         fw = new FileWriter("./image/Gorma/gorma.input");
@@ -1039,6 +1080,19 @@ public class Gui extends javax.swing.JFrame{
                             TimeUnit.MILLISECONDS.sleep(1000);
                             loadImage(s,count);  
                         }
+                    }
+                    else if(obj1 == "Comparison"){
+                        fw = new FileWriter("./image/MTC/mtc.input");
+                        fw.write(txtEx2.getText() + " " + txtPrecision.getText() + " " + txtTarget.getText());
+                        fw.close();
+                        TimeUnit.MILLISECONDS.sleep(100);
+                        dmrwObj.runDmrw(obj,obj1);
+                        TimeUnit.MILLISECONDS.sleep(1000);
+                        String s = "./image/MTC/MTCDot.png";
+                        dmrwObj.dotToPng(s,obj);
+                        TimeUnit.MILLISECONDS.sleep(1000);
+                        loadStat("MTC", count);
+                        loadImage(s,count);
                     }
                     
 //                    else{
@@ -1174,6 +1228,52 @@ public class Gui extends javax.swing.JFrame{
                     e1.printStackTrace();
                 }
         }
+        /*
+        else if(obj == "XYZ"){
+            XYZ xyzObj = new XYZ();
+            try {   
+                    if(obj1 == "Demo"){
+                        xyzObj.runXYZ("String args[]");
+                        TimeUnit.MILLISECONDS.sleep(1000);
+                        String s = "./image/XYZ/XYZDot.png";
+                        if(is_demo == 1){
+                            loadStat("XYZ", 0);
+                            loadImage(s,count);  
+                        }
+                    }
+                    else if(obj1 == "Comparison"){
+                        xyzObj.runXYZ("String args[]");
+                        TimeUnit.MILLISECONDS.sleep(1000);
+                        String s = "./image/XYZ/XYZDot.png";
+                        loadStat("Remia", count);
+                        loadImage(s,count);
+                    }
+                    else{
+                        xyzObj.runXYZStat("String args[]");
+                        TimeUnit.MILLISECONDS.sleep(3000);
+                        DefaultTableModel tableModel = (DefaultTableModel)statTable.getModel();
+                        FileReader fr = new FileReader("./stat/XYZ/XYZ_Stat.txt");
+                        String sCurrentLine;
+                        BufferedReader br = new BufferedReader(fr);
+                        while ((sCurrentLine = br.readLine()) != null) {
+                            String[] sArray = sCurrentLine.split("\t");
+                            Object[] ob = new Object[sArray.length];
+                            for(int i=0; i< sArray.length; i++){
+                                ob[i] = sArray[i] ;
+                            }
+                            tableModel.addRow(ob);
+			}
+                        jScrollPane1.getColumnHeader().setVisible(true);
+                    }
+                } catch (IOException e1) {
+                    // TODO Auto-generated catch block
+                    e1.printStackTrace();
+                } catch (InterruptedException e1) {
+                    // TODO Auto-generated catch block
+                    e1.printStackTrace();
+                }
+        }
+        */
 
     }
     
@@ -1382,12 +1482,15 @@ public class Gui extends javax.swing.JFrame{
         algoClass.setVisible(true);
     }//GEN-LAST:event_mixingSpecsActionPerformed
 
+    /* Add your algorithm in the dropdown as per the hierarchy here*/
     private void algoClassActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_algoClassActionPerformed
         // TODO add your handling code here:
         String comboBox1 = architecture.getSelectedItem().toString();
         String comboBox2 = mixingSpecs.getSelectedItem().toString();
         String obj = algoClass.getSelectedItem().toString();
         algorithms.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select" }));
+        
+        
         if(comboBox1 == "CMFB"){
             if(comboBox2 == "Dilution"){
                 if(obj == "SDST"){
@@ -1396,6 +1499,7 @@ public class Gui extends javax.swing.JFrame{
                 }
             }
         }
+        
         else if(comboBox1 == "DMFB"){
             if(comboBox2 == "Dilution"){
                 if(obj == "SDST"){
@@ -1450,7 +1554,7 @@ public class Gui extends javax.swing.JFrame{
             lblPrecision.setVisible(true);
             txtPrecision.setVisible(true);
             }
-            else if(obj == "Remia"){
+            else if(algo == "Remia"){
                 lblTarget.setText("Target Concentration");
                 lblTarget.setVisible(true);
                 txtTarget.setVisible(true);
@@ -1458,7 +1562,7 @@ public class Gui extends javax.swing.JFrame{
                 lblPrecision.setVisible(true);
                 txtPrecision.setVisible(true);
             }
-            else if(obj == "BitScanning"){
+            else if(algo == "BitScanning"){
                 lblTarget.setText("Target Concentration");
                 lblTarget.setVisible(true);
                 txtTarget.setVisible(true);
@@ -1466,7 +1570,7 @@ public class Gui extends javax.swing.JFrame{
                 lblPrecision.setVisible(true);
                 txtPrecision.setVisible(true);
             }
-            else if(obj == "DMRW"){
+            else if(algo == "DMRW"){
                 lblTarget.setText("Target Concentration");
                 lblTarget.setVisible(true);
                 txtTarget.setVisible(true);
@@ -1474,7 +1578,7 @@ public class Gui extends javax.swing.JFrame{
                 lblPrecision.setVisible(true);
                 txtPrecision.setVisible(true);
             }
-            else if(obj == "IDMA"){
+            else if(algo == "IDMA"){
                 lblTarget.setText("Target Concentration");
                 lblTarget.setVisible(true);
                 txtTarget.setVisible(true);
@@ -1482,7 +1586,7 @@ public class Gui extends javax.swing.JFrame{
                 lblPrecision.setVisible(true);
                 txtPrecision.setVisible(true);
             }
-            else if(obj == "Minmix"){
+            else if(algo == "Minmix"){
                 lblTarget.setText("Target Concentration");
                 lblTarget.setVisible(true);
                 txtTarget.setVisible(true);
@@ -1490,7 +1594,7 @@ public class Gui extends javax.swing.JFrame{
                 lblPrecision.setVisible(true);
                 txtPrecision.setVisible(true);
             }
-            else if(obj == "Gorma"){
+            else if(algo == "Gorma"){
                 lblTarget.setText("Target Concentration");
                 lblTarget.setVisible(true);
                 txtTarget.setVisible(true);
@@ -1498,7 +1602,7 @@ public class Gui extends javax.swing.JFrame{
                 lblPrecision.setVisible(true);
                 txtPrecision.setVisible(true);
             }
-            else if(obj == "MTC"){
+            else if(algo == "MTC"){
                 lblEx2.setText("Number of Targets");
                 lblEx2.setVisible(true);
                 txtEx2.setVisible(true);
@@ -1509,7 +1613,7 @@ public class Gui extends javax.swing.JFrame{
                 lblPrecision.setVisible(true);
                 txtPrecision.setVisible(true);
             }
-            else if(obj == "RMA"){
+            else if(algo == "RMA"){
                 lblEx2.setText("Number of Reactants");
                 lblEx2.setVisible(true);
                 txtEx2.setVisible(true);
@@ -1520,7 +1624,7 @@ public class Gui extends javax.swing.JFrame{
                 lblPrecision.setVisible(true);
                 txtPrecision.setVisible(true);
             }
-            else if(obj == "Vospa"){
+            else if(algo == "Vospa"){
                 lblTarget.setText("Target Concentration");
                 lblTarget.setVisible(true);
                 txtTarget.setVisible(true);
@@ -1534,6 +1638,7 @@ public class Gui extends javax.swing.JFrame{
         }
     }//GEN-LAST:event_algoClassActionPerformed
 
+    /* Provide the input fields of the algorithm as per the module here */
     private void algorithmsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_algorithmsActionPerformed
         // TODO add your handling code here:
         String obj = algorithms.getSelectedItem().toString();
@@ -1585,7 +1690,12 @@ public class Gui extends javax.swing.JFrame{
             txtPrecision.setVisible(true);
         }
         else if(obj == "DMRW"){
-            if(obj1 == "Demo" || obj1 == "Comparison"){
+            if(obj1 == "Comparison"){
+                lblTarget.setText("Target Concentration");
+                lblTarget.setVisible(true);
+                txtTarget.setVisible(true);
+            }
+            else if(obj1 == "Demo"){
                 lblEx1.setText("Sample");
                 lblEx2.setText("Buffer");
                 lblEx1.setVisible(true);
@@ -1601,7 +1711,12 @@ public class Gui extends javax.swing.JFrame{
             txtPrecision.setVisible(true);
         }
         else if(obj == "IDMA"){
-            if(obj1 == "Demo" || obj1 == "Comparison"){
+            if(obj1 == "Comparison"){
+                lblTarget.setText("Target Concentration");
+                lblTarget.setVisible(true);
+                txtTarget.setVisible(true);
+            }
+            else if(obj1 == "Demo"){
                 lblEx1.setText("Sample");
                 lblEx2.setText("Buffer");
                 lblEx1.setVisible(true);

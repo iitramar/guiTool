@@ -1,9 +1,18 @@
 digraph minmix{
+rankdir = BT;
 graph [label= <<u>RMA</u>> , labelloc=t, fontsize=30];
-m0 -> x1_1 ;
-m0 -> m1;
-m1 -> x2_2 ;
-m1 -> m2;
-m2 -> x0_3 ;
-m2 -> x2_4;
+m1 -> m0 ;
+m4 -> m0;
+x2_1 -> m1 ;
+m2 -> m1;
+x2_2 -> m2 ;
+m3 -> m2;
+x2_3 -> m3 ;
+x0_4 -> m3;
+x0_5 -> m4 ;
+m5 -> m4;
+x1_6 -> m5 ;
+m6 -> m5;
+x1_7 -> m6 ;
+x1_8 -> m6;
 }

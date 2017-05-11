@@ -77,15 +77,15 @@ def rec(target,root):
 	if(root==None):
 		return
 	if(root.left!=None):
-		target.write("%s -> %s ;\n"%(root.cv, root.left.cv))
+		target.write("%s -> %s ;\n"%(root.left.cv,root.cv))
 	if(root.right!=None):
-		target.write("%s -> %s;\n"%(root.cv, root.right.cv))
+		target.write("%s -> %s;\n"%(root.right.cv, root.cv))
 	rec(target,root.left)
 	rec(target,root.right)
 	
 def tree_to_dot(root):
 	target = open("./image/RMA/RMADot.dot",'w')
-	target.write("digraph minmix{\n")
+	target.write("digraph minmix{\nrankdir = BT;\n")
         target.write("graph [label= <<u>RMA</u>> , labelloc=t, fontsize=30];" + '\n')
 	rec(target,root)
 	target.write("}")
