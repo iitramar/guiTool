@@ -1,16 +1,18 @@
 
 import java.awt.BorderLayout;
-import java.awt.Component;
+
 import java.awt.Desktop;
 import java.awt.Dimension;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.File;
+
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+
 import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
@@ -21,7 +23,16 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableColumn;
+
+import com.google.gson.Gson;
+
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import java.awt.ComponentOrientation;
+import java.io.BufferedWriter;
+import java.io.PrintWriter;
+import java.io.Writer;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -61,6 +72,7 @@ public class Gui extends javax.swing.JFrame{
         zoomOut.setVisible(false);
         algorithms1.setVisible(false);
         jLabel7.setVisible(false);
+        descPane.setVisible(false);
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
         centerRenderer.setHorizontalAlignment( JLabel.CENTER );
         for(int i=0;i<statTable.getColumnCount();i++){
@@ -81,6 +93,9 @@ public class Gui extends javax.swing.JFrame{
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jMenuBar1 = new javax.swing.JMenuBar();
+        jMenu1 = new javax.swing.JMenu();
+        jMenu2 = new javax.swing.JMenu();
         jPanelInput = new javax.swing.JPanel();
         btnSubmit = new javax.swing.JButton();
         btnReset = new javax.swing.JButton();
@@ -116,6 +131,17 @@ public class Gui extends javax.swing.JFrame{
         jPanel1 = new javax.swing.JPanel();
         zoomIn = new javax.swing.JButton();
         zoomOut = new javax.swing.JButton();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        descPane = new javax.swing.JTextPane();
+        jMenuBar2 = new javax.swing.JMenuBar();
+        jMenu3 = new javax.swing.JMenu();
+        jMenu4 = new javax.swing.JMenu();
+
+        jMenu1.setText("File");
+        jMenuBar1.add(jMenu1);
+
+        jMenu2.setText("Edit");
+        jMenuBar1.add(jMenu2);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Frame");
@@ -435,23 +461,38 @@ public class Gui extends javax.swing.JFrame{
             }
         });
 
+        jScrollPane3.setViewportView(descPane);
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addGap(378, 378, 378)
-                .addComponent(zoomOut, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(486, 486, 486)
+                .addComponent(zoomOut, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(43, 43, 43)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 339, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(88, 88, 88)
                 .addComponent(zoomIn, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                .addComponent(zoomIn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(zoomOut, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addComponent(zoomOut, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(zoomIn)
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
+
+        jMenu3.setText("File");
+        jMenuBar2.add(jMenu3);
+
+        jMenu4.setText("Edit");
+        jMenuBar2.add(jMenu4);
+
+        setJMenuBar(jMenuBar2);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -478,7 +519,7 @@ public class Gui extends javax.swing.JFrame{
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanelGraph, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanelGraph, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jPanelInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
@@ -497,6 +538,7 @@ public class Gui extends javax.swing.JFrame{
     JLabel lblImage = null;
     JLabel lblImage1 = null;
     int width = 470, height = 500 ;
+    
     
     public void loadImage(String s, int count){
         width = (int)(0.75 * jPanelGraph.getWidth()) ;
@@ -1279,6 +1321,7 @@ public class Gui extends javax.swing.JFrame{
     
     private void btnSubmitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSubmitActionPerformed
         // TODO add your handling code here:
+        descPane.setVisible(false);
         statTable.getColumnModel().getColumn(6).setMinWidth(0);
         statTable.getColumnModel().getColumn(6).setMaxWidth(0);
         if(objective.getSelectedItem().toString() == "Stats"){
@@ -1643,6 +1686,30 @@ public class Gui extends javax.swing.JFrame{
         // TODO add your handling code here:
         String obj = algorithms.getSelectedItem().toString();
         String obj1 = objective.getSelectedItem().toString();
+//        FileInputStream fis = null;
+//        try {
+//            fis = new FileInputStream("./description.json");
+//        } catch (FileNotFoundException ex) {
+//            Logger.getLogger(Gui.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//        Reader reader = new InputStreamReader(fis);
+        descPane.setVisible(true);
+        jPanelGraph.add(descPane, BorderLayout.CENTER);
+        Gson gson = new Gson();
+        JsonElement jElement = null;
+        try {
+            jElement = gson.fromJson(new FileReader("./desc.json"), JsonElement.class);
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(Gui.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        JsonObject  jobject = jElement.getAsJsonObject();
+        jobject = jobject.getAsJsonObject(obj1);
+        JsonArray jarray = jobject.getAsJsonArray(obj);
+        jobject = jarray.get(0).getAsJsonObject();
+        String results = jobject.get("desc").getAsString();
+        //System.out.println("results = " + results);
+        descPane.setText(results);
+        
         if(obj == "Codos"){
             lblEx2.setText("Number of Reactants");
             lblEx2.setVisible(true);
@@ -1782,7 +1849,7 @@ public class Gui extends javax.swing.JFrame{
         }
         else if(obj == "Vospa"){
             
-            if(obj1 == "Demo" || obj1 == "Comparison"){
+            if(obj1 == "Demo"){
                 lblTarget.setText("Target Concentration");
                 lblTarget.setVisible(true);
                 txtTarget.setVisible(true);
@@ -1790,15 +1857,27 @@ public class Gui extends javax.swing.JFrame{
                 lblPrecision.setText("Tolerance");
                 lblPrecision.setVisible(true);
                 txtPrecision.setVisible(true);
+                
+                lblEx2.setText("Segments");
+                lblEx2.setVisible(true);
+                txtEx2.setVisible(true);
+            }
+            else if(obj1 == "Comparison"){
+                lblTarget.setText("Target Concentration");
+                lblTarget.setVisible(true);
+                txtTarget.setVisible(true);
+                lblPrecision.setText("Accuracy");
+                lblPrecision.setVisible(true);
+                txtPrecision.setVisible(true);
             }
             else if(obj1 == "Stats"){
                 lblPrecision.setText("Accuracy");
                 lblPrecision.setVisible(true);
                 txtPrecision.setVisible(true);
+                lblEx2.setText("Segments");
+                lblEx2.setVisible(true);
+                txtEx2.setVisible(true);
             }
-            lblEx2.setText("Segments");
-            lblEx2.setVisible(true);
-            txtEx2.setVisible(true);
         }
         algorithms1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select" }));
         for(int i = 0;i<algorithms.getItemCount();i++){
@@ -1926,6 +2005,7 @@ public class Gui extends javax.swing.JFrame{
     private javax.swing.JButton btnReset;
     private javax.swing.JButton btnSubmit;
     private javax.swing.JTable demoTable;
+    private javax.swing.JTextPane descPane;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -1933,6 +2013,12 @@ public class Gui extends javax.swing.JFrame{
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenu jMenu2;
+    private javax.swing.JMenu jMenu3;
+    private javax.swing.JMenu jMenu4;
+    private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuBar jMenuBar2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanelGraph;
     private javax.swing.JPanel jPanelInfo;
@@ -1940,6 +2026,7 @@ public class Gui extends javax.swing.JFrame{
     private javax.swing.JPanel jPanelStats;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JLabel lblEx1;
     private javax.swing.JLabel lblEx2;
     private javax.swing.JLabel lblPrecision;

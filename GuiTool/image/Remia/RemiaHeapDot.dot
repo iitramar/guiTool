@@ -1,18 +1,28 @@
 digraph G { 
 rankdir = BT;
 graph [label= "Remia Exponentiation", labelloc=t, fontsize=30];
-101[label= " 64/64 " ];
-202[label= " 32/64 " ];
+101[label= " 1024/1024 " ];
+202[label= " 512/1024 " ];
 202->101
-404[label= " 16/64 " ];
+203[label= " 512/1024 " ];
+203->101
+404[label= " 256/1024 " ];
 404->202
-808[label= " 8/64 " ];
+405[label= " 256/1024 " ];
+405->202
+808[label= " 128/1024 " ];
 808->404
-1616[label= " 4/64 " ];
+1616[label= " 64/1024 " ];
 1616->808
-3232[label= " 2/64 " ];
+3232[label= " 32/1024 " ];
 3232->1616
-3232[style=filled, fillcolor=yellow];
-201[label= " 64/64 " ];
-201[style=filled, fillcolor=yellow];
+6464[label= " 16/1024 " ];
+6464->3232
+12928[label= " 8/1024 " ];
+12928->6464
+25856[label= " 4/1024 " ];
+25856->12928
+25856[style=filled, fillcolor=yellow];
+405[style=filled, fillcolor=yellow];
+203[style=filled, fillcolor=yellow];
 }
