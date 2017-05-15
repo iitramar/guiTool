@@ -1,16 +1,33 @@
 digraph G { 
 rankdir = BT;
 graph [label= "Remia Interpolation", labelloc=t, fontsize=30];
-1[label= " 131/256 " ];
-2[label= " 256/256 " ];
+1[label= " 54/256 " ];
+2[label= " 64/256 " ];
 2->1
-3[label= " 6/256 " ];
+3[label= " 44/256 " ];
 3->1
 2[style=filled, fillcolor=yellow];
-6[label= " 8/256 " ];
+6[label= " 64/256 " ];
 6->3
-7[label= " 4/256 " ];
+7[label= " 24/256 " ];
 7->3
 6[style=filled, fillcolor=yellow];
-7[style=filled, fillcolor=yellow];
+14[label= " 32/256 " ];
+14->7
+15[label= " 16/256 " ];
+15->7
+14[style=filled, fillcolor=yellow];
+15[style=filled, fillcolor=yellow];
+101[label= " 56/256 " ];
+202[label= " 64/256 " ];
+202->101
+203[label= " 48/256 " ];
+203->101
+202[style=filled, fillcolor=yellow];
+406[label= " 64/256 " ];
+406->203
+407[label= " 32/256 " ];
+407->203
+406[style=filled, fillcolor=yellow];
+407[style=filled, fillcolor=yellow];
 }

@@ -220,7 +220,7 @@ public class Remia {
                 return newImage;
         }
 	
-	public void runRemia( String s_n, String s_c_t, String s_del , String fileName){
+	public void runRemia( String s_n, String s_c_t, String s_del , String fileName, String objective){
 		
 		double d , N;
 		N = inputConversion(s_n);
@@ -307,7 +307,13 @@ public class Remia {
 
 		try{
                         if(N==1){
-                            writeStat(s_c_t, "./stat/Remia/" + fileName);
+                            if(objective == "Demo"){
+                                writeStat(s_c_t, "./stat/Remia/" + fileName);
+                            }
+                            else if(objective == "Comparison"){
+                                writeStat(s_c_t, "./stat/Comparison/Comparison.txt");
+                            }
+                            
                         }
                         else{
                             writeStat(s_c_t, "./stat/ExRemia/" + fileName);

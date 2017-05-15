@@ -31,8 +31,11 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import java.awt.ComponentOrientation;
 import java.io.BufferedWriter;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.PrintWriter;
 import java.io.Writer;
+import java.nio.channels.FileChannel;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -662,6 +665,29 @@ public class Gui extends javax.swing.JFrame{
         
     }
     
+    public void copyFile(File sourceFile, File destFile) throws IOException {
+        if(!destFile.exists()) {
+            destFile.createNewFile();
+        }
+
+        FileChannel source = null;
+        FileChannel destination = null;
+
+        try {
+            source = new FileInputStream(sourceFile).getChannel();
+            destination = new FileOutputStream(destFile).getChannel();
+            destination.transferFrom(source, 0, source.size());
+        }
+        finally {
+            if(source != null) {
+                source.close();
+            }
+            if(destination != null) {
+                destination.close();
+            }
+        }
+    }
+    
     /* Call your algorithm from the gui here */
     public void callAlgorithm(String obj1, String obj, int count, int is_demo){
         
@@ -698,6 +724,8 @@ public class Gui extends javax.swing.JFrame{
                     fw.close();
 
                     jScrollPane1.getColumnHeader().setVisible(true);
+                    File dest = new File("./stat/Codos/Codos_Stat_" + txtEx2.getText() + "_" + txtPrecision.getText() + ".txt");
+                    copyFile(f, dest);
                 }
             } catch (IOException e1) {
                 // TODO Auto-generated catch block
@@ -711,7 +739,7 @@ public class Gui extends javax.swing.JFrame{
             Remia remiaObj = new Remia();
             try {   
                     if(obj1 == "Demo"){
-                        remiaObj.runRemia("1", txtTarget.getText(),txtPrecision.getText(), "Remia_Demo.txt");
+                        remiaObj.runRemia("1", txtTarget.getText(),txtPrecision.getText(), "Remia_Demo.txt", obj1);
                         TimeUnit.MILLISECONDS.sleep(1000);
                         String s = "./image/Remia/RemiaDot.png";
                         if(is_demo == 1){
@@ -720,7 +748,7 @@ public class Gui extends javax.swing.JFrame{
                         }
                     }
                     else if(obj1 == "Comparison"){
-                        remiaObj.runRemia("1", txtTarget.getText(),txtPrecision.getText(), "./stat/Comparison/Comparison.txt");
+                        remiaObj.runRemia("1", txtTarget.getText(),txtPrecision.getText(), "./stat/Comparison/Comparison.txt", obj1);
                         TimeUnit.MILLISECONDS.sleep(1000);
                         String s = "./image/Remia/RemiaDot.png";
                         loadStat("Remia", count);
@@ -739,6 +767,8 @@ public class Gui extends javax.swing.JFrame{
 
                         fw.close();
                         jScrollPane1.getColumnHeader().setVisible(true);
+                        File dest = new File("./stat/Remia/Remia_Stat_" + txtPrecision.getText() + ".txt");
+                        copyFile(f, dest);
                     }
                 } catch (IOException e1) {
                     // TODO Auto-generated catch block
@@ -751,7 +781,7 @@ public class Gui extends javax.swing.JFrame{
         else if(obj == "ExRemia"){
             try {
                 Remia remiaObj = new Remia();
-                remiaObj.runRemia(txtEx2.getText(), txtTarget.getText(),txtPrecision.getText(), "ExRemia_Demo.txt");
+                remiaObj.runRemia(txtEx2.getText(), txtTarget.getText(),txtPrecision.getText(), "ExRemia_Demo.txt", "Demo");
                 TimeUnit.MILLISECONDS.sleep(1000);
                 String s = "./image/Remia/RemiaDot.png";
                 if(is_demo == 1){
@@ -798,6 +828,8 @@ public class Gui extends javax.swing.JFrame{
 
                         fw.close();
                         jScrollPane1.getColumnHeader().setVisible(true);
+                        File dest = new File("./stat/BitScanning/BitScanning_Stat_" + txtPrecision.getText() + ".txt");
+                        copyFile(f, dest);                        
                     }
                 } catch (IOException e1) {
                     // TODO Auto-generated catch block
@@ -860,6 +892,8 @@ public class Gui extends javax.swing.JFrame{
                             tableModel.addRow(ob);
 			}
                         jScrollPane1.getColumnHeader().setVisible(true);
+                        File dest = new File("./stat/DMRW/DMRW_Stat_" + txtPrecision.getText() + ".txt");
+                        copyFile(new File("./stat/Gorma/Gorma_Stat.txt"), dest);
                     }
 //                    else{
 //                        File f = new File("./stat/BitScanning/BitScanning_Stat.txt");
@@ -937,6 +971,8 @@ public class Gui extends javax.swing.JFrame{
                             tableModel.addRow(ob);
 			}
                         jScrollPane1.getColumnHeader().setVisible(true);
+                        File dest = new File("./stat/IDMA/IDMA_Stat_" + txtPrecision.getText() + ".txt");
+                        copyFile(new File("./stat/Gorma/Gorma_Stat.txt"), dest);
                     }
 //                    else{
 //                        File f = new File("./stat/BitScanning/BitScanning_Stat.txt");
@@ -1020,6 +1056,8 @@ public class Gui extends javax.swing.JFrame{
                             tableModel.addRow(ob);
 			}
                         jScrollPane1.getColumnHeader().setVisible(true);
+                        File dest = new File("./stat/Minmix/Minmix_Stat_" + txtEx2.getText() + "_" + txtPrecision.getText() + ".txt");
+                        copyFile(new File("./stat/Minmix/Minmix_Stat.txt"), dest);
                     }
 //                    else{
 //                        File f = new File("./stat/BitScanning/BitScanning_Stat.txt");
@@ -1096,6 +1134,8 @@ public class Gui extends javax.swing.JFrame{
                             tableModel.addRow(ob);
 			}
                         jScrollPane1.getColumnHeader().setVisible(true);
+                        File dest = new File("./stat/Gorma/Gorma_Stat_" + txtPrecision.getText() + ".txt");
+                        copyFile(new File("./stat/Gorma/Gorma_Stat.txt"), dest);
                     }
 //                    else{
 //                        File f = new File("./stat/BitScanning/BitScanning_Stat.txt");
@@ -1210,6 +1250,8 @@ public class Gui extends javax.swing.JFrame{
 
                         fw.close();
                         jScrollPane1.getColumnHeader().setVisible(true);
+                        File dest = new File("./stat/Vospa/Vospa_Stat_" + txtEx2.getText() + "_" + txtPrecision.getText() + ".txt");
+                        copyFile(f, dest);
                     }
                 } catch (IOException e1) {
                     // TODO Auto-generated catch block
@@ -1276,6 +1318,8 @@ public class Gui extends javax.swing.JFrame{
                             tableModel.addRow(ob);
 			}
                         jScrollPane1.getColumnHeader().setVisible(true);
+                        File dest = new File("./stat/RMA/RMA_Stat_" + txtEx2.getText() + "_" + txtPrecision.getText() + ".txt");
+                        copyFile(new File("./stat/Gorma/Gorma_Stat.txt"), dest);
                     }
                 }catch (IOException e1) {
                     // TODO Auto-generated catch block
@@ -1601,7 +1645,7 @@ public class Gui extends javax.swing.JFrame{
                 }
                 else if(obj == "SDMT"){
                     algorithms.addItem("ExRemia");
-                    algorithms.addItem("MTC");
+                    //algorithms.addItem("MTC");
                 }
                 else if(obj == "MDST"){
                     

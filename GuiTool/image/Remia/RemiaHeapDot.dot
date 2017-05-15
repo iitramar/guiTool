@@ -1,23 +1,42 @@
 digraph G { 
 rankdir = BT;
 graph [label= "Remia Exponentiation", labelloc=t, fontsize=30];
-101[label= " 256/256 " ];
-202[label= " 128/256 " ];
-202->101
-404[label= " 64/256 " ];
-404->202
-808[label= " 32/256 " ];
-808->404
-1616[label= " 16/256 " ];
-1616->808
-3232[label= " 8/256 " ];
-3232->1616
-3233[label= " 8/256 " ];
-3233->1616
-6464[label= " 4/256 " ];
-6464->3232
-6464[style=filled, fillcolor=yellow];
-3233[style=filled, fillcolor=yellow];
 201[label= " 256/256 " ];
-201[style=filled, fillcolor=yellow];
+402[label= " 128/256 " ];
+402->201
+403[label= " 128/256 " ];
+403->201
+804[label= " 64/256 " ];
+804->402
+805[label= " 64/256 " ];
+805->402
+1608[label= " 32/256 " ];
+1608->804
+1609[label= " 32/256 " ];
+1609->804
+3216[label= " 16/256 " ];
+3216->1608
+3216[style=filled, fillcolor=yellow];
+1609[style=filled, fillcolor=yellow];
+1610[label= " 32/256 " ];
+1610->805
+1610[style=filled, fillcolor=yellow];
+806[label= " 64/256 " ];
+806->403
+807[label= " 64/256 " ];
+807->403
+806[style=filled, fillcolor=yellow];
+807[style=filled, fillcolor=yellow];
+301[label= " 256/256 " ];
+602[label= " 128/256 " ];
+602->301
+603[label= " 128/256 " ];
+603->301
+1204[label= " 64/256 " ];
+1204->602
+1205[label= " 64/256 " ];
+1205->602
+1204[style=filled, fillcolor=yellow];
+1205[style=filled, fillcolor=yellow];
+603[style=filled, fillcolor=yellow];
 }
