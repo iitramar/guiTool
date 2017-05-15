@@ -25,7 +25,7 @@ class pair:
 
 #ratio approximiation takes an array as input and the accuracy level d 
 #returns the array containing the new ratios
-
+FLAG = 1
 def debug_statement(p,l):
 	print "l is : %d"%l
 	print "p starts here"

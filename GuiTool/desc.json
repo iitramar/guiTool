@@ -1,92 +1,271 @@
 
-{ 
+{
+  "desc": "put desc here for objective.",
   "Demo": {
-  "Vospa": [
-  {"desc": "Segments: Number of segments in rotary mixer. Example: 4.
-Target Concentration: Target Expected Volume. Example: 0.907, 0.329, 131/256.
-Tolerance: Margin of Error. Example: 0.001."
-  }
-  ],
+  "desc": "put desc here for architecture.",
+  "CMFB": {
+    "desc": "put desc here for mixing specifications.",
+    "Dilution": {
+      "desc": "put desc here for algo Class.",
+      "SDST": {
+        "Vospa": [
+          {"desc": "Segments: Number of segments in rotary mixer. Example: 4.
+          Target Concentration: Target Expected Volume. Example: 0.907, 0.329, 131/256.
+          Tolerance: Margin of Error. Example: 0.001."
+          }
+        ]
+      }
+    }
+  },
+  "DMFB": {
+    "desc": "put desc here for mixing specification.",
+    "Dilution": {
+      "desc": "put desc here for algo Class",
+      "SDST": {
   "Remia": [
   {"desc": "Target Concentration: The numerator x for target x/y. Example: 131 for 131/256.
-Accuracy: log(y) base 2 for target x/y. Example: 8 for 131/256."
+  Accuracy: log(y) base 2 for target x/y. Example: 8 for 131/256."
   }
   ],
   "Gorma": [
   {"desc": "Target Concentration: The numerator x for target x/y. Example: 131 for 131/256.
-Accuracy: log(y) base 2 for target x/y. Example: 8 for 131/256."
+  Accuracy: log(y) base 2 for target x/y. Example: 8 for 131/256."
   }
   ],
   "BitScanning": [
   {"desc": "Target Concentration: The numerator x for target x/y. Example: 131 for 131/256.
-Accuracy: log(y) base 2 for target x/y. Example: 8 for 131/256."
+  Accuracy: log(y) base 2 for target x/y. Example: 8 for 131/256."
   }
   ],
   "IDMA": [
   {"desc": "Sample: Enter sample concentration. Example: 1.
-Buffer: Enter buffer concentration. Example: 0.
-Target Concentration: The numerator x for target x/y. Example: 131 for 131/256.
-Accuracy: log(y) base 2 for target x/y. Example: 8 for 131/256."
+  Buffer: Enter buffer concentration. Example: 0.
+  Target Concentration: The numerator x for target x/y. Example: 131 for 131/256.
+  Accuracy: log(y) base 2 for target x/y. Example: 8 for 131/256."
   }
   ],
   "DMRW": [
   {"desc": "Sample: Enter sample concentration. Example: 1.
-Buffer: Enter buffer concentration. Example: 0.
-Target Concentration: The numerator x for target x/y. Example: 131 for 131/256.
-Accuracy: log(y) base 2 for target x/y. Example: 8 for 131/256."
+  Buffer: Enter buffer concentration. Example: 0.
+  Target Concentration: The numerator x for target x/y. Example: 131 for 131/256.
+  Accuracy: log(y) base 2 for target x/y. Example: 8 for 131/256."
   }
-  ],
-  "Codos": [
-  {"desc": "Number of Reactants: Number of Reactants to be mixed. Example: 3.
-Target Concentration: Space seperated ratio in which the reactants are to be mixed. The sum should be equal to 2^d, where d is accuracy. Example: 5 6 5.
-Accuracy: Enter Accuracy. Example: 4."
-  }
-  ],
-  "Minmix": [
-  {"desc": "Number of Reactants: Number of Reactants to be mixed. Example: 3.
-Target Concentration: Space seperated ratio in which the reactants are to be mixed. The sum should be equal to 2^d, where d is accuracy. Example: 5 6 5.
-Accuracy: Enter Accuracy. Example: 4."
-  }
-  ],
-  "RMA": [
-  {"desc": "Number of Reactants: Number of Reactants to be mixed. Example: 3.
-Target Concentration: Space seperated ratio in which the reactants are to be mixed. The sum should be equal to 2^d, where d is accuracy. Example: 5 6 5.
-Accuracy: Enter Accuracy. Example: 4."
-  }
-  ],
+  ]
+      },
+      "SDMT": {
   "ExRemia": [
   {"desc": "Number of Targets: Number of Targets to be mixed. Example: 3.
-Target Concentration: Space seperated numerator values of the targets to be achieved. Example: 607 315.
-Accuracy: log(y) base 2 for target x/y. Example: 10 for 607/1024."
+  Target Concentration: Space seperated numerator values of the targets to be achieved. Example: 607 315.
+  Accuracy: log(y) base 2 for target x/y. Example: 10 for 607/1024."
   }
   ],
   "MTC": [
   {"desc": "Number of Targets: Number of Targets to be mixed. Example: 3.
-Target Concentration: Space seperated numerator values of the targets to be achieved. Example: 607 315.
-Accuracy: log(y) base 2 for target x/y. Example: 10 for 607/1024."
+  Target Concentration: Space seperated numerator values of the targets to be achieved. Example: 607 315.
+  Accuracy: log(y) base 2 for target x/y. Example: 10 for 607/1024."
+  }
+  ]
+      }
+    },
+    "Mixing": {
+"desc": "put desc here for algo Class",
+      "SDST": {
+          "Codos": [
+  {"desc": "Number of Reactants: Number of Reactants to be mixed. Example: 3.
+  Target Concentration: Space seperated ratio in which the reactants are to be mixed. The sum should be equal to 2^d, where d is accuracy. Example: 5 6 5.
+  Accuracy: Enter Accuracy. Example: 4."
+  }
+  ],
+  "Minmix": [
+  {"desc": "Number of Reactants: Number of Reactants to be mixed. Example: 3.
+  Target Concentration: Space seperated ratio in which the reactants are to be mixed. The sum should be equal to 2^d, where d is accuracy. Example: 5 6 5.
+  Accuracy: Enter Accuracy. Example: 4."
+  }
+  ],
+  "RMA": [
+  {"desc": "Number of Reactants: Number of Reactants to be mixed. Example: 3.
+  Target Concentration: Space seperated ratio in which the reactants are to be mixed. The sum should be equal to 2^d, where d is accuracy. Example: 5 6 5.
+  Accuracy: Enter Accuracy. Example: 4."
+  }
+  ]
+      },
+      "SDMT": {
+        
+      }
+    }
+    
+  }
+},
+  "Stats": {
+    "desc": "put desc here for architecture.",
+  "CMFB": {
+    "desc": "put desc here for mixing specification.",
+    "Dilution": {
+      "desc": "put desc here for algo Class.",
+      "SDST": {
+        "Vospa": [
+          {"desc": "put desc here for VOSPA."
+          }
+        ]
+      }
+    }
+  },
+  "DMFB": {
+    "desc": "put desc here for mixing specification.",
+    "Dilution": {
+      "desc": "put desc here for algo Class.",
+      "SDST": {
+  "Remia": [
+  {"desc": "put desc here for Remia."
+  }
+  ],
+  "Gorma": [
+  {"desc": "put desc here for Gorma."
+  }
+  ],
+  "BitScanning": [
+  {"desc": "put desc here for BitScanning."
+  }
+  ],
+  "IDMA": [
+  {"desc": "put desc here for IDMA."
+  }
+  ],
+  "DMRW": [
+  {"desc": "put desc here for DMRW."
+  }
+  ]
+      },
+      "SDMT": {
+  "ExRemia": [
+  {"desc": "put desc here for ExRemia."
+  }
+  ],
+  "MTC": [
+  {"desc": "put desc here for MTC."
+  }
+  ]
+      }
+    },
+    "Mixing": {
+"desc": "put desc here for mixing specification.",
+      "SDST": {
+          "Codos": [
+  {"desc": "put desc here for Codos."
+  }
+  ],
+  "Minmix": [
+  {"desc": "put desc here for Minmix."
+  }
+  ],
+  "RMA": [
+  {"desc": "put desc here for RMA."
   }
   ]
   },
-  "Stats": {
-  	"Vospa": [
-  
-  {"desc": "Segments: Number of segments in rotary mixer. Example: 4.
-Accuracy: log(y) base 2 for target range 1/y to y-1/y. Example: 10 for 1/1024 to 1023/1024."
+  "SDMT": {
+        
   }
-  ]
+    }
+    
+  }
   },
   "Comparison": {
-  	"Vospa": [
-  {"desc": "Target Concentration: The numerator x for target x/y. Example: 131 for 131/256.
-Accuracy: log(y) base 2 for target x/y. Example: 8 for 131/256."
+    "desc": "put desc here for architecture.",
+  "CMFB": {
+    "desc": "put desc here for mixing specification.",
+    "Dilution": {
+      "desc": "put desc here for algo Class.",
+      "SDST": {
+      "algo": [
+          {"desc": "put desc here for input of algos in this hierarchy."
+          }
+        ]
+      }
+    }
+  },
+  "DMFB": {
+    "desc": "put desc here for mixing specification.",
+    "Dilution": {
+      "desc": "put desc here for algo Class.",
+      "SDST": {
+        "algo": [
+          {"desc": "put desc here for input of algos in this hierarchy."
+          }
+        ]
+      },
+      "SDMT": {
+        "algo": [
+          {"desc": "put desc here for input of algos in this hierarchy."
+          }
+        ]
+      }
+    },
+    "Mixing": {
+"desc": "put desc here for algo Class.",
+      "SDST": {
+              "algo": [
+          {"desc": "put desc here for input of algos in this hierarchy."
+          }
+        ]
+      },
+      "SDMT": {
+              "algo": [
+          {"desc": "put desc here for input of algos in this hierarchy."
+          }
+        ]
+      }
+    }
+    
   }
-  ]
   },
   "Best Algorithm": {
-  	"Vospa": [
-  {"desc": "Target Concentration: The numerator x for target x/y. Example: 131 for 131/256.
-Accuracy: log(y) base 2 for target x/y. Example: 8 for 131/256."
+    "desc": "put desc here for architecture.",
+  "CMFB": {
+    "desc": "put desc here for mixing specification.",
+    "Dilution": {
+      "desc": "put desc here for algo Class.",
+      "SDST": {
+              "algo": [
+          {"desc": "put desc here for input of algos in this hierarchy."
+          }
+        ]
+      }
+    }
+  },
+  "DMFB": {
+    "desc": "put desc here for mixing specification.",
+    "Dilution": {
+      "desc": "put desc here for algo Class.",
+      "SDST": {
+              "algo": [
+          {"desc": "put desc here for input of algos in this hierarchy."
+          }
+        ]
+      },
+      "SDMT": {
+              "algo": [
+          {"desc": "put desc here for input of algos in this hierarchy."
+          }
+        ]
+      }
+    },
+    "Mixing": {
+"desc": "put desc here for algo Class.",
+      "SDST": {
+              "algo": [
+          {"desc": "put desc here for input of algos in this hierarchy."
+          }
+        ]
+      },
+      "SDMT": {
+              "algo": [
+          {"desc": "put desc here for input of algos in this hierarchy."
+          }
+        ]
+      }
+    }
+    
   }
-  ]
   }
 }

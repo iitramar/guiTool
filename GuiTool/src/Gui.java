@@ -52,6 +52,8 @@ public class Gui extends javax.swing.JFrame{
     Set<String> tiwariAlgo = new HashSet<String>();
     double fValue = Double.POSITIVE_INFINITY;
     String bestAlgo;
+    String desc = null;
+    JsonObject  jobject = null;
     public Gui() {
         initComponents();
         //architecture.setVisible(false);
@@ -72,7 +74,20 @@ public class Gui extends javax.swing.JFrame{
         zoomOut.setVisible(false);
         algorithms1.setVisible(false);
         jLabel7.setVisible(false);
-        descPane.setVisible(false);
+        jPanelGraph.add(descPane, BorderLayout.NORTH);
+        descPane.setEditable(false);
+        Gson gson = new Gson();
+        JsonElement jElement = null;
+        try {
+            jElement = gson.fromJson(new FileReader("./desc.json"), JsonElement.class);
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(Gui.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        jobject = jElement.getAsJsonObject();
+        desc = jobject.get("desc").getAsString();
+        System.out.println("desc = " + desc);
+        descPane.setText(desc);
+
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
         centerRenderer.setHorizontalAlignment( JLabel.CENTER );
         for(int i=0;i<statTable.getColumnCount();i++){
@@ -429,7 +444,7 @@ public class Gui extends javax.swing.JFrame{
         );
         jPanelInfoLayout.setVerticalGroup(
             jPanelInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 674, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 665, Short.MAX_VALUE)
         );
 
         jPanelGraph.add(jPanelInfo, java.awt.BorderLayout.CENTER);
@@ -1357,48 +1372,57 @@ public class Gui extends javax.swing.JFrame{
             wOperation = Double.parseDouble(weight[3]);
             System.out.println("size = " + size);
             for(int i=1;i<size;i++){
-                if(i!=2){
-                    callAlgorithm("Demo", algorithms.getItemAt(i).toString(), 0, 0);
-                    String algo = algorithms.getItemAt(i).toString();
-                    BufferedReader br = null;
-                    try {
-                        br = new BufferedReader(new FileReader("./stat/" + algo + "/" + algo + "_Demo.txt"));
-                    } catch (FileNotFoundException ex) {
-                        Logger.getLogger(Gui.class.getName()).log(Level.SEVERE, null, ex);
+                callAlgorithm("Demo", algorithms.getItemAt(i).toString(), 0, 0);
+                String algo = algorithms.getItemAt(i).toString();
+                BufferedReader br = null;
+                try {
+                    if(algo == "MTC"){
+                        br = new BufferedReader(new FileReader("./stat/DMRW/DMRW_Demo.txt"));
                     }
-                    String lastLine = "";
-                    String sCurrentLine;
-                    try {
-                        while ((sCurrentLine = br.readLine()) != null)
-                        {
-                            lastLine = sCurrentLine;
-                        }
-                        br.close();
-                    } catch (IOException ex) {
-                        Logger.getLogger(Gui.class.getName()).log(Level.SEVERE, null, ex);
+                    else{
+                        br = new BufferedReader(new FileReader("./stat/" + algo + "/" + algo + "_Demo.txt"));   
                     }
-                    String a[] = lastLine.split("\t");
-                    if(mixingSpecs.getSelectedItem().toString() == "Mixing"){
-                        a[3] = "0";
-                    }
-                    double d = wReactant * (Double.parseDouble(a[2])) + wBuffer * (Double.parseDouble(a[3])) + wWaste * (Double.parseDouble(a[4])) + wOperation * (Double.parseDouble(a[5]));
-                    if(d<fValue){
-                        fValue = d;
-                        bestAlgo = algo;
-                    } 
+                } catch (FileNotFoundException ex) {
+                    Logger.getLogger(Gui.class.getName()).log(Level.SEVERE, null, ex);
                 }
-
+                String lastLine = "";
+                String sCurrentLine;
+                try {
+                    while ((sCurrentLine = br.readLine()) != null)
+                    {
+                        lastLine = sCurrentLine;
+                    }
+                    br.close();
+                } catch (IOException ex) {
+                    Logger.getLogger(Gui.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                String a[] = lastLine.split("\t");
+                if(mixingSpecs.getSelectedItem().toString() == "Mixing"){
+                    a[3] = "0";
+                }
+                double d = wReactant * (Double.parseDouble(a[2])) + wBuffer * (Double.parseDouble(a[3])) + wWaste * (Double.parseDouble(a[4])) + wOperation * (Double.parseDouble(a[5]));
+                if(d<fValue){
+                    fValue = d;
+                    bestAlgo = algo;
+                } 
             }
             String s = "./image/" + bestAlgo + "/" + bestAlgo + "Dot.png";
             try {
-                loadStat(bestAlgo, 0);
+                if(bestAlgo == "MTC"){
+                    loadStat("DMRW", 0);
+                }
+                else{
+                    loadStat(bestAlgo, 0);
+                }
                 TimeUnit.MILLISECONDS.sleep(1000);
             } catch (IOException ex) {
                 Logger.getLogger(Gui.class.getName()).log(Level.SEVERE, null, ex);
             } catch (InterruptedException ex) {
                 Logger.getLogger(Gui.class.getName()).log(Level.SEVERE, null, ex);
             }
-            
+            if(bestAlgo == "ExRemia"){
+                s = "./image/Remia/RemiaDot.png";
+            }
             loadImage(s,0);
             demoTable.getColumnModel().getColumn(1).setHeaderValue(bestAlgo);
             demoTable.getTableHeader().repaint();
@@ -1416,6 +1440,10 @@ public class Gui extends javax.swing.JFrame{
         // TODO add your handling code here
         String s = "Demo - To get Demo of an algorithm\nStats - To generate Statistics file for an algorithm\nComparison - To Compare any two algorithms";
         String obj = objective.getSelectedItem().toString();
+        jobject = jobject.getAsJsonObject(obj);
+        desc = jobject.get("desc").getAsString();
+        descPane.setText("");
+        descPane.setText(desc);
         algorithms1.setVisible(false);
         if(obj == "Stats"){
             jPanelStats.setVisible(false);
@@ -1481,6 +1509,10 @@ public class Gui extends javax.swing.JFrame{
     private void architectureActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_architectureActionPerformed
         // TODO add your handling code here:
         String obj = architecture.getSelectedItem().toString();
+        jobject = jobject.getAsJsonObject(obj);
+        desc = jobject.get("desc").getAsString();
+        descPane.setText("");
+        descPane.setText(desc);
         mixingSpecs.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select" }));
         if(obj == "CMFB"){
             mixingSpecs.addItem("Dilution");
@@ -1500,6 +1532,10 @@ public class Gui extends javax.swing.JFrame{
         // TODO add your handling code here:
         String comboBox1 = architecture.getSelectedItem().toString();
         String obj = mixingSpecs.getSelectedItem().toString();
+        jobject = jobject.getAsJsonObject(obj);
+        desc = jobject.get("desc").getAsString();
+        descPane.setText("");
+        descPane.setText(desc);
         algoClass.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select" }));
         if(comboBox1 == "CMFB"){
             if(obj == "Dilution"){
@@ -1532,13 +1568,24 @@ public class Gui extends javax.swing.JFrame{
         String comboBox2 = mixingSpecs.getSelectedItem().toString();
         String obj = algoClass.getSelectedItem().toString();
         algorithms.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select" }));
-        
+        String obj1 = objective.getSelectedItem().toString();
+        String algos = null;
+        if(obj1 == "Best Algorithm"){
+            algos = "algo";
+            jobject = jobject.getAsJsonObject(obj);
+            JsonArray jarray = jobject.getAsJsonArray(algos);
+            jobject = jarray.get(0).getAsJsonObject();
+            desc = jobject.get("desc").getAsString();
+            //System.out.println("results = " + results);
+            descPane.setText("");
+            descPane.setText(desc);
+        }
         
         if(comboBox1 == "CMFB"){
             if(comboBox2 == "Dilution"){
                 if(obj == "SDST"){
                     algorithms.addItem("Vospa");
-                    algorithms.addItem("BitScanning");
+                    //algorithms.addItem("BitScanning");
                 }
             }
         }
@@ -1582,7 +1629,7 @@ public class Gui extends javax.swing.JFrame{
             }
         }
         algorithms.setVisible(true);
-        String obj1 = objective.getSelectedItem().toString();
+        //String obj1 = objective.getSelectedItem().toString();
         if(obj1 == "Best Algorithm"){
             algorithms.disable();
             String algo = algorithms.getItemAt(1).toString();
@@ -1656,6 +1703,17 @@ public class Gui extends javax.swing.JFrame{
                 lblPrecision.setVisible(true);
                 txtPrecision.setVisible(true);
             }
+            else if(algo == "ExRemia"){
+                lblEx2.setText("Number of Targets");
+                lblEx2.setVisible(true);
+                txtEx2.setVisible(true);
+                lblTarget.setText("Target Concentrations");
+                lblTarget.setVisible(true);
+                txtTarget.setVisible(true);
+                lblPrecision.setText("Accuracy");
+                lblPrecision.setVisible(true);
+                txtPrecision.setVisible(true);
+            }
             else if(algo == "RMA"){
                 lblEx2.setText("Number of Reactants");
                 lblEx2.setVisible(true);
@@ -1686,29 +1744,40 @@ public class Gui extends javax.swing.JFrame{
         // TODO add your handling code here:
         String obj = algorithms.getSelectedItem().toString();
         String obj1 = objective.getSelectedItem().toString();
-//        FileInputStream fis = null;
+        String algos = obj;
+        if(obj1 == "Comparison" || obj1 == "Best Algorithm"){
+            algos = "algo";
+        }
+        String algoClas = algoClass.getSelectedItem().toString();
+//        descPane.setVisible(true);
+//        jPanelGraph.add(descPane, BorderLayout.CENTER);
+//        String results = null;
+//        Gson gson = new Gson();
+//        JsonElement jElement = null;
 //        try {
-//            fis = new FileInputStream("./description.json");
+//            jElement = gson.fromJson(new FileReader("./desc.json"), JsonElement.class);
 //        } catch (FileNotFoundException ex) {
 //            Logger.getLogger(Gui.class.getName()).log(Level.SEVERE, null, ex);
 //        }
-//        Reader reader = new InputStreamReader(fis);
-        descPane.setVisible(true);
-        jPanelGraph.add(descPane, BorderLayout.CENTER);
-        Gson gson = new Gson();
-        JsonElement jElement = null;
-        try {
-            jElement = gson.fromJson(new FileReader("./desc.json"), JsonElement.class);
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(Gui.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        JsonObject  jobject = jElement.getAsJsonObject();
-        jobject = jobject.getAsJsonObject(obj1);
-        JsonArray jarray = jobject.getAsJsonArray(obj);
+//        JsonObject  jobject = jElement.getAsJsonObject();
+//        results = jobject.get("desc").getAsString();
+//        descPane.setText(results);
+//        jobject = jobject.getAsJsonObject(obj1);
+//        results = jobject.get("desc").getAsString();
+//        descPane.setText(results);
+//        jobject = jobject.getAsJsonObject(arch);
+//        results = jobject.get("desc").getAsString();
+//        descPane.setText(results);
+//        jobject = jobject.getAsJsonObject(mixingSpec);
+//        results = jobject.get("desc").getAsString();
+//        descPane.setText(results);
+        jobject = jobject.getAsJsonObject(algoClas);
+        JsonArray jarray = jobject.getAsJsonArray(algos);
         jobject = jarray.get(0).getAsJsonObject();
-        String results = jobject.get("desc").getAsString();
+        desc = jobject.get("desc").getAsString();
         //System.out.println("results = " + results);
-        descPane.setText(results);
+        descPane.setText("");
+        descPane.setText(desc);
         
         if(obj == "Codos"){
             lblEx2.setText("Number of Reactants");
